@@ -14,16 +14,10 @@ import { alumnos } from '../alumnos';
 })
 export class AlumnosTableComponent implements AfterViewInit, OnDestroy {
 
-  // @ViewChild(MatTable)
-  // table!: MatTable<Alumno>;
+  table!: MatTable<Alumno>;
 
   @ViewChild(MatSort)
   private sort!: MatSort;
-
-  // @ViewChild(MatSort)
-  // public set sort(sort: MatSort) {
-  //   this.dataSource.sort = sort;
-  // }
 
   public dataSource: MatTableDataSource<Alumno>;
   public loading: boolean;
@@ -51,7 +45,6 @@ export class AlumnosTableComponent implements AfterViewInit, OnDestroy {
 
   altaAlumno(): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent);
-
     dialog.afterClosed().subscribe((value) => {
       if (value?.nombre && value?.apellido && value?.fechaNacimiento) {
         this.obtenerAlumnos();
@@ -71,7 +64,6 @@ export class AlumnosTableComponent implements AfterViewInit, OnDestroy {
 
   modificarAlumno(alumno: Alumno): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent, { data: alumno });
-
     dialog.afterClosed().subscribe((value) => {
       if (value?.nombre && value?.apellido && value?.fechaNacimiento) {
         this.obtenerAlumnos();

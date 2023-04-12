@@ -11,7 +11,7 @@
     </button>
 
     <ng-container *ngIf="dataSource.data.length == 0">
-        <p class="text-danger">Se ha producido un error al obtener los datos.</p>
+        <p class="ml-1 text-red-600">Se ha producido un error al obtener los datos.</p>
     </ng-container>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
