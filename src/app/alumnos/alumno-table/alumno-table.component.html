@@ -1,0 +1,58 @@
+<h2 class="text-primary" appFontSize="20">LISTADO DE ALUMNOS</h2>
+
+<ng-container *ngIf="loading">
+    <app-spinner></app-spinner>
+</ng-container>
+
+<ng-container *ngIf="!loading">
+
+    <button mat-raised-button color="accent" class="ml-3 mb-3" (click)="altaAlumno()">
+        <mat-icon>add</mat-icon>Agregar alumno
+    </button>
+
+    <ng-container *ngIf="dataSource.data.length == 0">
+        <p class="text-danger">Se ha producido un error al obtener los datos.</p>
+    </ng-container>
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let alumno"> {{alumno.id}} </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido y nombre </th>
+            <td mat-cell *matCellDef="let alumno"> {{alumno | nombreApellido}} </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Apellido </th>
+            <td mat-cell *matCellDef="let alumno"> {{alumno.apellido}} </td>
+        </ng-container> -->
+        <ng-container matColumnDef="fechaNacimiento">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha de nacimiento </th>
+            <td mat-cell *matCellDef="let alumno"> {{alumno.fechaNacimiento | date:'dd/MM/yyyy'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="promedio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Promedio </th>
+            <td mat-cell *matCellDef="let alumno"> {{alumno.promedio}} </td>
+        </ng-container>
+        <ng-container matColumnDef="modificar">
+            <th mat-header-cell *matHeaderCellDef> Modificar </th>
+            <td mat-cell *matCellDef="let alumno">
+                <button mat-raised-button color="primary" (click)="modificarAlumno(alumno)">
+                    <mat-icon>edit</mat-icon>Modificar
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let alumno">
+                <button mat-raised-button color="warn" (click)="eliminarAlumno(alumno.id)">
+                    <mat-icon>delete</mat-icon>Eliminar
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+</ng-container>

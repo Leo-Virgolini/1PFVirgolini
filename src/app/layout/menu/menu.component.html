@@ -1,0 +1,28 @@
+<mat-drawer-container>
+    <mat-drawer #drawer mode="side" opened>
+        <h3 appFontSize="20" class="text-info">MENU</h3>
+        <ul>
+            <li>
+                <button mat-raised-button color="primary" routerLink="#" routerLinkActive="active" ariaCurrentWhenActive="page">Lista de Usuarios</button>
+            </li>
+            <li>
+                <button mat-raised-button color="primary" routerLink="/alumnos" routerLinkActive="active" ariaCurrentWhenActive="page">Lista de Alumnos</button>
+            </li>
+            <li>
+                <button mat-raised-button color="primary" routerLink="/profesores" routerLinkActive="active" ariaCurrentWhenActive="page">Lista de Profesores</button>
+            </li>
+            <li>
+                <button mat-raised-button color="primary" routerLink="/cursos" routerLinkActive="active" ariaCurrentWhenActive="page">Lista de Cursos</button>
+            </li>
+            <li>
+                <button mat-raised-button color="primary" routerLink="#" routerLinkActive="active" ariaCurrentWhenActive="page">Lista de Inscripciones</button>
+            </li>
+        </ul>
+    </mat-drawer>
+    <mat-drawer-content>
+        <button (click)="drawer.toggle()" mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <app-main></app-main>
+    </mat-drawer-content>
+</mat-drawer-container>
