@@ -1,3 +1,7 @@
+.menu {
+    height: calc(var(--menu-height) - var(--toolbar-height) - var(--footer-height));
+}
+
 h3 {
     text-align: center;
 }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
@@ -21,14 +20,24 @@ import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { AlumnosTableComponent } from './alumnos/alumno-table/alumno-table.component';
 import { MainComponent } from './layout/main/main.component';
-import { SpinnerComponent } from './spinner/spinner.component';
-import { AlumnoDialogComponent } from './alumnos/alumno-dialog/alumno-dialog.component';
-import { ErrorHelperComponent } from './error-helper/error-helper.component';
 import { MatSortModule } from '@angular/material/sort';
-import { NombreApellidoPipe } from './pipes/nombre-apellido.pipe';
-import { FontSizeDirective } from './directives/font-size.directive';
+import { AppRoutingModule } from './app-routing.module';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { CoreModule } from './core/core.module';
+import { SharedModule } from './shared/shared.module';
+import { AlumnoDialogComponent } from './features/alumnos/alumno-dialog/alumno-dialog.component';
+import { AlumnosTableComponent } from './features/alumnos/alumno-table/alumno-table.component';
+import { CursoDialogComponent } from './features/cursos/curso-dialog/curso-dialog.component';
+import { CursoTableComponent } from './features/cursos/curso-table/curso-table.component';
+import { ErrorHelperComponent } from './features/error-helper/error-helper.component';
+import { ProfesorDialogComponent } from './features/profesores/profesor-dialog/profesor-dialog.component';
+import { ProfesorTableComponent } from './features/profesores/profesor-table/profesor-table.component';
+import { FeaturesModule } from './features/features.module';
+import { FontSizeDirective } from './shared/directives/font-size.directive';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { NombreApellidoPipe } from './shared/pipes/nombre-apellido.pipe';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -39,31 +48,40 @@ import { FontSizeDirective } from './directives/font-size.directive';
     MainComponent,
     AlumnosTableComponent,
     AlumnoDialogComponent,
-    SpinnerComponent,
+    ProfesorTableComponent,
+    ProfesorDialogComponent,
+    CursoTableComponent,
+    CursoDialogComponent,
     ErrorHelperComponent,
     NombreApellidoPipe,
-    FontSizeDirective
+    FontSizeDirective,
+    NotFoundComponent,
+    SpinnerComponent
   ],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
-
     MatIconModule,
     MatTableModule,
     MatSortModule,
     MatDialogModule,
     MatInputModule,
+    MatFormFieldModule,
     MatDividerModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule,
     MatSnackBarModule,
     MatButtonModule,
     MatListModule,
     ReactiveFormsModule,
     MatSelectModule,
     MatSidenavModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatCheckboxModule,
+    FeaturesModule,
+    CoreModule,
+    SharedModule
   ],
   providers: [{ provide: MAT_DATE_LOCALE, useValue: 'es-AR' }],
   bootstrap: [AppComponent]

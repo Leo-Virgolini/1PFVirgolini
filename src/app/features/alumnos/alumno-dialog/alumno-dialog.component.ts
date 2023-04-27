@@ -1,9 +1,9 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { alumnosData } from 'src/app/core/data';
 import { Alumno } from 'src/app/core/models/alumno';
-import { alumnos } from '../alumnos';
-
+import { AlumnoService } from 'src/app/core/services/alumno.service';
 
 @Component({
   selector: 'app-alumno-dialog',
@@ -21,7 +21,7 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
 
   public alumnoId!: number;
 
-  constructor(private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AlumnoDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Alumno | null) {
+  constructor(private alumnoService: AlumnoService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AlumnoDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Alumno | null) {
     this.submitted = false;
 
     this.formulario = this.formBuilder.group({
@@ -55,26 +55,34 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
           alumno.nombre = this.nombre?.value;
           alumno.apellido = this.apellido?.value;
           alumno.fechaNacimiento = this.fechaNacimiento?.value;
-          const index = alumnos.findIndex(al => al.id === alumno.id);
-          if (index != -1)
-            alumnos[index] = alumno;
-          console.log("modificado: ", alumno);
-          this.dialogRef.close(alumno);
+          this.alumnoService.modificarAlumno(alumno).subscribe({
+            next: (al) => console.log("modificado: ", al),
+            complete: () => this.dialogRef.close(alumno),
+            error: (error) => console.log(error)
+          });
         }
       } else { // Alta
         let ultimoId: number;
-        if (alumnos.length > 0)
-          ultimoId = Number(alumnos[alumnos.length - 1].id);
+        if (alumnosData.length > 0)
+          ultimoId = Number(alumnosData[alumnosData.length - 1].id);
         else
           ultimoId = 0;
         const alumno: Alumno = new Alumno(ultimoId + 1,
           this.nombre?.value,
           this.apellido?.value,
           this.fechaNacimiento?.value,
+          'dni',
+          'provincia',
+          'localidad',
+          'calle',
+          'email',
+          'password'
         );
-        alumnos.push(alumno);
-        console.log("alta: ", alumno);
-        this.dialogRef.close(alumno);
+        this.alumnoService.altaAlumno(alumno).subscribe({
+          next: (al) => console.log("alta: ", al),
+          complete: () => this.dialogRef.close(alumno),
+          error: (error) => console.log(error)
+        });
       }
     }
   }

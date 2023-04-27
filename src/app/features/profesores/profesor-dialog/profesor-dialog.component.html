@@ -1,0 +1,106 @@
+<h2 mat-dialog-title class="text-primary">{{profesorId ? 'Editar profesor' : 'Registrar profesor'}}</h2>
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="formulario">
+
+        <div *ngIf="profesorId" class="grid mb-3">
+            <div class="col-12">
+                <label for="id">ID:</label> {{profesorId}}
+            </div>
+        </div>
+
+        <div class="grid mb-3">
+            <div class="col-xs-6 col-sm-6">
+                <mat-form-field>
+                    <mat-label for="nombre">Nombre:</mat-label>
+                    <input matInput formControlName="nombre" type="text" id="nombre" name="nombre"
+                        autocomplete="given-name" required placeholder="Nombre" minlength="2" maxlength="20"
+                        [ngClass]="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['nombre'])"></app-error-helper>
+                </mat-form-field>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 ml-3">
+                <mat-form-field>
+                    <mat-label for="apellido">Apellido:</mat-label>
+                    <input matInput formControlName="apellido" type="text" id="apellido" name="apellido"
+                        autocomplete="family-name" required placeholder="Apellido" minlength="2" maxlength="20"
+                        [ngClass]="formulario.get('apellido')?.invalid && formulario.get('apellido')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['apellido'])"></app-error-helper>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="grid mb-3">
+            <div class="col-sm-6 col-md-12">
+                <mat-form-field appearance="fill">
+                    <mat-label for="fechaNacimiento">Fecha de nacimiento:</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" id="fechaNacimiento"
+                        autocomplete="bday" required minlength="9" maxlength="10"
+                        [ngClass]="formulario.get('fechaNacimiento')?.invalid && formulario.get('fechaNacimiento')?.touched ? 'text-danger' : ''">
+                    <mat-hint>D/M/AAAA</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="grid mb-3">
+            <div class="col-sm-6 col-md-12">
+                <mat-form-field>
+                    <mat-label for="dni">DNI:</mat-label>
+                    <input matInput formControlName="dni" type="text" id="dni" name="dni" inputmode="numeric" required
+                        placeholder="DNI" minlength="6" maxlength="10"
+                        [ngClass]="formulario.get('dni')?.invalid && formulario.get('dni')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['dni'])"></app-error-helper>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <mat-divider></mat-divider>
+        <div class="grid mb-3">
+            <div class="col-sm-6 col-md-12">
+                <mat-form-field>
+                    <mat-label for="email">E-mail:</mat-label>
+                    <input matInput formControlName="email" type="email" id="email" name="email" autocomplete="email"
+                        required placeholder="email@ejemplo.com" minlength="7" maxlength="64"
+                        [ngClass]="formulario.get('email')?.invalid && formulario.get('email')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['email'])"></app-error-helper>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="grid mb-3">
+            <div class="col-sm-6 col-md-6">
+                <mat-form-field>
+                    <mat-label for="password">Contraseña:</mat-label>
+                    <input #input matInput formControlName="password" type="password" id="password" name="password"
+                        autocomplete="new-password" required placeholder="Contraseña" minlength="4" maxlength="20"
+                        [ngClass]="formulario.get('password')?.invalid && formulario.get('password')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['password'])"></app-error-helper>
+                    <mat-hint>La contraseña debe tener entre 4-20 caracteres y debe contener letras y
+                        números.</mat-hint>
+                    <mat-hint align="end">{{input.value.length}}/20</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <div class="col-sm-6 col-md-6 ml-3">
+                <mat-form-field>
+                    <mat-label for="repeatPassword">Repetir contraseña:</mat-label>
+                    <input matInput formControlName="repeatPassword" type="password" id="repeatPassword"
+                        name="repeatPassword" autocomplete="new-password" required placeholder="Contraseña"
+                        minlength="4" maxlength="20"
+                        [ngClass]="formulario.get('repeatPassword')?.invalid && formulario.get('repeatPassword')?.touched ? 'text-danger' : ''">
+                    <app-error-helper [control]="$any(formulario.controls['repeatPassword'])"></app-error-helper>
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button color="primary" (click)="onSubmit()" cdkFocusInitial>
+        <mat-icon>how_to_reg</mat-icon>{{profesorId ? 'Guardar cambios' : 'Registrar'}}
+    </button>
+</mat-dialog-actions>

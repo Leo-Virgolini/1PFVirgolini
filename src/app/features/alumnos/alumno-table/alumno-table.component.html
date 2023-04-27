@@ -10,7 +10,7 @@
         <mat-icon>add</mat-icon>Agregar alumno
     </button>
 
-    <ng-container *ngIf="dataSource.data.length == 0">
+    <ng-container *ngIf="dataSource?.data?.length == 0">
         <p class="ml-1 text-red-600">Se ha producido un error al obtener los datos.</p>
     </ng-container>
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -45,7 +45,7 @@
         <ng-container matColumnDef="eliminar">
             <th mat-header-cell *matHeaderCellDef> Eliminar </th>
             <td mat-cell *matCellDef="let alumno">
-                <button mat-raised-button color="warn" (click)="eliminarAlumno(alumno.id)">
+                <button mat-raised-button color="warn" (click)="eliminarAlumno(alumno)">
                     <mat-icon>delete</mat-icon>Eliminar
                 </button>
             </td>
