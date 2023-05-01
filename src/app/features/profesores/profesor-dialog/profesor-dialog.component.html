@@ -57,7 +57,12 @@
             </div>
         </div>
 
-        <mat-divider></mat-divider>
+        <div class="grid mb-3">
+            <div class="col-12">
+                <mat-divider></mat-divider>
+            </div>
+        </div>
+
         <div class="grid mb-3">
             <div class="col-sm-6 col-md-12">
                 <mat-form-field>
@@ -96,6 +101,19 @@
             </div>
         </div>
     </form>
+
+    <div class="grid">
+        <div class="col-12">
+            <ng-container *ngIf="submitted && !formulario.valid">
+                <ng-container *ngIf="formulario?.errors?.['passwordMismatch']">
+                    <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-1"></i><small>Las contraseñas no coinciden.</small>
+                    </mat-error>
+                </ng-container>
+                <p class="text-danger fw-bold mt-1">Completa todos los campos correctamente.</p>
+            </ng-container>
+        </div>
+    </div>
 
 </mat-dialog-content>
 <mat-dialog-actions align="end">

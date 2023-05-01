@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MenuComponent } from './layout/menu/menu.component';
 import { HeaderComponent } from './layout/header/header.component';
 import { FooterComponent } from './layout/footer/footer.component';
@@ -38,6 +39,7 @@ import { FontSizeDirective } from './shared/directives/font-size.directive';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 import { NombreApellidoPipe } from './shared/pipes/nombre-apellido.pipe';
 import { SpinnerComponent } from './shared/spinner/spinner.component';
+import { SortPipe } from './shared/pipes/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -53,10 +55,11 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     CursoTableComponent,
     CursoDialogComponent,
     ErrorHelperComponent,
-    NombreApellidoPipe,
-    FontSizeDirective,
     NotFoundComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    NombreApellidoPipe,
+    SortPipe,
+    FontSizeDirective
   ],
   imports: [
     AppRoutingModule,
@@ -72,6 +75,7 @@ import { SpinnerComponent } from './shared/spinner/spinner.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    MatPaginatorModule,
     MatButtonModule,
     MatListModule,
     ReactiveFormsModule,

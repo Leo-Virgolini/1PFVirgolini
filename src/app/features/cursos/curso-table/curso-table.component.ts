@@ -67,8 +67,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     const dialog = this.dialogService.open(CursoDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe((curso: Curso) => {
       if (curso?.id && curso?.materia && curso?.idProfesor) {
-        this.obtenerCursos();
-        this.showSnackBar("Curso ID: " + curso.id + " creado.");
+        this.cursoService.altaCurso(curso).subscribe((c) => this.showSnackBar("Curso ID: " + c.id + " creado."));
       }
     }));
   }
@@ -82,10 +81,12 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
 
   modificarCurso(curso: Curso): void {
     const dialog = this.dialogService.open(CursoDialogComponent, { data: curso });
-    this.subscriptions.push(dialog.afterClosed().subscribe((value) => {
-      if (value?.materia && value?.profesor) {
+    this.subscriptions.push(dialog.afterClosed().subscribe((cursoModificado) => {
+      if (cursoModificado?.materia && cursoModificado?.profesor) {
         // this.obtenerCursos();
-        this.showSnackBar("Curso ID: " + value.id + " modificado.");
+        this.cursoService.modificarCurso(cursoModificado).subscribe((c) => {
+          this.showSnackBar("Curso ID: " + c.id + " modificado.");
+        })
       }
     }));
   }

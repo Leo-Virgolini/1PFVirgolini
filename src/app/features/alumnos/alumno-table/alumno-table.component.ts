@@ -7,6 +7,7 @@ import { Alumno } from 'src/app/core/models/alumno';
 import { AlumnoDialogComponent } from '../alumno-dialog/alumno-dialog.component';
 import { AlumnoService } from 'src/app/core/services/alumno.service';
 import { Subscription } from 'rxjs';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-alumno-table',
@@ -17,8 +18,9 @@ export class AlumnosTableComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   public dataSource: MatTableDataSource<Alumno>;
-  public displayedColumns: string[] = ['id', 'nombre', 'fechaNacimiento', 'promedio', 'modificar', 'eliminar'];
+  public displayedColumns: string[] = ['id', 'nombre', 'apellido', 'fechaNacimiento', 'dni', 'provincia', 'localidad', 'calle', 'email', 'password', 'modificar', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
 
@@ -30,11 +32,21 @@ export class AlumnosTableComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  filtrar(event: Event) {
+    const filterValue = (event.target as HTMLInputElement)?.value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   obtenerAlumnos(): void {

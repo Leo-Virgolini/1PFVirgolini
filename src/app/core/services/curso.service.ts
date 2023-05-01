@@ -46,7 +46,7 @@ export class CursoService {
 
   altaCurso(curso: Curso): Observable<Curso> {
     cursosData.push(curso);
-    // this.cursos.next([...cursosData]); // ciclo infinito
+    this.cursos.next([...cursosData]); //
 
     return of(curso);
   }
@@ -77,17 +77,17 @@ export class CursoService {
     return of(inscripcionesData.splice(index, 1)[0]);
   }
 
-  deleteAlumnoFromCurso(cursoId: number, alumnoId: number): Observable<Inscripcion> {
-    return this.inscripcionService.obtenerInscripcionPorCursoAlumno(cursoId, alumnoId).pipe(
-      switchMap(inscripcion => {
-        if (!inscripcion) {
-          return forkJoin([]);
-        } else {
-          return this.inscripcionService.eliminarInscripcion(inscripcion);
-        }
-      })
-    );
-  }
+  // deleteAlumnoFromCurso(cursoId: number, alumnoId: number): Observable<Inscripcion> {
+  //   return this.inscripcionService.obtenerInscripcionPorCursoAlumno(cursoId, alumnoId).pipe(
+  //     switchMap(inscripcion => {
+  //       if (!inscripcion) {
+  //         return forkJoin([]);
+  //       } else {
+  //         return this.inscripcionService.eliminarInscripcion(inscripcion);
+  //       }
+  //     })
+  //   );
+  // }
 
   bajaProfesorCurso(cursoId: number, profesorId: number): Observable<number> {
     const curso = cursosData.find((curso) => curso.id == cursoId && curso.id === profesorId);

@@ -19,7 +19,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
   private sort!: MatSort;
   public dataSource: MatTableDataSource<Profesor>;
   public loading: boolean;
-  public displayedColumns: string[] = ['id', 'nombre', 'apellido', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
+  public displayedColumns: string[] = ['id', 'apellidoNombre', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
   private subscriptions!: Subscription[];
 
   constructor(private profesorService: ProfesorService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {

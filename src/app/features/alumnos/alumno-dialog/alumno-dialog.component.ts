@@ -1,6 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { alumnosData } from 'src/app/core/data';
 import { Alumno } from 'src/app/core/models/alumno';
 import { AlumnoService } from 'src/app/core/services/alumno.service';
@@ -13,22 +14,41 @@ import { AlumnoService } from 'src/app/core/services/alumno.service';
 export class AlumnoDialogComponent implements OnInit, OnDestroy {
 
   public submitted: boolean;
+  private subscriptions!: Subscription[];
 
   public formulario: FormGroup;
   public nombre: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
   public apellido: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
   public fechaNacimiento: FormControl = new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
+  public dni: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6), Validators.maxLength(10)]);
+  public provincia: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
+  public localidad: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+  public calle: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(32)]);
+  public email: FormControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
+  public password: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+  public repeatPassword: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
 
   public alumnoId!: number;
 
   constructor(private alumnoService: AlumnoService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AlumnoDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Alumno | null) {
     this.submitted = false;
+    this.subscriptions = [];
 
     this.formulario = this.formBuilder.group({
       nombre: this.nombre,
       apellido: this.apellido,
-      fechaNacimiento: this.fechaNacimiento
-    });
+      fechaNacimiento: this.fechaNacimiento,
+      dni: this.dni,
+      direccion: this.formBuilder.group({
+        provincia: this.provincia,
+        localidad: this.localidad,
+        calle: this.calle
+      }),
+      email: this.email,
+      password: this.password,
+      repeatPassword: this.repeatPassword
+    },
+      { validators: [this.passwordsMatchValidator()] });
   }
 
   ngOnInit(): void {
@@ -37,10 +57,17 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       this.nombre?.patchValue(this.data.nombre);
       this.apellido?.patchValue(this.data.apellido);
       this.fechaNacimiento?.patchValue(new Date(this.data.fechaNacimiento));
+      this.dni?.patchValue(this.data.dni);
+      this.provincia?.patchValue(this.data.provincia);
+      this.localidad?.patchValue(this.data.localidad);
+      this.calle?.patchValue(this.data.calle);
+      this.email?.patchValue(this.data.email);
+      this.password?.patchValue(this.data.password);
     }
   }
 
   ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public onSubmit(): void {
@@ -55,35 +82,49 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
           alumno.nombre = this.nombre?.value;
           alumno.apellido = this.apellido?.value;
           alumno.fechaNacimiento = this.fechaNacimiento?.value;
-          this.alumnoService.modificarAlumno(alumno).subscribe({
+          alumno.dni = this.dni?.value;
+          alumno.provincia = this.provincia?.value;
+          alumno.localidad = this.localidad?.value;
+          alumno.calle = this.calle?.value;
+          alumno.email = this.email?.value;
+          alumno.password = this.password?.value;
+          this.subscriptions.push(this.alumnoService.modificarAlumno(alumno).subscribe({
             next: (al) => console.log("modificado: ", al),
             complete: () => this.dialogRef.close(alumno),
             error: (error) => console.log(error)
-          });
+          }));
         }
       } else { // Alta
-        let ultimoId: number;
+        let ultimoId: number = 0;
         if (alumnosData.length > 0)
           ultimoId = Number(alumnosData[alumnosData.length - 1].id);
-        else
-          ultimoId = 0;
         const alumno: Alumno = new Alumno(ultimoId + 1,
           this.nombre?.value,
           this.apellido?.value,
           this.fechaNacimiento?.value,
-          'dni',
-          'provincia',
-          'localidad',
-          'calle',
-          'email',
-          'password'
+          this.dni?.value,
+          this.provincia?.value,
+          this.localidad?.value,
+          this.calle?.value,
+          this.email?.value,
+          this.password?.value
         );
-        this.alumnoService.altaAlumno(alumno).subscribe({
+        this.subscriptions.push(this.alumnoService.altaAlumno(alumno).subscribe({
           next: (al) => console.log("alta: ", al),
           complete: () => this.dialogRef.close(alumno),
           error: (error) => console.log(error)
-        });
+        }));
       }
+    }
+  }
+
+  private passwordsMatchValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      if (this.password?.value !== this.repeatPassword?.value)
+        return {
+          passwordMismatch: true
+        }
+      return null;
     }
   }
 

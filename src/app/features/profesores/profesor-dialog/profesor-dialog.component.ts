@@ -45,7 +45,7 @@ export class ProfesorDialogComponent implements OnInit {
     }
   }
 
-  public passwordsMatchValidator(): ValidatorFn {
+  private passwordsMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (this.formulario?.controls['password']?.value !== this.formulario?.controls['repeatPassword']?.value)
         return {
@@ -75,11 +75,9 @@ export class ProfesorDialogComponent implements OnInit {
           });
         }
       } else { // Alta
-        let ultimoId: number;
+        let ultimoId: number = 0;
         if (profesoresData.length > 0)
           ultimoId = profesoresData[profesoresData.length - 1].id;
-        else
-          ultimoId = 0;
         let profesor: Profesor = new Profesor(ultimoId + 1,
           this.formulario.get('nombre')?.value,
           this.formulario.get('apellido')?.value,

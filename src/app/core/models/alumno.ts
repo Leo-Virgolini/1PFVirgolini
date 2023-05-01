@@ -9,7 +9,6 @@ export class Alumno extends Usuario {
     private _provincia: string;
     private _localidad: string;
     private _calle: string;
-    private _promedio: number;
 
     constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, provincia: string, localidad: string, calle: string, email: string, password: string) {
         super(id, email, password);
@@ -20,7 +19,6 @@ export class Alumno extends Usuario {
         this._provincia = provincia;
         this._localidad = localidad;
         this._calle = calle;
-        this._promedio = Math.floor(Math.random() * (10 * 10 - 1 * 10) + 1 * 10) / (1 * 10);
     }
 
 
@@ -56,14 +54,6 @@ export class Alumno extends Usuario {
         return this._fechaNacimiento
     }
 
-    public set promedio(promedio: number) {
-        this._promedio = promedio;
-    }
-
-    public get promedio(): number {
-        return this._promedio
-    }
-
     public get provincia(): string {
         return this._provincia;
     }
@@ -86,10 +76,6 @@ export class Alumno extends Usuario {
 
     public set provincia(value: string) {
         this._provincia = value;
-    }
-
-    public calcularPromedio(): void {
-        this._promedio = Math.floor(Math.random() * (10 * 10 - 1 * 10) + 1 * 10) / (1 * 10);
     }
 
 }

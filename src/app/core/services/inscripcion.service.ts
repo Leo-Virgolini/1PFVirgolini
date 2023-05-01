@@ -13,13 +13,13 @@ export class InscripcionService {
 
   constructor() {
     this.inscripciones = new BehaviorSubject<Inscripcion[]>([]);
-  }
-
-  obtenerInscripciones(): Observable<Inscripcion[]> {
     if (inscripcionesData.length > 0)
       this.inscripciones.next(inscripcionesData);
     else
       this.inscripciones.error(new Error("No hay data."));
+  }
+
+  obtenerInscripciones(): Observable<Inscripcion[]> {
     return this.inscripciones.asObservable();
   }
 

@@ -34,7 +34,7 @@
         <ng-container matColumnDef="alumnos">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Alumnos </th>
             <td mat-cell *matCellDef="let curso">
-                <ul *ngFor="let alumno of curso.alumnos">
+                <ul *ngFor="let alumno of (curso.alumnos | sort)">
                     <li>
                         <a [routerLink]="['/alumnos/', alumno?.id]">{{alumno?.id + " - " + alumno?.apellido + ", " +
                             alumno?.nombre}}</a>
