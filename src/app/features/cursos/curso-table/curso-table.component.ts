@@ -3,10 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { Curso } from 'src/app/core/models/curso';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { CursoDialogComponent } from '../curso-dialog/curso-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-curso-table',
@@ -17,6 +18,9 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
+  @ViewChild(MatPaginator)
+  private paginator!: MatPaginator;
+
   public dataSource: MatTableDataSource<Curso>;
   public displayedColumns: string[] = ['id', 'materia', 'profesor', 'alumnos', 'modificar', 'eliminar'];
   public loading: boolean;
@@ -26,38 +30,55 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Curso>();
+    this.dataSource.filterPredicate = (data: Curso, filter: string) => data.materia?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerCursos();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
+  filtrar(event: Event) {
+    const filteredValue: string = (event.target as HTMLInputElement)?.value;
+    this.dataSource.filter = filteredValue;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
   obtenerCursos(): void {
     this.subscriptions.push(this.cursoService.obtenerCursos().subscribe({
       next: (cursos) => {
         console.log(cursos);
-        cursos.forEach((curso) => {
-          this.cursoService.obtenerAlumnos(curso.id).subscribe((alumnos) => curso.alumnos = alumnos);
-          if (curso.idProfesor)
-            this.cursoService.obtenerProfesor(curso.idProfesor).subscribe((profesor) => curso.profesor = profesor);
+        // Create an array of Observables that get all the alumnos for each curso
+        const alumnoObservables = cursos.map((curso) =>
+          this.cursoService.obtenerAlumnos(curso.id),
+        );
+        // Execute all the Observables in parallel and return an array of their results
+        forkJoin(alumnoObservables).subscribe((alumnosArrays) => {
+          // Map each array of alumnos back to their respective curso
+          alumnosArrays.forEach((alumnos, i) => {
+            cursos[i].alumnos = alumnos;
+          });
+
+          this.dataSource.data = cursos;
+          this.loading = false;
+          console.log("next");
         });
-        this.dataSource.data = cursos;
-        this.dataSource.sort = this.sort;
-        this.loading = false;
-        console.log("next");
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
         this.showSnackBar("Se ha producido un error al obtener los datos.");
         console.log("error");
       },
       complete: () => {
-        this.loading = false;
+        // this.loading = false;
         console.log("complete");
       }
     }));

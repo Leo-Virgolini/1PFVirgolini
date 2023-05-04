@@ -1,100 +1,134 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, Observable, switchMap } from 'rxjs';
 import { Curso } from '../models/curso';
-import { alumnosData, cursosData, inscripcionesData } from '../data';
 import { Inscripcion } from '../models/inscripcion';
 import { Alumno } from '../models/alumno';
-import { AlumnoService } from './alumno.service';
-import { ProfesorService } from './profesor.service';
-import { InscripcionService } from './inscripcion.service';
 import { Profesor } from '../models/profesor';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CursoService {
 
+  private readonly url: string = "http://localhost:3000/cursos";
   private cursos: BehaviorSubject<Curso[]>;
 
-  constructor(private alumnoService: AlumnoService, private profesorService: ProfesorService, private inscripcionService: InscripcionService) {
+  constructor(private http: HttpClient) {
     this.cursos = new BehaviorSubject<Curso[]>([]);
   }
 
   obtenerCursos(): Observable<Curso[]> {
-    if (cursosData.length > 0)
-      this.cursos.next(cursosData);
-    else
-      this.cursos.error(new Error("No hay data."));
-    return this.cursos.asObservable();
+    return this.http.get<Curso[]>(this.url);
+    // if (cursosData.length > 0)
+    //   this.cursos.next(cursosData);
+    // else
+    //   this.cursos.error(new Error("No hay data."));
+    // return this.cursos.asObservable();
   }
 
   obtenerCurso(cursoId: number): Observable<Curso | undefined> {
-    return this.cursos.pipe(
-      map(cursosData => cursosData.find(curso => curso.id === cursoId))
-    );
+    return this.http.get<Curso>(this.url + '/' + cursoId);
+    // return this.obtenerCursos().pipe(
+    //   map(cursosData => cursosData.find(curso => curso.id === cursoId))
+    // );
   }
 
   eliminarCurso(curso: Curso): Observable<Curso> {
-    const index = cursosData.findIndex(c => c.id === curso.id);
-    if (index !== -1) {
-      cursosData.splice(index, 1);
-      this.cursos.next([...cursosData]);
-    }
+    return this.http.delete<Curso>(this.url + '/' + curso.id);
+    // const index = cursosData.findIndex(c => c.id === curso.id);
+    // if (index !== -1) {
+    //   cursosData.splice(index, 1);
+    //   this.cursos.next([...cursosData]);
+    // }
 
-    return of(curso);
+    // return of(curso);
   }
 
   altaCurso(curso: Curso): Observable<Curso> {
-    cursosData.push(curso);
-    this.cursos.next([...cursosData]); //
 
-    return of(curso);
+    const cursoData = {
+      id: curso.id,
+      materia: curso.materia,
+      idProfesor: curso.idProfesor
+    };
+    return this.getUltimoId().
+      pipe(
+        map((id) => {
+          cursoData.id = id + 1;
+          return cursoData;
+        }),
+        switchMap((c) => {
+          return this.http.post<Curso>(this.url, c);
+        })
+      );
+
+    // cursosData.push(curso);
+    // this.cursos.next([...cursosData]); //
+
+    // return of(curso);
   }
 
   modificarCurso(curso: Curso): Observable<Curso> {
-    const index = cursosData.findIndex(c => c.id === curso.id);
-    if (index !== -1) {
-      cursosData[index] = curso;
-      this.cursos.next([...cursosData]);
-    }
+    return this.http.put<Curso>(this.url + '/' + curso.id, curso);
+    // const index = cursosData.findIndex(c => c.id === curso.id);
+    // if (index !== -1) {
+    //   cursosData[index] = curso;
+    //   this.cursos.next([...cursosData]);
+    // }
 
-    return of(curso);
+    // return of(curso);
   }
 
   obtenerAlumnos(cursoId: number): Observable<Alumno[] | undefined> {
-    const inscripciones: Inscripcion[] = inscripcionesData.filter(i => i.idCurso === cursoId);
-    const alumnos: Alumno[] = inscripciones.map(i => alumnosData.find(a => a.id === i.idAlumno)!);
+    return this.http.get<Inscripcion[]>(`http://localhost:3000/inscripciones?idCurso=${cursoId}`).pipe(
+      switchMap(inscripciones =>
+        forkJoin(
+          inscripciones.map(inscripcion => this.http.get<Alumno>(`http://localhost:3000/alumnos/${inscripcion.idAlumno}`))
+        )
+      )
+    );
 
-    return of(alumnos);
+    // const inscripciones: Inscripcion[] = inscripcionesData.filter(i => i.idCurso === cursoId);
+    // const alumnos: Alumno[] = inscripciones.map(i => alumnosData.find(a => a.id === i.idAlumno)!);
+
+    // return of(alumnos);
   }
 
   obtenerProfesor(profesorId: number): Observable<Profesor | undefined> {
-    return this.profesorService.obtenerProfesor(profesorId);
+    return this.http.get<Profesor>("http://localhost:3000/profesores" + '/' + profesorId);
+
+    // return this.profesorService.obtenerProfesor(profesorId);
   }
 
   bajaAlumnoCurso(cursoId: number, alumnoId: number): Observable<Inscripcion> {
-    const index = inscripcionesData.findIndex((inscripcion) => inscripcion.idAlumno === alumnoId && inscripcion.idCurso === cursoId);
-    return of(inscripcionesData.splice(index, 1)[0]);
+    return this.http.get<Inscripcion>("http://localhost:3000/inscripciones" + '?idCurso=' + cursoId + '&idAlumno=' + alumnoId).pipe(
+      switchMap(
+        (inscripcion) => this.http.delete<Inscripcion>("http://localhost:3000/inscripciones" + '/' + inscripcion.id)
+      )
+    );
+    // const index = inscripcionesData.findIndex((inscripcion) => inscripcion.idAlumno === alumnoId && inscripcion.idCurso === cursoId);
+    // return of(inscripcionesData.splice(index, 1)[0]);
   }
 
-  // deleteAlumnoFromCurso(cursoId: number, alumnoId: number): Observable<Inscripcion> {
-  //   return this.inscripcionService.obtenerInscripcionPorCursoAlumno(cursoId, alumnoId).pipe(
-  //     switchMap(inscripcion => {
-  //       if (!inscripcion) {
-  //         return forkJoin([]);
-  //       } else {
-  //         return this.inscripcionService.eliminarInscripcion(inscripcion);
-  //       }
-  //     })
-  //   );
-  // }
+  bajaProfesorCurso(curso: Curso): Observable<Curso> {
+    curso.idProfesor = undefined;
+    return this.http.put<Curso>(this.url + '/' + curso.id, curso);
+  }
 
-  bajaProfesorCurso(cursoId: number, profesorId: number): Observable<number> {
-    const curso = cursosData.find((curso) => curso.id == cursoId && curso.id === profesorId);
-    if (curso)
-      curso.idProfesor = undefined;
-
-    return of(profesorId);
+  getUltimoId(): Observable<number> {
+    return this.http.get<any[]>(this.url)
+      .pipe(
+        map(cursos => {
+          let ultimoId = 0;
+          cursos.forEach(curso => {
+            if (curso.id > ultimoId) {
+              ultimoId = curso.id;
+            }
+          });
+          return ultimoId;
+        })
+      );
   }
 
 }

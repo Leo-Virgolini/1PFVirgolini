@@ -1,8 +1,13 @@
+import { Alumno } from "./alumno";
+import { Curso } from "./curso";
+
 export class Inscripcion {
 
     private _id: number;
     private _idCurso: number;
     private _idAlumno: number;
+    private _curso: Curso | undefined;
+    private _alumno: Alumno | undefined;
 
     constructor(id: number, idCurso: number, idAlumno: number) {
         this._id = id;
@@ -29,6 +34,20 @@ export class Inscripcion {
     }
     public set idAlumno(value: number) {
         this._idAlumno = value;
+    }
+
+    public get curso(): Curso | undefined {
+        return this._curso;
+    }
+    public set curso(value: Curso | undefined) {
+        this._curso = value;
+    }
+
+    public get alumno(): Alumno | undefined {
+        return this._alumno;
+    }
+    public set alumno(value: Alumno | undefined) {
+        this._alumno = value;
     }
 
 }

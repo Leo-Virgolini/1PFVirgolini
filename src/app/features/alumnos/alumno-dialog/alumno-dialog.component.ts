@@ -74,48 +74,55 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
     this.formulario.markAllAsTouched();
     this.submitted = true;
     if (this.formulario.valid) {
-      console.log(this.formulario.value);
       console.log(this.data);
       if (this.data) { // Modificacion
-        const alumno: Alumno = this.data;
-        if (alumno) {
-          alumno.nombre = this.nombre?.value;
-          alumno.apellido = this.apellido?.value;
-          alumno.fechaNacimiento = this.fechaNacimiento?.value;
-          alumno.dni = this.dni?.value;
-          alumno.provincia = this.provincia?.value;
-          alumno.localidad = this.localidad?.value;
-          alumno.calle = this.calle?.value;
-          alumno.email = this.email?.value;
-          alumno.password = this.password?.value;
-          this.subscriptions.push(this.alumnoService.modificarAlumno(alumno).subscribe({
-            next: (al) => console.log("modificado: ", al),
-            complete: () => this.dialogRef.close(alumno),
-            error: (error) => console.log(error)
-          }));
-        }
+        this.modificarAlumno();
       } else { // Alta
-        let ultimoId: number = 0;
-        if (alumnosData.length > 0)
-          ultimoId = Number(alumnosData[alumnosData.length - 1].id);
-        const alumno: Alumno = new Alumno(ultimoId + 1,
-          this.nombre?.value,
-          this.apellido?.value,
-          this.fechaNacimiento?.value,
-          this.dni?.value,
-          this.provincia?.value,
-          this.localidad?.value,
-          this.calle?.value,
-          this.email?.value,
-          this.password?.value
-        );
-        this.subscriptions.push(this.alumnoService.altaAlumno(alumno).subscribe({
-          next: (al) => console.log("alta: ", al),
-          complete: () => this.dialogRef.close(alumno),
-          error: (error) => console.log(error)
-        }));
+        this.altaAlumno();
       }
     }
+  }
+
+  private modificarAlumno(): void {
+    const alumno: Alumno | null = this.data;
+    if (alumno) {
+      alumno.nombre = this.nombre?.value;
+      alumno.apellido = this.apellido?.value;
+      alumno.fechaNacimiento = this.fechaNacimiento?.value;
+      alumno.dni = this.dni?.value;
+      alumno.provincia = this.provincia?.value;
+      alumno.localidad = this.localidad?.value;
+      alumno.calle = this.calle?.value;
+      alumno.email = this.email?.value;
+      alumno.password = this.password?.value;
+      this.subscriptions.push(this.alumnoService.modificarAlumno(alumno).subscribe({
+        next: (al) => console.log("modificado: ", al),
+        complete: () => this.dialogRef.close(alumno),
+        error: (error) => console.log(error)
+      }));
+    }
+  }
+
+  private altaAlumno(): void {
+    let ultimoId: number = 0;
+    if (alumnosData.length > 0)
+      ultimoId = Number(alumnosData[alumnosData.length - 1].id);
+    const alumno: Alumno = new Alumno(ultimoId + 1,
+      this.nombre?.value,
+      this.apellido?.value,
+      this.fechaNacimiento?.value,
+      this.dni?.value,
+      this.provincia?.value,
+      this.localidad?.value,
+      this.calle?.value,
+      this.email?.value,
+      this.password?.value
+    );
+    this.subscriptions.push(this.alumnoService.altaAlumno(alumno).subscribe({
+      next: (al) => console.log("alta: ", al),
+      complete: () => this.dialogRef.close(alumno),
+      error: (error) => console.log(error)
+    }));
   }
 
   private passwordsMatchValidator(): ValidatorFn {

@@ -6,6 +6,7 @@ export class Profesor extends Usuario {
     private _apellido: string;
     private _fechaNacimiento: Date;
     private _dni: string;
+    private _cursos: string | undefined;
 
     constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, email: string, password: string) {
         super(id, email, password);
@@ -41,6 +42,13 @@ export class Profesor extends Usuario {
     }
     public set dni(value: string) {
         this._dni = value;
+    }
+
+    public get cursos(): string | undefined {
+        return this._cursos;
+    }
+    public set cursos(value: string | undefined) {
+        this._cursos = value;
     }
 
 }

@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
 import { Profesor } from 'src/app/core/models/profesor';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { ProfesorDialogComponent } from '../profesor-dialog/profesor-dialog.component';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-profesor-table',
@@ -17,6 +18,9 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
+  @ViewChild(MatPaginator)
+  private paginator!: MatPaginator;
+
   public dataSource: MatTableDataSource<Profesor>;
   public loading: boolean;
   public displayedColumns: string[] = ['id', 'apellidoNombre', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
@@ -26,15 +30,26 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Profesor>();
+    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerProfesores();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  filtrar(event: Event) {
+    const filteredValue: string = (event.target as HTMLInputElement)?.value;
+    this.dataSource.filter = filteredValue;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   obtenerProfesores(): void {
@@ -43,7 +58,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
       next: (profesores) => {
         this.dataSource.data = profesores;
         console.log("next");
-        this.dataSource.sort = this.sort;
+        // this.dataSource.sort = this.sort;
         this.loading = false;
       },
       error: (error) => {
@@ -80,6 +95,10 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
         this.showSnackBar("Profesor ID: " + value.id + " modificado.");
       }
     }));
+  }
+
+  verCursos(profesorId: number): void {
+
   }
 
   showSnackBar(message: string) {

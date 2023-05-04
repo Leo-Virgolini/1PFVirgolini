@@ -1,15 +1,106 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Subscription, forkJoin, map, switchMap } from 'rxjs';
+import { Inscripcion } from 'src/app/core/models/inscripcion';
+import { AlumnoService } from 'src/app/core/services/alumno.service';
+import { CursoService } from 'src/app/core/services/curso.service';
+import { InscripcionService } from 'src/app/core/services/inscripcion.service';
 
 @Component({
   selector: 'app-inscripcion-table',
   templateUrl: './inscripcion-table.component.html',
-  styleUrls: ['./inscripcion-table.component.css']
+  styleUrls: ['./inscripcion-table.component.scss']
 })
-export class InscripcionTableComponent implements OnInit {
+export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
 
-  constructor() { }
+  @ViewChild(MatSort)
+  private sort!: MatSort;
+  @ViewChild(MatPaginator)
+  private paginator!: MatPaginator;
 
-  ngOnInit(): void {
+  public dataSource: MatTableDataSource<Inscripcion>;
+  public displayedColumns: string[] = ['id', 'curso', 'alumno', 'modificar', 'eliminar'];
+  public loading: boolean;
+  private subscriptions!: Subscription[];
+
+  constructor(private inscripcionService: InscripcionService, private alumnoService: AlumnoService, private cursoService: CursoService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
+    this.loading = true;
+    this.subscriptions = [];
+    this.dataSource = new MatTableDataSource<Inscripcion>();
+    this.dataSource.filterPredicate = (data: Inscripcion, filter: string) => data.idCurso === Number(filter?.trim()) || (data.curso ? data.curso.materia.toLowerCase().startsWith(filter.trim().toLowerCase()) : false);
+    this.obtenerInscripciones();
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
+  }
+
+  filtrar(event: Event) {
+    const filteredValue: string = (event.target as HTMLInputElement)?.value;
+    this.dataSource.filter = filteredValue;
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  obtenerInscripciones(): void {
+    this.subscriptions.push(this.inscripcionService.obtenerInscripciones()
+      .pipe(
+        switchMap(inscripciones => {
+          const observables = inscripciones.map(inscripcion => forkJoin([
+            this.alumnoService.obtenerAlumno(inscripcion.idAlumno),
+            this.cursoService.obtenerCurso(inscripcion.idCurso)
+          ])
+            .pipe(
+              map(([alumno, curso]) => {
+                inscripcion.alumno = alumno;
+                inscripcion.curso = curso;
+                return inscripcion;
+              })
+            ));
+          return forkJoin(observables);
+        })
+      ).subscribe({
+        next: (inscripciones) => {
+          this.dataSource.data = inscripciones;
+          this.loading = false;
+          console.log("next");
+        },
+        error: () => {
+          this.loading = false;
+          this.showSnackBar("Se ha producido un error al obtener los datos.");
+          console.log("error");
+        },
+        complete: () => {
+          this.loading = false;
+          console.log("complete");
+        }
+      }));
+  }
+
+  altaInscripcion(): void {
+  }
+
+  eliminarInscripcion(inscripcion: Inscripcion): void {
+    this.subscriptions.push(this.inscripcionService.eliminarInscripcion(inscripcion).subscribe((i) => {
+      this.showSnackBar("Inscripción ID: " + i.id + " eliminada.")
+    }));
+  }
+
+  showSnackBar(message: string) {
+    this._snackBar.open(message, "cerrar", {
+      duration: 3000,
+    });
   }
 
 }

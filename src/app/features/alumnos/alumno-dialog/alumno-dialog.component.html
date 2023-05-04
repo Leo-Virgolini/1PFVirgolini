@@ -14,7 +14,7 @@
                 <mat-form-field>
                     <mat-label for="nombre">Nombre:</mat-label>
                     <input matInput formControlName="nombre" type="text" id="nombre" name="nombre"
-                        autocomplete="given-name" required placeholder="Nombre" minlength="2" maxlength="20" [ngClass]="{
+                        autocomplete="given-name" placeholder="Nombre" minlength="2" maxlength="20" [ngClass]="{
                                 'is-invalid': nombre.invalid && nombre.touched,
                                 'is-valid': nombre.valid && nombre.touched
                             }">
@@ -26,8 +26,7 @@
                 <mat-form-field>
                     <mat-label for="apellido">Apellido:</mat-label>
                     <input matInput formControlName="apellido" type="text" id="apellido" name="apellido"
-                        autocomplete="family-name" required placeholder="Apellido" minlength="2" maxlength="20"
-                        [ngClass]="{
+                        autocomplete="family-name" placeholder="Apellido" minlength="2" maxlength="20" [ngClass]="{
                                 'is-invalid': apellido.invalid && apellido.touched,
                                 'is-valid': apellido.valid && apellido.touched
                             }">
@@ -41,7 +40,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label for="fechaNacimiento">Fecha de nacimiento:</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" id="fechaNacimiento"
-                        autocomplete="bday" required minlength="9" maxlength="10" [ngClass]="{
+                        autocomplete="bday" minlength="9" maxlength="10" [ngClass]="{
                                 'is-invalid': fechaNacimiento.invalid && fechaNacimiento.touched,
                                 'is-valid': fechaNacimiento.valid && fechaNacimiento.touched
                             }">
@@ -57,7 +56,7 @@
             <div class="col-sm-6 col-md-12">
                 <mat-form-field>
                     <mat-label for="dni">DNI:</mat-label>
-                    <input matInput formControlName="dni" type="text" id="dni" name="dni" inputmode="numeric" required
+                    <input matInput formControlName="dni" type="text" id="dni" name="dni" inputmode="numeric"
                         placeholder="DNI" minlength="6" maxlength="10" [ngClass]="{
                             'is-invalid': dni.invalid && dni.touched,
                             'is-valid': dni.valid && dni.touched
@@ -71,8 +70,7 @@
             <div class="col-sm-4 col-md-4">
                 <mat-form-field appearance="fill">
                     <mat-label for="provincia">Provincia:</mat-label>
-                    <mat-select formControlName="provincia" id="provincia" name="provincia" aria-label="Provincia"
-                        required>
+                    <mat-select formControlName="provincia" id="provincia" name="provincia" aria-label="Provincia">
                         <mat-option value="Buenos Aires">Buenos Aires</mat-option>
                         <mat-option value="Córdoba">Córdoba</mat-option>
                         <mat-option value="Mendoza">Mendoza</mat-option>
@@ -86,8 +84,7 @@
                 <mat-form-field>
                     <mat-label for="localidad">Localidad:</mat-label>
                     <input matInput formControlName="localidad" type="text" id="localidad" name="localidad"
-                        autocomplete="address-level2" required placeholder="Florida" minlength="4" maxlength="20"
-                        [ngClass]="{
+                        autocomplete="address-level2" placeholder="Florida" minlength="4" maxlength="20" [ngClass]="{
                             'is-invalid': localidad.invalid && localidad.touched,
                             'is-valid': localidad.valid && localidad.touched
                         }">
@@ -99,8 +96,7 @@
                 <mat-form-field>
                     <mat-label for="calle">Calle:</mat-label>
                     <input matInput formControlName="calle" type="text" id="calle" name="calle"
-                        autocomplete="street-address" required placeholder="Calle 1234" minlength="4" maxlength="32"
-                        [ngClass]="{
+                        autocomplete="street-address" placeholder="Calle 1234" minlength="4" maxlength="32" [ngClass]="{
                             'is-invalid': calle.invalid && calle.touched,
                             'is-valid': calle.valid && calle.touched
                         }">
@@ -120,7 +116,7 @@
                 <mat-form-field>
                     <mat-label for="email">E-mail:</mat-label>
                     <input matInput formControlName="email" type="email" id="email" name="email" autocomplete="email"
-                        required placeholder="email@ejemplo.com" minlength="7" maxlength="64" [ngClass]="{
+                        placeholder="email@ejemplo.com" minlength="7" maxlength="64" [ngClass]="{
                             'is-invalid': email.invalid && email.touched,
                             'is-valid': email.valid && email.touched
                         }">
@@ -134,8 +130,7 @@
                 <mat-form-field>
                     <mat-label for="password">Contraseña:</mat-label>
                     <input #input matInput formControlName="password" type="password" id="password" name="password"
-                        autocomplete="new-password" required placeholder="Contraseña" minlength="4" maxlength="20"
-                        [ngClass]="{
+                        autocomplete="new-password" placeholder="Contraseña" minlength="4" maxlength="20" [ngClass]="{
                             'is-invalid': password.invalid && password.touched,
                             'is-valid': password.valid && password.touched
                         }">
@@ -150,8 +145,8 @@
                 <mat-form-field>
                     <mat-label for="repeatPassword">Repetir contraseña:</mat-label>
                     <input matInput formControlName="repeatPassword" type="password" id="repeatPassword"
-                        name="repeatPassword" autocomplete="new-password" required placeholder="Contraseña"
-                        minlength="4" maxlength="20" [ngClass]="{
+                        name="repeatPassword" autocomplete="new-password" placeholder="Contraseña" minlength="4"
+                        maxlength="20" [ngClass]="{
                             'is-invalid': repeatPassword.invalid && repeatPassword.touched,
                             'is-valid': repeatPassword.valid && repeatPassword.touched
                         }">

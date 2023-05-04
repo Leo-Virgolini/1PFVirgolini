@@ -1,1 +1,375 @@
-// json-server —watch database/db.json
+{
+  "alumnos": [
+    {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Jimenez",
+      "fechaNacimiento": "1989/01/25",
+      "dni": "255789",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 2,
+      "nombre": "Facundoaa",
+      "apellido": "Roncaglia",
+      "fechaNacimiento": "1989-01-25T02:00:00.000Z",
+      "dni": "255789",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 3,
+      "nombre": "Leo",
+      "apellido": "Coaquira",
+      "fechaNacimiento": "1984-09-24T03:00:00.000Z",
+      "dni": "564321",
+      "provincia": "Buenos Aires",
+      "localidad": "Olivos",
+      "calle": "Calle 4321",
+      "email": "cj@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 4,
+      "nombre": "Carlos",
+      "apellido": "Jimenez",
+      "fechaNacimiento": "1984/09/24",
+      "dni": "564321",
+      "provincia": "Buenos Aires",
+      "localidad": "Olivos",
+      "calle": "Calle 4321",
+      "email": "cj@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 5,
+      "nombre": "Micaela",
+      "apellido": "Ramirez",
+      "fechaNacimiento": "1991/11/05",
+      "dni": "115569",
+      "provincia": "Buenos Aires",
+      "localidad": "La Lucila",
+      "calle": "Calle 4321",
+      "email": "mr@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 6,
+      "nombre": "Camila",
+      "apellido": "Herrera",
+      "fechaNacimiento": "1992/12/07",
+      "dni": "945626",
+      "provincia": "Buenos Aires",
+      "localidad": "Munro",
+      "calle": "Calle 4321",
+      "email": "ch@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 7,
+      "nombre": "Sofía",
+      "apellido": "Narvaez",
+      "fechaNacimiento": "1986/01/19",
+      "dni": "1562236",
+      "provincia": "Buenos Aires",
+      "localidad": "La Matanza",
+      "calle": "Calle 4321",
+      "email": "sn@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 8,
+      "nombre": "Fernando",
+      "apellido": "Iglesias",
+      "fechaNacimiento": "1987/05/08",
+      "dni": "322356",
+      "provincia": "Buenos Aires",
+      "localidad": "San Miguel",
+      "calle": "Calle 4321",
+      "email": "fi@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 9,
+      "nombre": "Romina",
+      "apellido": "Sanchez",
+      "fechaNacimiento": "1984/04/17",
+      "dni": "945115",
+      "provincia": "Buenos Aires",
+      "localidad": "Berazategui",
+      "calle": "Calle 4321",
+      "email": "rs@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 10,
+      "nombre": "Pedro",
+      "apellido": "Gonzalez",
+      "fechaNacimiento": "1988/01/25",
+      "dni": "147963",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 11,
+      "nombre": "Jorge",
+      "apellido": "Quinteros",
+      "fechaNacimiento": "1990/01/25",
+      "dni": "4534534",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 12,
+      "nombre": "Darío",
+      "apellido": "Forlàn",
+      "fechaNacimiento": "1985/01/25",
+      "dni": "3242344",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 13,
+      "nombre": "Agustín",
+      "apellido": "Martinez",
+      "fechaNacimiento": "1987/01/25",
+      "dni": "6556664",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 14,
+      "nombre": "Santiago",
+      "apellido": "Schinini",
+      "fechaNacimiento": "1989/01/25",
+      "dni": "3322325",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 15,
+      "nombre": "Pamela",
+      "apellido": "Montiel",
+      "fechaNacimiento": "1984/01/25",
+      "dni": "658532",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 16,
+      "nombre": "Josefina",
+      "apellido": "Accuña",
+      "fechaNacimiento": "1991/01/25",
+      "dni": "533334",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 17,
+      "nombre": "Macarena",
+      "apellido": "Pereyra",
+      "fechaNacimiento": "1992/01/25",
+      "dni": "546097",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 18,
+      "nombre": "Abigail",
+      "apellido": "Molina",
+      "fechaNacimiento": "1991/01/25",
+      "dni": "874342",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 19,
+      "nombre": "Jessica",
+      "apellido": "Tagliafico",
+      "fechaNacimiento": "1994/01/25",
+      "dni": "426216",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 20,
+      "nombre": "Fernando",
+      "apellido": "Romero",
+      "fechaNacimiento": "1989/01/25",
+      "dni": "255789",
+      "provincia": "Buenos Aires",
+      "localidad": "Villa Ballester",
+      "calle": "Calle 4321",
+      "email": "pg@gmail.com",
+      "password": "asd123"
+    }
+  ],
+  "profesores": [
+    {
+      "id": 1,
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "fechaNacimiento": "1991/07/22",
+      "dni": "123456",
+      "email": "jp@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 2,
+      "nombre": "Tomás",
+      "apellido": "Roncero",
+      "fechaNacimiento": "1985/08/11",
+      "dni": "362789156",
+      "email": "tr@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 3,
+      "nombre": "Carlos",
+      "apellido": "Jimenez",
+      "fechaNacimiento": "1984/09/24",
+      "dni": "564321",
+      "email": "cj@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 4,
+      "nombre": "Mateo",
+      "apellido": "Juarez",
+      "fechaNacimiento": "1990/10/10",
+      "dni": "654123",
+      "email": "mj@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "id": 5,
+      "nombre": "Micaela",
+      "apellido": "Ramirez",
+      "fechaNacimiento": "1991/11/05",
+      "dni": "115569",
+      "email": "mr@gmail.com",
+      "password": "asd123"
+    }
+  ],
+  "cursos": [
+    {
+      "id": 1,
+      "materia": "Historia",
+      "idProfesor": 1
+    },
+    {
+      "id": 2,
+      "materia": "Lengua",
+      "idProfesor": 2
+    },
+    {
+      "id": 3,
+      "materia": "Biología",
+      "idProfesor": 3
+    },
+    {
+      "id": 4,
+      "materia": "Matemática",
+      "idProfesor": 4
+    },
+    {
+      "id": 5,
+      "materia": "Fìsica",
+      "idProfesor": 5
+    },
+    {
+      "id": 6,
+      "materia": "Geografía",
+      "idProfesor": 1
+    },
+    {
+      "id": 7,
+      "materia": "Inglés",
+      "idProfesor": 2
+    }
+  ],
+  "inscripciones": [
+    {
+      "id": 1,
+      "idCurso": 1,
+      "idAlumno": 1
+    },
+    {
+      "id": 2,
+      "idCurso": 2,
+      "idAlumno": 2
+    },
+    {
+      "id": 3,
+      "idCurso": 3,
+      "idAlumno": 3
+    },
+    {
+      "id": 4,
+      "idCurso": 4,
+      "idAlumno": 4
+    },
+    {
+      "id": 5,
+      "idCurso": 5,
+      "idAlumno": 5
+    },
+    {
+      "id": 6,
+      "idCurso": 6,
+      "idAlumno": 6
+    },
+    {
+      "id": 7,
+      "idCurso": 7,
+      "idAlumno": 7
+    },
+    {
+      "id": 8,
+      "idCurso": 1,
+      "idAlumno": 8
+    },
+    {
+      "id": 9,
+      "idCurso": 2,
+      "idAlumno": 9
+    }
+  ]
+}

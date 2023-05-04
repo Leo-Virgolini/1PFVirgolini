@@ -45,6 +45,20 @@ export class ProfesorDialogComponent implements OnInit {
     }
   }
 
+  public onSubmit(): void {
+    this.formulario.markAllAsTouched();
+    this.submitted = true;
+    if (this.formulario.valid) {
+      console.log(this.formulario.value);
+      console.log(this.data);
+      if (this.data) { // Modificacion
+        this.modificarProfesor();
+      } else { // Alta
+        this.altaProfesor();
+      }
+    }
+  }
+
   private passwordsMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       if (this.formulario?.controls['password']?.value !== this.formulario?.controls['repeatPassword']?.value)
@@ -55,42 +69,36 @@ export class ProfesorDialogComponent implements OnInit {
     }
   }
 
-  public onSubmit(): void {
-    this.formulario.markAllAsTouched();
-    this.submitted = true;
-    if (this.formulario.valid) {
-      console.log(this.formulario.value);
-      console.log(this.data);
-      if (this.data) { // Modificacion
-        const profesor: Profesor = this.data;
-        if (profesor) {
-          profesor.nombre = this.formulario.get('nombre')?.value;
-          profesor.apellido = this.formulario.get('apellido')?.value;
-          profesor.fechaNacimiento = this.formulario.get('fechaNacimiento')?.value;
-          profesor.dni = this.formulario.get('dni')?.value;
-          profesor.email = this.formulario.get('email')?.value;
-          profesor.password = this.formulario.get('password')?.value;
-          this.profesorService.modificarProfesor(profesor).subscribe((value) => {
-            this.dialogRef.close(value);
-          });
-        }
-      } else { // Alta
-        let ultimoId: number = 0;
-        if (profesoresData.length > 0)
-          ultimoId = profesoresData[profesoresData.length - 1].id;
-        let profesor: Profesor = new Profesor(ultimoId + 1,
-          this.formulario.get('nombre')?.value,
-          this.formulario.get('apellido')?.value,
-          this.formulario.get('fechaNacimiento')?.value,
-          this.formulario.get('dni')?.value,
-          this.formulario.get('email')?.value,
-          this.formulario.get('password')?.value,
-        );
-        this.profesorService.altaProfesor(profesor).subscribe((value) => {
-          this.dialogRef.close(value);
-        });
-      }
+  private modificarProfesor(): void {
+    const profesor: Profesor | null = this.data;
+    if (profesor) {
+      profesor.nombre = this.formulario.get('nombre')?.value;
+      profesor.apellido = this.formulario.get('apellido')?.value;
+      profesor.fechaNacimiento = this.formulario.get('fechaNacimiento')?.value;
+      profesor.dni = this.formulario.get('dni')?.value;
+      profesor.email = this.formulario.get('email')?.value;
+      profesor.password = this.formulario.get('password')?.value;
+      this.profesorService.modificarProfesor(profesor).subscribe((value) => {
+        this.dialogRef.close(value);
+      });
     }
-
   }
+
+  private altaProfesor(): void {
+    let ultimoId: number = 0;
+    if (profesoresData.length > 0)
+      ultimoId = profesoresData[profesoresData.length - 1].id;
+    let profesor: Profesor = new Profesor(ultimoId + 1,
+      this.formulario.get('nombre')?.value,
+      this.formulario.get('apellido')?.value,
+      this.formulario.get('fechaNacimiento')?.value,
+      this.formulario.get('dni')?.value,
+      this.formulario.get('email')?.value,
+      this.formulario.get('password')?.value,
+    );
+    this.profesorService.altaProfesor(profesor).subscribe((value) => {
+      this.dialogRef.close(value);
+    });
+  }
+
 }
