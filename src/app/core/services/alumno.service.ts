@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import { Alumno } from '../models/alumno';
-import { alumnosData } from '../data';
 import { InscripcionService } from './inscripcion.service';
 import { HttpClient } from '@angular/common/http';
 
@@ -18,23 +17,11 @@ export class AlumnoService {
   }
 
   obtenerAlumnos(): Observable<Alumno[]> {
-
     return this.http.get<Alumno[]>(this.url);
-
-    // if (alumnosData.length > 0)
-    //   this.alumnos.next(alumnosData);
-    // else
-    //   this.alumnos.error(new Error("No hay data."));
-    // // this.alumnos.complete();
-    // return this.alumnos.asObservable();
   }
 
   obtenerAlumno(alumnoId: number): Observable<Alumno | undefined> {
     return this.http.get<Alumno>(this.url + '/' + alumnoId);
-
-    // return this.obtenerAlumnos().pipe(
-    //   map(alumnosData => alumnosData.find(alummno => alummno.id === alumnoId))
-    // );
   }
 
   altaAlumno(alumno: Alumno): Observable<Alumno> {
@@ -51,6 +38,7 @@ export class AlumnoService {
       email: alumno.email,
       password: alumno.password
     };
+
     return this.getUltimoId().
       pipe(
         map((id) => {
@@ -64,33 +52,17 @@ export class AlumnoService {
   }
 
   modificarAlumno(alumno: Alumno): Observable<Alumno> {
-
     return this.http.put<Alumno>(this.url + '/' + alumno.id, alumno);
-
-    // const index = alumnosData.findIndex(a => a.id === alumno.id);
-    // if (index !== -1) {
-    //   alumnosData[index] = alumno;
-    //   this.alumnos.next([...alumnosData]);
-    // }
-
-    // return of(alumno);
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
-
-    return this.http.delete<Alumno>(this.url + '/' + alumno.id);
-    // this.inscripcionService.eliminarInscripciones(alumno.id).subscribe((inscripciones) => { // eliminar Inscripciones asociadas
-    //   const index = alumnosData.findIndex(a => a.id === alumno.id);
-    //   if (index !== -1) {
-    //     alumnosData.splice(index, 1);
-    //     this.alumnos.next([...alumnosData]);
-    //   }
-    // });
-
-    // return of(alumno);
+    return this.inscripcionService.eliminarInscripciones(alumno.id) // Elimina Inscripciones asociadas al Alumno
+      .pipe(
+        switchMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id))
+      );
   }
 
-  getUltimoId(): Observable<number> {
+  private getUltimoId(): Observable<number> {
     return this.http.get<any[]>(this.url)
       .pipe(
         map(alumnos => {

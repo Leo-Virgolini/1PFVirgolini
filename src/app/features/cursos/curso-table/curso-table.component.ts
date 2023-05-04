@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription, forkJoin } from 'rxjs';
+import { Subscription, forkJoin, map } from 'rxjs';
 import { Curso } from 'src/app/core/models/curso';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { CursoDialogComponent } from '../curso-dialog/curso-dialog.component';
@@ -56,18 +56,22 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.push(this.cursoService.obtenerCursos().subscribe({
       next: (cursos) => {
         console.log(cursos);
-        // Create an array of Observables that get all the alumnos for each curso
-        const alumnoObservables = cursos.map((curso) =>
-          this.cursoService.obtenerAlumnos(curso.id),
+        // Create an array of Observables that get all the alumnos and profesor for each curso
+        const cursoObservables = cursos.map((curso) =>
+          forkJoin([
+            this.cursoService.obtenerAlumnos(curso.id),
+            this.cursoService.obtenerProfesor(curso.idProfesor)
+          ]).pipe(
+            map(([alumnos, profesor]) => {
+              curso.alumnos = alumnos;
+              curso.profesor = profesor;
+              return curso;
+            })
+          )
         );
         // Execute all the Observables in parallel and return an array of their results
-        forkJoin(alumnoObservables).subscribe((alumnosArrays) => {
-          // Map each array of alumnos back to their respective curso
-          alumnosArrays.forEach((alumnos, i) => {
-            cursos[i].alumnos = alumnos;
-          });
-
-          this.dataSource.data = cursos;
+        forkJoin(cursoObservables).subscribe((cursosActualizados) => {
+          this.dataSource.data = cursosActualizados;
           this.loading = false;
           console.log("next");
         });

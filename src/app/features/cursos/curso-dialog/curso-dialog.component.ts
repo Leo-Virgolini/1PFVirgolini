@@ -113,11 +113,8 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.cursoService.obtenerCursos()
       .pipe(
         switchMap(cursos => {
-          let ultimoIdCurso: number = 0;
-          if (cursos.length > 0)
-            ultimoIdCurso = cursos[cursos.length - 1].id;
           const alumnos = this.alumnos.filter((alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
-          const curso: Curso = new Curso(ultimoIdCurso + 1,
+          const curso: Curso = new Curso(0,
             this.formulario.get('materia')?.value,
             this.formulario.get('profesor')?.value.id
           );

@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
-import { alumnosData } from 'src/app/core/data';
 import { Alumno } from 'src/app/core/models/alumno';
 import { AlumnoService } from 'src/app/core/services/alumno.service';
 
@@ -104,10 +103,7 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
   }
 
   private altaAlumno(): void {
-    let ultimoId: number = 0;
-    if (alumnosData.length > 0)
-      ultimoId = Number(alumnosData[alumnosData.length - 1].id);
-    const alumno: Alumno = new Alumno(ultimoId + 1,
+    const alumno: Alumno = new Alumno(0,
       this.nombre?.value,
       this.apellido?.value,
       this.fechaNacimiento?.value,

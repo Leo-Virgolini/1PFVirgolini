@@ -97,7 +97,7 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
     }));
   }
 
-  showSnackBar(message: string) {
+  private showSnackBar(message: string) {
     this._snackBar.open(message, "cerrar", {
       duration: 3000,
     });

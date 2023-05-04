@@ -10,28 +10,6 @@ const routes: Routes = [
     component: MenuComponent,
     loadChildren: () => import('./layout/layout.module').then((m) => m.LayoutModule)
   },
-  // {
-  //   path: '',
-  //   component: MainComponent,
-  //   children: [
-  //     {
-  //       path: 'alumnos',
-  //       component: AlumnosTableComponent
-  //     },
-  //     {
-  //       path: 'profesores',
-  //       component: ProfesorTableComponent
-  //     },
-  //     {
-  //       path: 'cursos',
-  //       component: CursoTableComponent
-  //     },
-  //     {
-  //       path: 'inscripciones',
-  //       component: InscripcionTableComponent
-  //     }
-  //   ]
-  // },
   {
     path: '**',
     component: NotFoundComponent
