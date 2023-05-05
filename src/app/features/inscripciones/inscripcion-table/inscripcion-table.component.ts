@@ -31,7 +31,7 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Inscripcion>();
-    this.dataSource.filterPredicate = (data: Inscripcion, filter: string) => data.idCurso === Number(filter?.trim()) || (data.curso ? data.curso.materia.toLowerCase().startsWith(filter.trim().toLowerCase()) : false);
+    this.dataSource.filterPredicate = (data: Inscripcion, filter: string) => data.curso?.id === Number(filter?.trim()) || (data.curso ? data.curso.materia.toLowerCase().startsWith(filter.trim().toLowerCase()) : false);
     this.obtenerInscripciones();
   }
 
@@ -54,38 +54,21 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
   }
 
   obtenerInscripciones(): void {
-    this.subscriptions.push(this.inscripcionService.obtenerInscripciones()
-      .pipe(
-        switchMap(inscripciones => {
-          const observables = inscripciones.map(inscripcion => forkJoin([
-            this.alumnoService.obtenerAlumno(inscripcion.idAlumno),
-            this.cursoService.obtenerCurso(inscripcion.idCurso)
-          ])
-            .pipe(
-              map(([alumno, curso]) => {
-                inscripcion.alumno = alumno;
-                inscripcion.curso = curso;
-                return inscripcion;
-              })
-            ));
-          return forkJoin(observables);
-        })
-      ).subscribe({
-        next: (inscripciones) => {
-          this.dataSource.data = inscripciones;
-          this.loading = false;
-          console.log("next");
-        },
-        error: () => {
-          this.loading = false;
-          this.showSnackBar("Se ha producido un error al obtener los datos.");
-          console.log("error");
-        },
-        complete: () => {
-          this.loading = false;
-          console.log("complete");
-        }
-      }));
+    this.subscriptions.push(this.inscripcionService.obtenerInscripciones().subscribe({
+      next: (inscripciones) => {
+        this.dataSource.data = inscripciones;
+        console.log("next");
+      },
+      error: () => {
+        this.loading = false;
+        this.showSnackBar("Se ha producido un error al obtener los datos.");
+        console.log("error");
+      },
+      complete: () => {
+        this.loading = false;
+        console.log("complete");
+      }
+    }));
   }
 
   altaInscripcion(): void {

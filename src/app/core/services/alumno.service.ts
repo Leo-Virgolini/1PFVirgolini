@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import { Alumno } from '../models/alumno';
-import { InscripcionService } from './inscripcion.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environments.prod';
+import { Inscripcion } from '../models/inscripcion';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AlumnoService {
 
-  private readonly url: string = "http://localhost:3000/alumnos";
+  private readonly url: string = environment.url + "/alumnos";
   private alumnos!: BehaviorSubject<Alumno[]>;
 
-  constructor(private http: HttpClient, private inscripcionService: InscripcionService) {
+  constructor(private http: HttpClient) {
     this.alumnos = new BehaviorSubject<Alumno[]>([]);
   }
 
@@ -20,7 +21,7 @@ export class AlumnoService {
     return this.http.get<Alumno[]>(this.url);
   }
 
-  obtenerAlumno(alumnoId: number): Observable<Alumno | undefined> {
+  obtenerAlumno(alumnoId: number): Observable<Alumno> {
     return this.http.get<Alumno>(this.url + '/' + alumnoId);
   }
 
@@ -56,9 +57,12 @@ export class AlumnoService {
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.inscripcionService.eliminarInscripciones(alumno.id) // Elimina Inscripciones asociadas al Alumno
+    return this.eliminarInscripciones(alumno.id!) // Elimina Inscripciones asociadas al Alumno
       .pipe(
-        switchMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id))
+        switchMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id)
+          .pipe(
+            map(() => alumno)
+          ))
       );
   }
 
@@ -75,6 +79,10 @@ export class AlumnoService {
           return ultimoId;
         })
       );
+  }
+
+  eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
+    return this.http.delete<Inscripcion[]>(environment.url + '/inscripciones?idAlumno=' + alumnoId);
   }
 
 }

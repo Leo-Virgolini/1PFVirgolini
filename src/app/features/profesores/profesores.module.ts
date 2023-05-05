@@ -11,24 +11,24 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FeaturesModule } from '../features.module';
 import { ProfesoresRoutingModule } from './profesores-routing.module';
+import { MatListModule } from '@angular/material/list';
+import { ProfesorDetailsComponent } from './profesor-detail/profesor-detail.component';
 
 
 @NgModule({
   declarations: [
     ProfesorTableComponent,
-    ProfesorDialogComponent
+    ProfesorDialogComponent,
+    ProfesorDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +37,7 @@ import { ProfesoresRoutingModule } from './profesores-routing.module';
     MatIconModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
@@ -44,13 +45,10 @@ import { ProfesoresRoutingModule } from './profesores-routing.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatPaginatorModule,
     MatButtonModule,
-    MatListModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatToolbarModule,
     MatCheckboxModule,
+    MatListModule,
 
     FeaturesModule,
     ReactiveFormsModule,

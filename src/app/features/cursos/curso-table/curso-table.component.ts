@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription, forkJoin, map } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Curso } from 'src/app/core/models/curso';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { CursoDialogComponent } from '../curso-dialog/curso-dialog.component';
@@ -30,7 +30,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Curso>();
-    this.dataSource.filterPredicate = (data: Curso, filter: string) => data.materia?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+    this.dataSource.filterPredicate = (data: Curso, filter: string) => data.materia.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerCursos();
   }
 
@@ -56,25 +56,8 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.push(this.cursoService.obtenerCursos().subscribe({
       next: (cursos) => {
         console.log(cursos);
-        // Create an array of Observables that get all the alumnos and profesor for each curso
-        const cursoObservables = cursos.map((curso) =>
-          forkJoin([
-            this.cursoService.obtenerAlumnos(curso.id),
-            this.cursoService.obtenerProfesor(curso.idProfesor)
-          ]).pipe(
-            map(([alumnos, profesor]) => {
-              curso.alumnos = alumnos;
-              curso.profesor = profesor;
-              return curso;
-            })
-          )
-        );
-        // Execute all the Observables in parallel and return an array of their results
-        forkJoin(cursoObservables).subscribe((cursosActualizados) => {
-          this.dataSource.data = cursosActualizados;
-          this.loading = false;
-          console.log("next");
-        });
+        this.dataSource.data = cursos;
+        console.log("next");
       },
       error: (error) => {
         this.loading = false;
@@ -82,7 +65,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
         console.log("error");
       },
       complete: () => {
-        // this.loading = false;
+        this.loading = false;
         console.log("complete");
       }
     }));
@@ -91,8 +74,11 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
   altaCurso(): void {
     const dialog = this.dialogService.open(CursoDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe((curso: Curso) => {
-      if (curso?.id && curso?.materia && curso?.idProfesor) {
-        this.cursoService.altaCurso(curso).subscribe((c) => this.showSnackBar("Curso ID: " + c.id + " creado."));
+      if (curso?.id && curso?.materia && curso?.profesor?.id) {
+        this.cursoService.altaCurso(curso).subscribe((c) => {
+          this.obtenerCursos();
+          this.showSnackBar("Curso ID: " + c.id + " creado.");
+        });
       }
     }));
   }
@@ -100,7 +86,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
   eliminarCurso(curso: Curso): void {
     this.subscriptions.push(this.cursoService.eliminarCurso(curso).subscribe((c) => {
       // this.obtenerCursos();
-      this.showSnackBar("Curso ID: " + c.id + " eliminado.")
+      this.showSnackBar("Curso ID: " + c.id + " eliminado.");
     }));
   }
 
@@ -116,7 +102,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     }));
   }
 
-  showSnackBar(message: string) {
+  private showSnackBar(message: string) {
     this._snackBar.open(message, "cerrar", {
       duration: 3000,
     });

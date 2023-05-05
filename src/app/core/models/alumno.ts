@@ -21,47 +21,44 @@ export class Alumno extends Usuario {
         this._calle = calle;
     }
 
-
-    public set nombre(nombre: string) {
-        this._nombre = nombre;
-    }
-
     public get nombre(): string {
-        return this._nombre
+        return this._nombre;
     }
-
-    public set apellido(apellido: string) {
-        this._apellido = apellido;
+    public set nombre(value: string) {
+        this._nombre = value;
     }
 
     public get apellido(): string {
-        return this._apellido
+        return this._apellido;
+    }
+    public set apellido(value: string) {
+        this._apellido = value;
     }
 
-    public set fechaNacimiento(fechaNacimiento: Date) {
-        this._fechaNacimiento = fechaNacimiento;
+    public get fechaNacimiento(): Date {
+        return this._fechaNacimiento;
+    }
+    public set fechaNacimiento(value: Date) {
+        this._fechaNacimiento = value;
     }
 
     public get dni(): string {
         return this._dni;
     }
-
     public set dni(value: string) {
         this._dni = value;
-    }
-
-    public get fechaNacimiento(): Date {
-        return this._fechaNacimiento
     }
 
     public get provincia(): string {
         return this._provincia;
     }
+    public set provincia(value: string) {
+        this._provincia = value;
+    }
 
     public get localidad(): string {
         return this._localidad;
     }
-
     public set localidad(value: string) {
         this._localidad = value;
     }
@@ -69,13 +66,8 @@ export class Alumno extends Usuario {
     public get calle(): string {
         return this._calle;
     }
-
     public set calle(value: string) {
         this._calle = value;
-    }
-
-    public set provincia(value: string) {
-        this._provincia = value;
     }
 
 }

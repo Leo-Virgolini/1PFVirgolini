@@ -8,7 +8,7 @@ export class SortPipe implements PipeTransform {
 
   transform(value: Alumno[], ...args: unknown[]): Alumno[] {
     return value.sort(function (a, b) {
-      return a.id - b.id;
+      return a.id! - b.id!;
     });
   }
 

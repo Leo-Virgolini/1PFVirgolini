@@ -1,3 +1,4 @@
+import { Curso } from "./curso";
 import { Usuario } from "./usuario";
 
 export class Profesor extends Usuario {
@@ -6,14 +7,15 @@ export class Profesor extends Usuario {
     private _apellido: string;
     private _fechaNacimiento: Date;
     private _dni: string;
-    private _cursos: string | undefined;
+    private _cursos: Curso[] | undefined;
 
-    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, email: string, password: string) {
+    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, email: string, password: string, cursos?: Curso[]) {
         super(id, email, password);
         this._nombre = nombre;
         this._apellido = apellido;
         this._fechaNacimiento = fechaNacimiento;
         this._dni = dni;
+        this._cursos = cursos;
     }
 
     public get nombre(): string {
@@ -44,10 +46,10 @@ export class Profesor extends Usuario {
         this._dni = value;
     }
 
-    public get cursos(): string | undefined {
+    public get cursos(): Curso[] | undefined {
         return this._cursos;
     }
-    public set cursos(value: string | undefined) {
+    public set cursos(value: Curso[] | undefined) {
         this._cursos = value;
     }
 

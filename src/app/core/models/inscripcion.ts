@@ -4,15 +4,13 @@ import { Curso } from "./curso";
 export class Inscripcion {
 
     private _id: number;
-    private _idCurso: number;
-    private _idAlumno: number;
-    private _curso: Curso | undefined;
-    private _alumno: Alumno | undefined;
+    private _curso: Curso;
+    private _alumno: Alumno;
 
-    constructor(id: number, idCurso: number, idAlumno: number) {
+    constructor(id: number, curso: Curso, alumno: Alumno) {
         this._id = id;
-        this._idCurso = idCurso;
-        this._idAlumno = idAlumno;
+        this._curso = curso;
+        this._alumno = alumno;
     }
 
     public get id(): number {
@@ -22,31 +20,17 @@ export class Inscripcion {
         this._id = value;
     }
 
-    public get idCurso(): number {
-        return this._idCurso;
-    }
-    public set idCurso(value: number) {
-        this._idCurso = value;
-    }
-
-    public get idAlumno(): number {
-        return this._idAlumno;
-    }
-    public set idAlumno(value: number) {
-        this._idAlumno = value;
-    }
-
-    public get curso(): Curso | undefined {
+    public get curso(): Curso {
         return this._curso;
     }
-    public set curso(value: Curso | undefined) {
+    public set curso(value: Curso) {
         this._curso = value;
     }
 
-    public get alumno(): Alumno | undefined {
+    public get alumno(): Alumno {
         return this._alumno;
     }
-    public set alumno(value: Alumno | undefined) {
+    public set alumno(value: Alumno) {
         this._alumno = value;
     }
 

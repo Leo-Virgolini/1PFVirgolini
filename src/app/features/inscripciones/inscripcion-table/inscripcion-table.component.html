@@ -4,7 +4,7 @@
     <app-spinner></app-spinner>
 </ng-container>
 
-<ng-container *ngIf="!loading">
+<div [hidden]="loading">
 
     <div>
         <button mat-raised-button color="accent" class="ml-3 mb-3" (click)="altaInscripcion()">
@@ -29,14 +29,14 @@
         <ng-container matColumnDef="curso">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Curso </th>
             <td mat-cell *matCellDef="let inscripcion">
-                <a [routerLink]="['/inscripciones/', inscripcion.idCurso]">{{inscripcion.idCurso + " - " +
+                <a [routerLink]="['/cursos/', inscripcion.curso.id]">{{inscripcion.curso.id + " - " +
                     inscripcion.curso?.materia}}</a>
             </td>
         </ng-container>
         <ng-container matColumnDef="alumno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Alumno </th>
             <td mat-cell *matCellDef="let inscripcion">
-                <a [routerLink]="['/profesores/', inscripcion.idAlumno]">{{inscripcion.idAlumno + " - " +
+                <a [routerLink]="['/alumnos/', inscripcion.alumno.id]">{{inscripcion.alumno.id + " - " +
                     inscripcion.alumno?.apellido + ", " + inscripcion.alumno?.nombre}}</a>
             </td>
         </ng-container>
@@ -63,4 +63,4 @@
 
     <mat-paginator [pageSize]="25" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 
-</ng-container>
+</div>

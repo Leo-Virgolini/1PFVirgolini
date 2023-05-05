@@ -11,23 +11,23 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatListModule } from '@angular/material/list';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FeaturesModule } from '../features.module';
 import { AlumnosRoutingModule } from './alumnos-routing.module';
+import { AlumnoDetailsComponent } from './alumno-detail/alumno-detail.component';
 
 @NgModule({
   declarations: [
     AlumnoTableComponent,
-    AlumnoDialogComponent
+    AlumnoDialogComponent,
+    AlumnoDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -36,6 +36,7 @@ import { AlumnosRoutingModule } from './alumnos-routing.module';
     MatIconModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
@@ -43,13 +44,10 @@ import { AlumnosRoutingModule } from './alumnos-routing.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatPaginatorModule,
     MatButtonModule,
-    MatListModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatToolbarModule,
     MatCheckboxModule,
+    MatListModule,
 
     ReactiveFormsModule,
     FeaturesModule,

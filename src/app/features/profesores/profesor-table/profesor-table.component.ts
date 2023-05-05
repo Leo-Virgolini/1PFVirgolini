@@ -30,7 +30,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Profesor>();
-    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerProfesores();
   }
 
@@ -59,7 +59,6 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
         this.dataSource.data = profesores;
         console.log("next");
         // this.dataSource.sort = this.sort;
-        this.loading = false;
       },
       error: (error) => {
         this.loading = false;

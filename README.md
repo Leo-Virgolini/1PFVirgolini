@@ -6,4 +6,4 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 Run JSON Server:
-json-server --watch database/db.json --delay 500
+json-server --watch database/db.json --delay 200

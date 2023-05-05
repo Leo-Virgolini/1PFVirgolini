@@ -5,14 +5,14 @@ export class Curso {
 
     private _id: number;
     private _materia: string;
-    private _idProfesor: number | undefined;
     private _alumnos: Alumno[] | undefined;
     private _profesor: Profesor | undefined;
 
-    constructor(id: number, materia: string, idProfesor: number) {
+    constructor(id: number, materia: string, profesor?: Profesor, alumnos?: Alumno[]) {
         this._id = id;
         this._materia = materia;
-        this._idProfesor = idProfesor;
+        this._alumnos = alumnos;
+        this._profesor = profesor;
     }
 
     public get id(): number {
@@ -27,13 +27,6 @@ export class Curso {
     }
     public set materia(value: string) {
         this._materia = value;
-    }
-
-    public get idProfesor(): number | undefined {
-        return this._idProfesor;
-    }
-    public set idProfesor(value: number | undefined) {
-        this._idProfesor = value;
     }
 
     public get alumnos(): Alumno[] | undefined {

@@ -1,22 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
 import { Inscripcion } from '../models/inscripcion';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environments.prod';
+import { CursoService } from './curso.service';
+import { AlumnoService } from './alumno.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InscripcionService {
 
-  private readonly url: string = "http://localhost:3000/inscripciones";
+  private readonly url: string = environment.url + "/inscripciones";
   private inscripciones!: BehaviorSubject<Inscripcion[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cursoService: CursoService, private alumnoService: AlumnoService) {
     this.inscripciones = new BehaviorSubject<Inscripcion[]>([]);
   }
 
   obtenerInscripciones(): Observable<Inscripcion[]> {
-    return this.http.get<Inscripcion[]>(this.url);
+    return this.http.get<any[]>(this.url)
+      .pipe(
+        mergeMap((inscripciones: any[]) => {
+          const observables = inscripciones.map((inscripcion: any) =>
+            forkJoin([
+              this.cursoService.obtenerCurso(inscripcion.idCurso), // obtengo Curso
+              this.alumnoService.obtenerAlumno(inscripcion.idAlumno) // obtengo Alumno
+            ])
+              .pipe(
+                map(([curso, alumno]) => new Inscripcion(inscripcion.id, curso, alumno))
+              )
+          );
+
+          return forkJoin(observables);
+        })
+      );
   }
 
   obtenerInscripcionesPorCurso(cursoId: number): Observable<Inscripcion[] | undefined> {
@@ -42,8 +60,8 @@ export class InscripcionService {
   altaInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
     const inscripcionData = {
       id: inscripcion.id,
-      idCurso: inscripcion.idCurso,
-      idAlumno: inscripcion.idAlumno
+      idCurso: inscripcion.curso?.id,
+      idAlumno: inscripcion.alumno?.id
     };
     return this.getUltimoId().
       pipe(
@@ -62,7 +80,10 @@ export class InscripcionService {
   }
 
   eliminarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
-    return this.http.delete<Inscripcion>(this.url + '/' + inscripcion.id);
+    return this.http.delete<Inscripcion>(this.url + '/' + inscripcion.id)
+      .pipe(
+        map(() => inscripcion)
+      );
   }
 
   // eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
@@ -74,10 +95,6 @@ export class InscripcionService {
   //       })
   //     );
   // }
-
-  eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
-    return this.http.delete<Inscripcion[]>(this.url + '?idAlumno=' + alumnoId);
-  }
 
   private getUltimoId(): Observable<number> {
     return this.http.get<any[]>(this.url)

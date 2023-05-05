@@ -30,13 +30,14 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Alumno>();
-    this.dataSource.filterPredicate = (data: Alumno, filter: string) => data.apellido?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+    this.dataSource.filterPredicate = (data: Alumno, filter: string) => data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerAlumnos();
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log("sort", this.sort);
   }
 
   ngOnDestroy(): void {
@@ -58,7 +59,7 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
       next: (alumnos) => {
         console.log(alumnos);
         this.dataSource.data = alumnos;
-        this.loading = false;
+        // this.dataSource.sort = this.sort;
       },
       error: (error) => {
         console.log(error);
@@ -67,6 +68,7 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
       },
       complete: () => {
         console.log("complete");
+        this.dataSource.sort = this.sort;
         this.loading = false;
       }
     }));

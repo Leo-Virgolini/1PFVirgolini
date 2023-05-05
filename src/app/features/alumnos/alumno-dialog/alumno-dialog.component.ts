@@ -55,7 +55,7 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       this.alumnoId = this.data.id;
       this.nombre?.patchValue(this.data.nombre);
       this.apellido?.patchValue(this.data.apellido);
-      this.fechaNacimiento?.patchValue(new Date(this.data.fechaNacimiento));
+      this.fechaNacimiento?.patchValue(this.data.fechaNacimiento);
       this.dni?.patchValue(this.data.dni);
       this.provincia?.patchValue(this.data.provincia);
       this.localidad?.patchValue(this.data.localidad);

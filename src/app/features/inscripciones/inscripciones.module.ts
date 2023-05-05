@@ -10,18 +10,16 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FeaturesModule } from '../features.module';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { InscripcionesRoutingModule } from './inscripciones-routing.module';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -34,6 +32,7 @@ import { InscripcionesRoutingModule } from './inscripciones-routing.module';
     MatIconModule,
     MatTableModule,
     MatSortModule,
+    MatPaginatorModule,
     MatDialogModule,
     MatInputModule,
     MatFormFieldModule,
@@ -41,13 +40,10 @@ import { InscripcionesRoutingModule } from './inscripciones-routing.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatPaginatorModule,
     MatButtonModule,
-    MatListModule,
     MatSelectModule,
-    MatSidenavModule,
-    MatToolbarModule,
     MatCheckboxModule,
+    MatListModule,
 
     ReactiveFormsModule,
     FeaturesModule,

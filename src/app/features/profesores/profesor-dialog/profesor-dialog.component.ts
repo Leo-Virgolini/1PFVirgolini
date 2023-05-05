@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { profesoresData } from 'src/app/core/data';
 import { Profesor } from 'src/app/core/models/profesor';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 
@@ -85,10 +84,7 @@ export class ProfesorDialogComponent implements OnInit {
   }
 
   private altaProfesor(): void {
-    let ultimoId: number = 0;
-    if (profesoresData.length > 0)
-      ultimoId = profesoresData[profesoresData.length - 1].id;
-    let profesor: Profesor = new Profesor(ultimoId + 1,
+    let profesor: Profesor = new Profesor(0,
       this.formulario.get('nombre')?.value,
       this.formulario.get('apellido')?.value,
       this.formulario.get('fechaNacimiento')?.value,

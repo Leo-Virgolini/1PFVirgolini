@@ -1,0 +1,31 @@
+<button mat-raised-button color="primary" class="ms-2 mt-1 mb-3" (click)="volver()">Volver</button>
+
+<ng-container *ngIf="loading">
+    <app-spinner></app-spinner>
+</ng-container>
+
+<div [hidden]="loading">
+
+    <h3 class="ml-3">Curso</h3>
+    <mat-list *ngIf="curso">
+        <mat-list-item>
+            <span matListItemTitle>ID: </span>
+            <span matListItemLine>{{curso.id}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Materia: </span>
+            <span matListItemLine>{{curso.materia}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Profesor: </span>
+            <span matListItemLine>{{curso.profesor?.id + " - " + curso.profesor?.apellido + ", " +
+                curso.profesor?.nombre}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Alumnos: </span>
+            <span *ngFor="let alumno of curso.alumnos" matListItemLine>{{alumno.id + " - " + alumno.apellido + ", " +
+                alumno.nombre}}</span>
+        </mat-list-item>
+    </mat-list>
+
+</div>

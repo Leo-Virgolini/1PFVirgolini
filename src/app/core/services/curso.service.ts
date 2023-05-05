@@ -1,33 +1,63 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
 import { Curso } from '../models/curso';
 import { Inscripcion } from '../models/inscripcion';
 import { Alumno } from '../models/alumno';
 import { Profesor } from '../models/profesor';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environments.prod';
+import { ProfesorService } from './profesor.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CursoService {
 
-  private readonly url: string = "http://localhost:3000/cursos";
+  private readonly url: string = environment.url + "/cursos";
   private cursos: BehaviorSubject<Curso[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private profesorService: ProfesorService) {
     this.cursos = new BehaviorSubject<Curso[]>([]);
   }
 
   obtenerCursos(): Observable<Curso[]> {
-    return this.http.get<Curso[]>(this.url);
+
+    return this.http.get<any[]>(this.url).
+      pipe(
+        mergeMap((cursos: any[]) => {
+          const observables = cursos.map((curso: any) =>
+            forkJoin([
+              this.profesorService.obtenerProfesor(curso.idProfesor), // obtengo Profesor
+              this.obtenerAlumnos(curso.id) // obtengo sus Alumnos
+            ])
+              .pipe(
+                map(([profesor, alumnos]) => new Curso(curso.id, curso.materia, profesor, alumnos))
+              )
+          );
+
+          return forkJoin(observables);
+        })
+      );
   }
 
-  obtenerCurso(cursoId: number): Observable<Curso | undefined> {
-    return this.http.get<Curso>(this.url + '/' + cursoId);
+  obtenerCurso(cursoId: number): Observable<Curso> {
+    return this.http.get<any>(this.url + '/' + cursoId).pipe(
+      mergeMap((curso: any) =>
+        forkJoin([
+          this.profesorService.obtenerProfesor(curso.idProfesor),
+          this.obtenerAlumnos(curso.id)
+        ]).pipe(
+          map(([profesor, alumnos]) => new Curso(curso.id, curso.materia, profesor, alumnos))
+        )
+      )
+    );
   }
 
   eliminarCurso(curso: Curso): Observable<Curso> {
-    return this.http.delete<Curso>(this.url + '/' + curso.id);
+    return this.http.delete<Curso>(this.url + '/' + curso.id)
+      .pipe(
+        map(() => curso)
+      );
   }
 
   altaCurso(curso: Curso): Observable<Curso> {
@@ -35,7 +65,7 @@ export class CursoService {
     const cursoData = {
       id: curso.id,
       materia: curso.materia,
-      idProfesor: curso.idProfesor
+      idProfesor: curso.profesor ? curso.profesor.id : undefined
     };
 
     return this.getUltimoId().
@@ -55,7 +85,7 @@ export class CursoService {
   }
 
   obtenerAlumnos(cursoId: number): Observable<Alumno[] | undefined> {
-    return this.http.get<Inscripcion[]>(`http://localhost:3000/inscripciones?idCurso=${cursoId}`)
+    return this.http.get<any[]>(`http://localhost:3000/inscripciones?idCurso=${cursoId}`)
       .pipe(
         switchMap(inscripciones =>
           forkJoin(
@@ -78,7 +108,7 @@ export class CursoService {
   }
 
   bajaProfesorCurso(curso: Curso): Observable<Curso> {
-    curso.idProfesor = undefined;
+    curso.profesor = undefined;
     return this.http.put<Curso>(this.url + '/' + curso.id, curso);
   }
 

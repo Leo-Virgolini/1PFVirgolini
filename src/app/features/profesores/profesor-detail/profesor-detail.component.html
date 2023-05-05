@@ -1,0 +1,41 @@
+<button mat-raised-button color="primary" class="ms-2 mt-1 mb-3" (click)="volver()">Volver</button>
+
+<ng-container *ngIf="loading">
+    <app-spinner></app-spinner>
+</ng-container>
+
+<div [hidden]="loading">
+
+    <h3 class="ml-3">Profesor</h3>
+    <mat-list *ngIf="profesor">
+        <mat-list-item>
+            <span matListItemTitle>ID: </span>
+            <span matListItemLine>{{profesor.id}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Nombre: </span>
+            <span matListItemLine>{{profesor.nombre}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Apellido: </span>
+            <span matListItemLine>{{profesor.apellido}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Fecha de nacimiento: </span>
+            <span matListItemLine>{{profesor.fechaNacimiento | date:'dd/MM/yyyy'}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>DNI: </span>
+            <span matListItemLine>{{profesor.dni}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Email: </span>
+            <span matListItemLine>{{profesor.email}}</span>
+        </mat-list-item>
+        <mat-list-item>
+            <span matListItemTitle>Password: </span>
+            <span matListItemLine>{{profesor.password}}</span>
+        </mat-list-item>
+    </mat-list>
+
+</div>

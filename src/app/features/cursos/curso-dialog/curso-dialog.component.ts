@@ -56,8 +56,8 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
             selectedAlumnos = this.alumnos.map(alumno => alumnos.findIndex(selectedAlumno => selectedAlumno?.id == alumno?.id) > -1);
           this.formulario.get('alumnos')?.patchValue(selectedAlumnos);
         }));
-        if (curso.idProfesor)
-          this.subscriptions.push(this.cursoService.obtenerProfesor(curso.idProfesor).subscribe(profesor => this.formulario.get('profesor')?.patchValue(profesor)));
+        if (curso.profesor?.id)
+          this.subscriptions.push(this.cursoService.obtenerProfesor(curso.profesor.id).subscribe(profesor => this.formulario.get('profesor')?.patchValue(profesor)));
         this.formulario.get('materia')?.patchValue(curso.materia);
       }
       this.loading = false;
@@ -74,9 +74,9 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
     if (this.formulario.valid) {
       console.log(this.formulario.value);
       console.log(this.data);
-      if (this.data) { // Modificacion
+      if (this.data) {
         this.modificarCurso();
-      } else { // Alta
+      } else {
         this.altaCurso();
       }
     }
@@ -86,12 +86,12 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
     const curso: Curso | null = this.data;
     if (curso) {
       curso.materia = this.formulario.get('materia')?.value;
-      curso.idProfesor = this.formulario.get('profesor')?.value.id;
+      curso.profesor ? (curso.profesor.id = this.formulario.get('profesor')?.value.id) : (curso.profesor = undefined);
       const alumnosSeleccionados: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
       // Add Inscripciones for newly selected Alumnos
       alumnosSeleccionados.forEach(alumno => {
         if (!curso.alumnos?.includes(alumno)) {
-          this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso.id, alumno.id)).subscribe((i) => console.log(i)));
+          this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso, alumno)).subscribe((i) => console.log(i)));
         }
       });
       // Remove Inscripciones for deselected Alumnos
@@ -119,7 +119,7 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
             this.formulario.get('profesor')?.value.id
           );
           alumnos.forEach(alumno => {
-            this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso.id, alumno.id)).subscribe((i) => console.log(i)));
+            this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso, alumno)).subscribe((i) => console.log(i)));
           });
           return of(curso);
         })
