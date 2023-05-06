@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription, of } from 'rxjs';
+import { Subscription, forkJoin, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { Alumno } from 'src/app/core/models/alumno';
 import { Curso } from 'src/app/core/models/curso';
@@ -36,31 +36,38 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.push(this.profesorService.obtenerProfesores().subscribe((profesores) => this.profesores = profesores));
-    this.subscriptions.push(this.alumnoService.obtenerAlumnos().subscribe((alumnos) => {
+    const obtenerProfesores$ = this.profesorService.obtenerProfesores();
+    const obtenerAlumnos$ = this.alumnoService.obtenerAlumnos();
+    this.subscriptions.push(forkJoin({ profesores: obtenerProfesores$, alumnos: obtenerAlumnos$ }).subscribe(({ profesores, alumnos }) => {
+      this.profesores = profesores;
       this.alumnos = alumnos;
       this.formulario = this.formBuilder.group({
         materia: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
         profesor: ['', [Validators.required]],
-        alumnos: this.alumnos ? this.formBuilder.array(this.alumnos.map(() =>
-          this.formBuilder.control(false))) : this.formBuilder.array([])
+        alumnos: this.alumnos ? this.formBuilder.array(this.alumnos.map(() => this.formBuilder.control(false))) : this.formBuilder.array([])
       });
       console.log(this.data);
       if (this.data) {
         const curso: Curso = this.data;
         this.cursoId = curso.id;
-        this.subscriptions.push(this.cursoService.obtenerAlumnos(curso.id).subscribe(alumnos => {
+        const obtenerAlumnosCurso$ = this.cursoService.obtenerAlumnos(curso.id);
+        const obtenerProfesorCurso$ = curso.profesor?.id ? this.cursoService.obtenerProfesor(curso.profesor.id) : of(null);
+        this.subscriptions.push(forkJoin({ alumnos: obtenerAlumnosCurso$, profesor: obtenerProfesorCurso$ }).subscribe(({ alumnos, profesor }) => {
           curso.alumnos = alumnos;
           let selectedAlumnos: boolean[] = [];
-          if (alumnos)
+          if (alumnos) {
             selectedAlumnos = this.alumnos.map(alumno => alumnos.findIndex(selectedAlumno => selectedAlumno?.id == alumno?.id) > -1);
+          }
           this.formulario.get('alumnos')?.patchValue(selectedAlumnos);
+          if (profesor) {
+            this.formulario.get('profesor')?.patchValue(profesor);
+          }
+          this.formulario.get('materia')?.patchValue(curso.materia);
+          this.loading = false;
         }));
-        if (curso.profesor?.id)
-          this.subscriptions.push(this.cursoService.obtenerProfesor(curso.profesor.id).subscribe(profesor => this.formulario.get('profesor')?.patchValue(profesor)));
-        this.formulario.get('materia')?.patchValue(curso.materia);
+      } else {
+        this.loading = false;
       }
-      this.loading = false;
     }));
   }
 

@@ -54,6 +54,7 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
   }
 
   obtenerInscripciones(): void {
+    this.loading = true;
     this.subscriptions.push(this.inscripcionService.obtenerInscripciones().subscribe({
       next: (inscripciones) => {
         this.dataSource.data = inscripciones;
@@ -76,7 +77,8 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
 
   eliminarInscripcion(inscripcion: Inscripcion): void {
     this.subscriptions.push(this.inscripcionService.eliminarInscripcion(inscripcion).subscribe((i) => {
-      this.showSnackBar("Inscripción ID: " + i.id + " eliminada.")
+      this.obtenerInscripciones();
+      this.showSnackBar("Inscripción ID: " + i.id + " eliminada.");
     }));
   }
 

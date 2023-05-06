@@ -21,7 +21,6 @@ export class CursoService {
   }
 
   obtenerCursos(): Observable<Curso[]> {
-
     return this.http.get<any[]>(this.url).
       pipe(
         mergeMap((cursos: any[]) => {
