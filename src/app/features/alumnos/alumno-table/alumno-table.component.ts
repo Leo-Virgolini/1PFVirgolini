@@ -37,7 +37,6 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log("sort", this.sort);
   }
 
   ngOnDestroy(): void {
@@ -59,7 +58,6 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
       next: (alumnos) => {
         console.log(alumnos);
         this.dataSource.data = alumnos;
-        // this.dataSource.sort = this.sort;
       },
       error: (error) => {
         console.log(error);
@@ -76,8 +74,9 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
 
   altaAlumno(): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent);
-    this.subscriptions.push(dialog.afterClosed().subscribe((alumno) => {
+    this.subscriptions.push(dialog.afterClosed().subscribe((alumno: Alumno) => {
       if (alumno?.nombre && alumno?.apellido && alumno?.fechaNacimiento && alumno?.dni && alumno?.provincia && alumno?.localidad && alumno?.calle && alumno?.email && alumno?.password) {
+        this.obtenerAlumnos();
         this.showSnackBar("Alumno ID: " + alumno.id + " creado.");
       }
     }));

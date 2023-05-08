@@ -3,11 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription, catchError, forkJoin, of, switchMap, tap } from 'rxjs';
 import { Curso } from 'src/app/core/models/curso';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { CursoDialogComponent } from '../curso-dialog/curso-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { Inscripcion } from 'src/app/core/models/inscripcion';
+import { InscripcionService } from 'src/app/core/services/inscripcion.service';
 
 @Component({
   selector: 'app-curso-table',
@@ -26,7 +28,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
   public loading: boolean;
   private subscriptions!: Subscription[];
 
-  constructor(private cursoService: CursoService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private cursoService: CursoService, private inscripcionService: InscripcionService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Curso>();
@@ -74,10 +76,15 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
   altaCurso(): void {
     const dialog = this.dialogService.open(CursoDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe((curso: Curso) => {
-      if (curso?.id && curso?.materia && curso?.profesor?.id) {
-        this.cursoService.altaCurso(curso).subscribe((c) => {
-          this.obtenerCursos();
-          this.showSnackBar("Curso ID: " + c.id + " creado.");
+      if (curso) {
+        this.cursoService.altaCurso(curso).subscribe((cursoCreado) => {
+          const altaInscripcionesObservables: Observable<any>[] = curso.alumnos?.map(alumno => {
+            return this.inscripcionService.altaInscripcion(new Inscripcion(0, cursoCreado, alumno));
+          }) || [];
+          forkJoin(altaInscripcionesObservables).subscribe(() => {
+            this.obtenerCursos();
+            this.showSnackBar("Curso ID: " + cursoCreado.id + " creado.");
+          });
         });
       }
     }));
@@ -85,7 +92,7 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
 
   eliminarCurso(curso: Curso): void {
     this.subscriptions.push(this.cursoService.eliminarCurso(curso).subscribe((c) => {
-      // this.obtenerCursos();
+      this.obtenerCursos();
       this.showSnackBar("Curso ID: " + c.id + " eliminado.");
     }));
   }
@@ -93,11 +100,9 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
   modificarCurso(curso: Curso): void {
     const dialog = this.dialogService.open(CursoDialogComponent, { data: curso });
     this.subscriptions.push(dialog.afterClosed().subscribe((cursoModificado) => {
-      if (cursoModificado?.materia && cursoModificado?.profesor) {
+      if (cursoModificado) {
         // this.obtenerCursos();
-        this.cursoService.modificarCurso(cursoModificado).subscribe((c) => {
-          this.showSnackBar("Curso ID: " + c.id + " modificado.");
-        })
+        this.showSnackBar("Curso ID: " + cursoModificado.id + " modificado.");
       }
     }));
   }

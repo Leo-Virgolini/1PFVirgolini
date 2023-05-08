@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
 import { Profesor } from '../models/profesor';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
 import { CursoService } from './curso.service';
 import { Curso } from '../models/curso';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ProfesorService {
   private readonly url: string = environment.url + "/profesores";
   private profesores!: BehaviorSubject<Profesor[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private datePipe: DatePipe) {
     this.profesores = new BehaviorSubject<Profesor[]>([]);
   }
 
@@ -34,42 +35,50 @@ export class ProfesorService {
       );
   }
 
-  obtenerProfesor(profesorId: number): Observable<Profesor> {
-    return this.http.get<Profesor>(this.url + '/' + profesorId);
+  obtenerProfesor(profesorId: number): Observable<Profesor | null> {
+    console.log("profesorId", profesorId);
+    if (profesorId)
+      return this.http.get<Profesor>(this.url + '/' + profesorId);
+    else
+      return of(null);
   }
 
   altaProfesor(profesor: Profesor): Observable<Profesor> {
 
     const profesorData = {
-      id: profesor.id,
       nombre: profesor.nombre,
       apellido: profesor.apellido,
-      fechaNacimiento: profesor.fechaNacimiento,
+      fechaNacimiento: this.datePipe.transform(new Date(profesor.fechaNacimiento), 'yyyy-MM-dd'),
       dni: profesor.dni,
       email: profesor.email,
       password: profesor.password
     };
 
-    return this.getUltimoId().
-      pipe(
-        map((id) => {
-          profesorData.id = id + 1;
-          return profesorData;
-        }),
-        switchMap((p) => {
-          return this.http.post<Profesor>(this.url, p);
-        })
-      );
+    return this.http.post<Profesor>(this.url, profesorData);
   }
 
   modificarProfesor(profesor: Profesor): Observable<Profesor> {
-    return this.http.put<Profesor>(this.url + '/' + profesor.id, profesor);
+
+    const profesorData = {
+      id: profesor.id,
+      nombre: profesor.nombre,
+      apellido: profesor.apellido,
+      fechaNacimiento: this.datePipe.transform(new Date(profesor.fechaNacimiento), 'yyyy-MM-dd'),
+      dni: profesor.dni,
+      email: profesor.email,
+      password: profesor.password
+    };
+
+    return this.http.put<Profesor>(this.url + '/' + profesorData.id, profesorData);
   }
 
   eliminarProfesor(profesor: Profesor): Observable<Profesor> {
-    return this.http.delete<Profesor>(this.url + '/' + profesor.id)
+    return this.bajaProfesorCursos(profesor.id) // Da de baja al Profesor de los Cursos asociados
       .pipe(
-        map(() => profesor)
+        switchMap(() => this.http.delete<Profesor>(this.url + '/' + profesor.id)
+          .pipe(
+            map(() => profesor)
+          ))
       );
   }
 
@@ -77,19 +86,35 @@ export class ProfesorService {
     return this.http.get<Curso[]>(environment.url + '/cursos?idProfesor=' + profesorId);
   }
 
-  private getUltimoId(): Observable<number> {
-    return this.http.get<any[]>(this.url)
-      .pipe(
-        map(profesores => {
-          let ultimoId = 0;
-          profesores.forEach(profesor => {
-            if (profesor.id > ultimoId) {
-              ultimoId = profesor.id;
-            }
-          });
-          return ultimoId;
-        })
-      );
+  bajaProfesorCursos(profesorId: number): Observable<Curso[]> {
+    return this.http.get<Curso[]>(environment.url + '/cursos' + '?idProfesor=' + profesorId).pipe(
+      switchMap((cursos) => {
+        const observables = cursos.map((curso) => {
+          const cursoData = {
+            id: curso.id,
+            materia: curso.materia,
+            idProfesor: null
+          };
+          return this.http.put<any>(environment.url + '/cursos/' + curso.id, cursoData);
+        });
+        return forkJoin(observables).pipe(map(() => cursos));
+      })
+    );
   }
+
+  // private getUltimoId(): Observable<number> {
+  //   return this.http.get<any[]>(this.url)
+  //     .pipe(
+  //       map(profesores => {
+  //         let ultimoId = 0;
+  //         profesores.forEach(profesor => {
+  //           if (profesor.id > ultimoId) {
+  //             ultimoId = profesor.id;
+  //           }
+  //         });
+  //         return ultimoId;
+  //       })
+  //     );
+  // }
 
 }

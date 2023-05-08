@@ -239,14 +239,38 @@
       "calle": "Calle 4321",
       "email": "pg@gmail.com",
       "password": "asd123"
+    },
+    {
+      "id": 21,
+      "nombre": "asdsadxxx",
+      "apellido": "asdasd",
+      "fechaNacimiento": "2023-05-11",
+      "dni": "12341234",
+      "provincia": "Córdoba",
+      "localidad": "asdas",
+      "calle": "asd 123",
+      "email": "leo.virgolini@gmail.com",
+      "password": "asd123"
+    },
+    {
+      "nombre": "asdasddsa",
+      "apellido": "asdad",
+      "fechaNacimiento": "2023-05-04",
+      "dni": "123123",
+      "provincia": "Córdoba",
+      "localidad": "asdasd",
+      "calle": "asd 123",
+      "email": "leo.virgolini@gmail.com",
+      "password": "asd123",
+      "id": 22
     }
   ],
   "profesores": [
     {
       "id": 1,
-      "nombre": "Juan",
-      "apellido": "Perez",
-      "fechaNacimiento": "1991/07/22",
+      "nombre": "Juanaas",
+      "apellido": "Perezzzxd",
+      "fechaNacimiento": "1991-07-22",
       "dni": "123456",
       "email": "jp@gmail.com",
       "password": "asd123"
@@ -286,27 +310,30 @@
       "dni": "115569",
       "email": "mr@gmail.com",
       "password": "asd123"
+    },
+    {
+      "nombre": "Juanaaa",
+      "apellido": "zxczxc",
+      "fechaNacimiento": "2023-05-11",
+      "dni": "34234324",
+      "email": "vchiaraluce@gmail.com",
+      "password": "asd123",
+      "id": 6
+    },
+    {
+      "nombre": "Leoddd",
+      "apellido": "zxcxzc",
+      "fechaNacimiento": "2023-05-12",
+      "dni": "34234324",
+      "email": "leo.virgolini@gmail.com",
+      "password": "asd123",
+      "id": 7
     }
   ],
   "cursos": [
     {
-      "id": 1,
-      "materia": "Historia",
-      "idProfesor": 1
-    },
-    {
       "id": 2,
       "materia": "Lengua",
-      "idProfesor": 2
-    },
-    {
-      "id": 3,
-      "materia": "Biología",
-      "idProfesor": 3
-    },
-    {
-      "id": 4,
-      "materia": "Matemática",
       "idProfesor": 4
     },
     {
@@ -323,53 +350,17 @@
       "id": 7,
       "materia": "Inglés",
       "idProfesor": 2
+    },
+    {
+      "materia": "mmmmmmmmmmm",
+      "idProfesor": 3,
+      "id": 8
+    },
+    {
+      "materia": "xxxxxxxxx",
+      "idProfesor": 4,
+      "id": 9
     }
   ],
-  "inscripciones": [
-    {
-      "id": 1,
-      "idCurso": 1,
-      "idAlumno": 1
-    },
-    {
-      "id": 2,
-      "idCurso": 2,
-      "idAlumno": 2
-    },
-    {
-      "id": 3,
-      "idCurso": 3,
-      "idAlumno": 3
-    },
-    {
-      "id": 4,
-      "idCurso": 4,
-      "idAlumno": 4
-    },
-    {
-      "id": 5,
-      "idCurso": 5,
-      "idAlumno": 5
-    },
-    {
-      "id": 6,
-      "idCurso": 6,
-      "idAlumno": 6
-    },
-    {
-      "id": 7,
-      "idCurso": 7,
-      "idAlumno": 7
-    },
-    {
-      "id": 8,
-      "idCurso": 1,
-      "idAlumno": 8
-    },
-    {
-      "id": 9,
-      "idCurso": 2,
-      "idAlumno": 9
-    }
-  ]
+  "inscripciones": []
 }

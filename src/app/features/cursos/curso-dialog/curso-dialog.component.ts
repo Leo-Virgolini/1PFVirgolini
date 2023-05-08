@@ -2,7 +2,6 @@ import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription, forkJoin, of } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 import { Alumno } from 'src/app/core/models/alumno';
 import { Curso } from 'src/app/core/models/curso';
 import { Inscripcion } from 'src/app/core/models/inscripcion';
@@ -93,46 +92,40 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
     const curso: Curso | null = this.data;
     if (curso) {
       curso.materia = this.formulario.get('materia')?.value;
-      curso.profesor ? (curso.profesor.id = this.formulario.get('profesor')?.value.id) : (curso.profesor = undefined);
+      curso.profesor ? (curso.profesor = this.formulario.get('profesor')?.value) : (curso.profesor = null);
       const alumnosSeleccionados: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
       // Add Inscripciones for newly selected Alumnos
       alumnosSeleccionados.forEach(alumno => {
-        if (!curso.alumnos?.includes(alumno)) {
-          this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso, alumno)).subscribe((i) => console.log(i)));
+        if (!curso.alumnos?.some(a => a.id === alumno.id)) {
+          this.inscripcionService.altaInscripcion(new Inscripcion(0, curso, alumno)).subscribe((i) => console.log("inscripcion alta", i));
         }
       });
       // Remove Inscripciones for deselected Alumnos
       curso.alumnos?.forEach(alumno => {
-        if (!alumnosSeleccionados.includes(alumno)) {
-          this.subscriptions.push(this.inscripcionService.obtenerInscripcionPorCursoAlumno(curso.id, alumno.id).subscribe((inscripcion) => {
+        if (!alumnosSeleccionados.some(a => a.id === alumno.id)) {
+          this.subscriptions.push(this.inscripcionService.obtenerInscripcionPorCursoAlumno(curso, alumno).subscribe((inscripcion) => {
             if (inscripcion) {
-              this.subscriptions.push(this.inscripcionService.eliminarInscripcion(inscripcion).subscribe((i) => console.log(i)));
+              this.inscripcionService.eliminarInscripcion(inscripcion).subscribe((i) => console.log("inscripcion baja", i));
             }
           }));
         }
       });
       curso.alumnos = alumnosSeleccionados;
-      this.dialogRef.close(curso);
+      this.cursoService.modificarCurso(curso).subscribe((c) => {
+        this.dialogRef.close(c);
+      })
     }
   }
 
   private altaCurso(): void {
-    this.subscriptions.push(this.cursoService.obtenerCursos()
-      .pipe(
-        switchMap(cursos => {
-          const alumnos = this.alumnos.filter((alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
-          const curso: Curso = new Curso(0,
-            this.formulario.get('materia')?.value,
-            this.formulario.get('profesor')?.value.id
-          );
-          alumnos.forEach(alumno => {
-            this.subscriptions.push(this.inscripcionService.altaInscripcion(new Inscripcion(0, curso, alumno)).subscribe((i) => console.log(i)));
-          });
-          return of(curso);
-        })
-      ).subscribe((cursoModificado) => {
-        this.dialogRef.close(cursoModificado);
-      }));
+    const alumnos: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
+    const curso: Curso = new Curso(0,
+      this.formulario.get('materia')?.value,
+      this.formulario.get('profesor')?.value || null,
+      alumnos || null
+    );
+
+    this.dialogRef.close(curso);
   }
 
   compareFn(p1: Profesor, p2: Profesor): boolean {

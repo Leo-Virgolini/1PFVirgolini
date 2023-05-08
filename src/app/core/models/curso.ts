@@ -5,10 +5,10 @@ export class Curso {
 
     private _id: number;
     private _materia: string;
-    private _alumnos: Alumno[] | undefined;
-    private _profesor: Profesor | undefined;
+    private _profesor: Profesor | null;
+    private _alumnos: Alumno[] | null;
 
-    constructor(id: number, materia: string, profesor?: Profesor, alumnos?: Alumno[]) {
+    constructor(id: number, materia: string, profesor: Profesor | null, alumnos: Alumno[] | null) {
         this._id = id;
         this._materia = materia;
         this._alumnos = alumnos;
@@ -29,17 +29,17 @@ export class Curso {
         this._materia = value;
     }
 
-    public get alumnos(): Alumno[] | undefined {
+    public get alumnos(): Alumno[] | null {
         return this._alumnos;
     }
-    public set alumnos(value: Alumno[] | undefined) {
+    public set alumnos(value: Alumno[] | null) {
         this._alumnos = value;
     }
 
-    public get profesor(): Profesor | undefined {
+    public get profesor(): Profesor | null {
         return this._profesor;
     }
-    public set profesor(value: Profesor | undefined) {
+    public set profesor(value: Profesor | null) {
         this._profesor = value;
     }
 

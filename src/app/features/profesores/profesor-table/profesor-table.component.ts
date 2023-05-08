@@ -76,6 +76,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     const dialog = this.dialogService.open(ProfesorDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe((value) => {
       if (value?.nombre && value?.apellido && value?.fechaNacimiento && value?.dni) {
+        this.obtenerProfesores();
         this.showSnackBar("Profesor ID: " + value.id + " creado.");
       }
     }));
@@ -83,6 +84,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
 
   eliminarProfesor(profesor: Profesor): void {
     this.subscriptions.push(this.profesorService.eliminarProfesor(profesor).subscribe((p) => {
+      this.obtenerProfesores();
       this.showSnackBar("Profesor ID: " + p.id + " eliminado.");
     }));
   }
@@ -91,6 +93,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     const dialog = this.dialogService.open(ProfesorDialogComponent, { data: profesor });
     this.subscriptions.push(dialog.afterClosed().subscribe((value) => {
       if (value?.nombre && value?.apellido && value?.fechaNacimiento && value?.dni) {
+        // this.obtenerProfesores();
         this.showSnackBar("Profesor ID: " + value.id + " modificado.");
       }
     }));

@@ -4,6 +4,7 @@ import { Alumno } from '../models/alumno';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
 import { Inscripcion } from '../models/inscripcion';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class AlumnoService {
   private readonly url: string = environment.url + "/alumnos";
   private alumnos!: BehaviorSubject<Alumno[]>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private datePipe: DatePipe) {
     this.alumnos = new BehaviorSubject<Alumno[]>([]);
   }
 
@@ -28,10 +29,9 @@ export class AlumnoService {
   altaAlumno(alumno: Alumno): Observable<Alumno> {
 
     const alumnoData = {
-      id: alumno.id,
       nombre: alumno.nombre,
       apellido: alumno.apellido,
-      fechaNacimiento: alumno.fechaNacimiento,
+      fechaNacimiento: this.datePipe.transform(new Date(alumno.fechaNacimiento), 'yyyy-MM-dd'),
       dni: alumno.dni,
       provincia: alumno.provincia,
       localidad: alumno.localidad,
@@ -40,24 +40,29 @@ export class AlumnoService {
       password: alumno.password
     };
 
-    return this.getUltimoId().
-      pipe(
-        map((id) => {
-          alumnoData.id = id + 1;
-          return alumnoData;
-        }),
-        switchMap((al) => {
-          return this.http.post<Alumno>(this.url, al);
-        })
-      );
+    return this.http.post<Alumno>(this.url, alumnoData)
   }
 
   modificarAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.http.put<Alumno>(this.url + '/' + alumno.id, alumno);
+
+    const alumnoData = {
+      id: alumno.id,
+      nombre: alumno.nombre,
+      apellido: alumno.apellido,
+      fechaNacimiento: this.datePipe.transform(new Date(alumno.fechaNacimiento), 'yyyy-MM-dd'),
+      dni: alumno.dni,
+      provincia: alumno.provincia,
+      localidad: alumno.localidad,
+      calle: alumno.calle,
+      email: alumno.email,
+      password: alumno.password
+    };
+
+    return this.http.put<Alumno>(this.url + '/' + alumnoData.id, alumnoData);
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.eliminarInscripciones(alumno.id!) // Elimina Inscripciones asociadas al Alumno
+    return this.eliminarInscripciones(alumno.id) // Elimina Inscripciones asociadas al Alumno
       .pipe(
         switchMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id)
           .pipe(
@@ -66,23 +71,29 @@ export class AlumnoService {
       );
   }
 
-  private getUltimoId(): Observable<number> {
-    return this.http.get<any[]>(this.url)
+  eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
+    return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idAlumno=' + alumnoId)
       .pipe(
-        map(alumnos => {
-          let ultimoId = 0;
-          alumnos.forEach(alumno => {
-            if (alumno.id > ultimoId) {
-              ultimoId = alumno.id;
-            }
-          });
-          return ultimoId;
+        map((inscripciones) => {
+          inscripciones.forEach((inscripcion) => this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).subscribe());
+          return inscripciones;
         })
       );
   }
 
-  eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
-    return this.http.delete<Inscripcion[]>(environment.url + '/inscripciones?idAlumno=' + alumnoId);
-  }
+  // private getUltimoId(): Observable<number> {
+  //   return this.http.get<any[]>(this.url)
+  //     .pipe(
+  //       map(alumnos => {
+  //         let ultimoId = 0;
+  //         alumnos.forEach(alumno => {
+  //           if (alumno.id > ultimoId) {
+  //             ultimoId = alumno.id;
+  //           }
+  //         });
+  //         return ultimoId;
+  //       })
+  //     );
+  // }
 
 }

@@ -12,15 +12,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { getPaginatorIntl } from './shared/paginator/paginator';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from './layout/layout.module';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    // HeaderComponent,
-    // FooterComponent,
-    // MenuComponent,
-    // MainComponent,
+    AppComponent
   ],
   imports: [
     AppRoutingModule,
@@ -30,22 +27,8 @@ import { LayoutModule } from './layout/layout.module';
     HttpClientModule,
 
     MatIconModule,
-    // MatTableModule,
-    // MatSortModule,
-    // MatPaginatorModule,
-    // MatDialogModule,
-    // MatInputModule,
-    // MatFormFieldModule,
-    // MatDividerModule,
-    // MatDatepickerModule,
-    // MatNativeDateModule,
-    // MatSnackBarModule,
-    // MatButtonModule,
-    // MatListModule,
-    // MatSelectModule,
     MatSidenavModule,
     MatToolbarModule,
-    // MatCheckboxModule,
 
     LayoutModule,
     // FeaturesModule,
@@ -54,7 +37,8 @@ import { LayoutModule } from './layout/layout.module';
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'es-AR' },
-    { provide: MatPaginatorIntl, useValue: getPaginatorIntl() }
+    { provide: MatPaginatorIntl, useValue: getPaginatorIntl() },
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Subscription } from 'rxjs';
 import { Profesor } from 'src/app/core/models/profesor';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 
@@ -9,15 +10,17 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
   templateUrl: './profesor-dialog.component.html',
   styleUrls: ['./profesor-dialog.component.scss']
 })
-export class ProfesorDialogComponent implements OnInit {
+export class ProfesorDialogComponent implements OnInit, OnDestroy {
 
   public formulario!: FormGroup;
   public submitted: boolean;
+  private subscriptions!: Subscription[];
 
   public profesorId!: number;
 
   constructor(private profesorService: ProfesorService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<ProfesorDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Profesor | null) {
     this.submitted = false;
+    this.subscriptions = [];
   }
 
   ngOnInit(): void {
@@ -37,11 +40,15 @@ export class ProfesorDialogComponent implements OnInit {
       this.profesorId = this.data.id;
       this.formulario.get('nombre')?.patchValue(this.data.nombre);
       this.formulario.get('apellido')?.patchValue(this.data.apellido);
-      this.formulario.get('fechaNacimiento')?.patchValue(this.data.fechaNacimiento);
+      this.formulario.get('fechaNacimiento')?.patchValue(new Date(this.data.fechaNacimiento));
       this.formulario.get('dni')?.patchValue(this.data.dni);
       this.formulario.get('email')?.patchValue(this.data.email);
       this.formulario.get('password')?.patchValue(this.data.password);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   public onSubmit(): void {
@@ -77,9 +84,11 @@ export class ProfesorDialogComponent implements OnInit {
       profesor.dni = this.formulario.get('dni')?.value;
       profesor.email = this.formulario.get('email')?.value;
       profesor.password = this.formulario.get('password')?.value;
-      this.profesorService.modificarProfesor(profesor).subscribe((value) => {
-        this.dialogRef.close(value);
-      });
+      this.subscriptions.push(this.profesorService.modificarProfesor(profesor).subscribe({
+        next: (p) => console.log("modificado: ", p),
+        complete: () => this.dialogRef.close(profesor),
+        error: (error) => console.log(error)
+      }));
     }
   }
 
@@ -92,9 +101,9 @@ export class ProfesorDialogComponent implements OnInit {
       this.formulario.get('email')?.value,
       this.formulario.get('password')?.value,
     );
-    this.profesorService.altaProfesor(profesor).subscribe((value) => {
+    this.subscriptions.push(this.profesorService.altaProfesor(profesor).subscribe((value) => {
       this.dialogRef.close(value);
-    });
+    }));
   }
 
 }

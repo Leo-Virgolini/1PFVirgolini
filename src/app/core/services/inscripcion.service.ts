@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, forkJoin, map, mergeMap, switchMap, tap, throwError } from 'rxjs';
 import { Inscripcion } from '../models/inscripcion';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
 import { CursoService } from './curso.service';
 import { AlumnoService } from './alumno.service';
+import { Curso } from '../models/curso';
+import { Alumno } from '../models/alumno';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +47,12 @@ export class InscripcionService {
     return this.http.get<Inscripcion>(this.url + '/' + inscripcionId);
   }
 
-  obtenerInscripcionPorCursoAlumno(cursoId: number, alumnoId: number): Observable<Inscripcion | undefined> {
-    return this.http.get<Inscripcion>(this.url + '?idCurso=' + cursoId + '&idAlumno=' + alumnoId);
+  obtenerInscripcionPorCursoAlumno(curso: Curso, alumno: Alumno): Observable<Inscripcion | undefined> {
+    return this.http.get<any[]>(`${this.url}?idCurso=${curso.id}&idAlumno=${alumno.id}`)
+      .pipe(
+        map(inscripcion => new Inscripcion(inscripcion[0].id, curso, alumno)
+        )
+      );
   }
 
   // obtenerAlumno(inscripcion: Inscripcion): Observable<Alumno | undefined> {
@@ -59,24 +65,22 @@ export class InscripcionService {
 
   altaInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
     const inscripcionData = {
-      id: inscripcion.id,
-      idCurso: inscripcion.curso?.id,
-      idAlumno: inscripcion.alumno?.id
+      idCurso: inscripcion.curso.id,
+      idAlumno: inscripcion.alumno.id
     };
-    return this.getUltimoId().
-      pipe(
-        map((id) => {
-          inscripcionData.id = id + 1;
-          return inscripcionData;
-        }),
-        switchMap((i) => {
-          return this.http.post<Inscripcion>(this.url, i);
-        })
-      );
+
+    return this.http.post<any>(this.url, inscripcionData);
   }
 
   modificarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
-    return this.http.put<Inscripcion>(this.url + '/' + inscripcion.id, inscripcion);
+
+    const inscripcionData = {
+      id: inscripcion.id,
+      idCurso: inscripcion.curso.id,
+      idAlumno: inscripcion.alumno.id
+    };
+
+    return this.http.put<Inscripcion>(this.url + '/' + inscripcionData.id, inscripcionData);
   }
 
   eliminarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
@@ -96,19 +100,19 @@ export class InscripcionService {
   //     );
   // }
 
-  private getUltimoId(): Observable<number> {
-    return this.http.get<any[]>(this.url)
-      .pipe(
-        map(inscripciones => {
-          let ultimoId = 0;
-          inscripciones.forEach(inscripcion => {
-            if (inscripcion.id > ultimoId) {
-              ultimoId = inscripcion.id;
-            }
-          });
-          return ultimoId;
-        })
-      );
-  }
+  // private getUltimoId(): Observable<number> {
+  //   return this.http.get<any[]>(this.url)
+  //     .pipe(
+  //       map(inscripciones => {
+  //         let ultimoId = 0;
+  //         inscripciones.forEach(inscripcion => {
+  //           if (inscripcion.id > ultimoId) {
+  //             ultimoId = inscripcion.id;
+  //           }
+  //         });
+  //         return ultimoId;
+  //       })
+  //     );
+  // }
 
 }

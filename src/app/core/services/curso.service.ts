@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, mergeMap, Observable, switchMap } from 'rxjs';
+import { BehaviorSubject, forkJoin, map, mergeMap, Observable, of, switchMap } from 'rxjs';
 import { Curso } from '../models/curso';
 import { Inscripcion } from '../models/inscripcion';
 import { Alumno } from '../models/alumno';
@@ -21,8 +21,8 @@ export class CursoService {
   }
 
   obtenerCursos(): Observable<Curso[]> {
-    return this.http.get<any[]>(this.url).
-      pipe(
+    return this.http.get<any[]>(this.url)
+      .pipe(
         mergeMap((cursos: any[]) => {
           const observables = cursos.map((curso: any) =>
             forkJoin([
@@ -40,26 +40,41 @@ export class CursoService {
   }
 
   obtenerCurso(cursoId: number): Observable<Curso> {
-    return this.http.get<any>(this.url + '/' + cursoId).pipe(
-      mergeMap((curso: any) =>
-        forkJoin([
-          this.profesorService.obtenerProfesor(curso.idProfesor),
-          this.obtenerAlumnos(curso.id)
-        ]).pipe(
-          map(([profesor, alumnos]) => new Curso(curso.id, curso.materia, profesor, alumnos))
+    return this.http.get<any>(this.url + '/' + cursoId)
+      .pipe(
+        mergeMap((curso: any) =>
+          forkJoin([
+            this.profesorService.obtenerProfesor(curso.idProfesor),
+            this.obtenerAlumnos(curso.id)
+          ])
+            .pipe(
+              map(([profesor, alumnos]) => new Curso(curso.id, curso.materia, profesor, alumnos))
+            )
         )
-      )
-    );
+      );
   }
 
   eliminarCurso(curso: Curso): Observable<Curso> {
-    return this.http.delete<Curso>(this.url + '/' + curso.id)
+    return this.eliminarInscripciones(curso.id) // Elimina Inscripciones asociadas al Curso
       .pipe(
-        map(() => curso)
+        switchMap(() => this.http.delete<Curso>(this.url + '/' + curso.id)
+          .pipe(
+            map(() => curso)
+          ))
       );
   }
 
   altaCurso(curso: Curso): Observable<Curso> {
+
+    const cursoData = {
+      materia: curso.materia,
+      idProfesor: curso.profesor ? curso.profesor.id : undefined
+    };
+
+    return this.http.post<Curso>(this.url, cursoData);
+  }
+
+  modificarCurso(curso: Curso): Observable<Curso> {
 
     const cursoData = {
       id: curso.id,
@@ -67,63 +82,69 @@ export class CursoService {
       idProfesor: curso.profesor ? curso.profesor.id : undefined
     };
 
-    return this.getUltimoId().
-      pipe(
-        map((id) => {
-          cursoData.id = id + 1;
-          return cursoData;
-        }),
-        switchMap((c) => {
-          return this.http.post<Curso>(this.url, c);
+    return this.http.put<Curso>(this.url + '/' + cursoData.id, cursoData);
+  }
+
+  obtenerAlumnos(cursoId: number): Observable<Alumno[] | null> {
+    console.log("cursoId", cursoId);
+    if (cursoId) {
+      return this.http.get<any[]>(environment.url + `/inscripciones?idCurso=${cursoId}`).pipe(
+        switchMap(inscripciones => {
+          if (inscripciones.length === 0) {
+            return of([]);
+          } else {
+            return forkJoin(inscripciones.map(inscripcion => this.http.get<Alumno>(environment.url + `/alumnos/${inscripcion.idAlumno}`)));
+          }
         })
       );
+    } else {
+      return of(null);
+    }
   }
 
-  modificarCurso(curso: Curso): Observable<Curso> {
-    return this.http.put<Curso>(this.url + '/' + curso.id, curso);
-  }
-
-  obtenerAlumnos(cursoId: number): Observable<Alumno[] | undefined> {
-    return this.http.get<any[]>(`http://localhost:3000/inscripciones?idCurso=${cursoId}`)
-      .pipe(
-        switchMap(inscripciones =>
-          forkJoin(
-            inscripciones.map(inscripcion => this.http.get<Alumno>(`http://localhost:3000/alumnos/${inscripcion.idAlumno}`))
-          )
-        )
-      );
-  }
-
-  obtenerProfesor(profesorId: number | undefined): Observable<Profesor | undefined> {
-    return this.http.get<Profesor>("http://localhost:3000/profesores" + '/' + profesorId);
+  obtenerProfesor(profesorId: number | undefined): Observable<Profesor | null> {
+    if (profesorId)
+      return this.http.get<Profesor>(environment.url + "/profesores/" + profesorId);
+    else
+      return of(null);
   }
 
   bajaAlumnoCurso(cursoId: number, alumnoId: number): Observable<Inscripcion> {
-    return this.http.get<Inscripcion>("http://localhost:3000/inscripciones" + '?idCurso=' + cursoId + '&idAlumno=' + alumnoId).pipe(
+    return this.http.get<Inscripcion>(environment.url + "/inscripciones?idCurso=" + cursoId + '&idAlumno=' + alumnoId).pipe(
       switchMap(
-        (inscripcion) => this.http.delete<Inscripcion>("http://localhost:3000/inscripciones" + '/' + inscripcion.id)
+        (inscripcion) => this.http.delete<Inscripcion>(environment.url + "/inscripciones/" + inscripcion.id)
       )
     );
   }
 
   bajaProfesorCurso(curso: Curso): Observable<Curso> {
-    curso.profesor = undefined;
+    curso.profesor = null;
     return this.http.put<Curso>(this.url + '/' + curso.id, curso);
   }
 
-  private getUltimoId(): Observable<number> {
-    return this.http.get<any[]>(this.url)
+  eliminarInscripciones(cursoId: number): Observable<Inscripcion[]> {
+    return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idCurso=' + cursoId)
       .pipe(
-        map(cursos => {
-          let ultimoId = 0;
-          cursos.forEach(curso => {
-            if (curso.id > ultimoId) {
-              ultimoId = curso.id;
-            }
-          });
-          return ultimoId;
+        map((inscripciones) => {
+          inscripciones.forEach((inscripcion) => this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).subscribe());
+          return inscripciones;
         })
       );
   }
+
+  // private getUltimoId(): Observable<number> {
+  //   return this.http.get<any[]>(this.url)
+  //     .pipe(
+  //       map(cursos => {
+  //         let ultimoId = 0;
+  //         cursos.forEach(curso => {
+  //           if (curso.id > ultimoId) {
+  //             ultimoId = curso.id;
+  //           }
+  //         });
+  //         return ultimoId;
+  //       })
+  //     );
+  // }
 
 }

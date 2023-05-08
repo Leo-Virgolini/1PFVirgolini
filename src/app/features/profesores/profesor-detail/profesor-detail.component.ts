@@ -11,7 +11,7 @@ import { Location } from '@angular/common';
 })
 export class ProfesorDetailsComponent implements OnInit {
 
-  profesor!: Profesor;
+  profesor!: Profesor | null;
   loading: boolean;
 
   constructor(private readonly route: ActivatedRoute, private profesorService: ProfesorService, private _location: Location) {

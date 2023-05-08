@@ -23,7 +23,7 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
   private paginator!: MatPaginator;
 
   public dataSource: MatTableDataSource<Inscripcion>;
-  public displayedColumns: string[] = ['id', 'curso', 'alumno', 'modificar', 'eliminar'];
+  public displayedColumns: string[] = ['id', 'curso', 'alumno', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
 

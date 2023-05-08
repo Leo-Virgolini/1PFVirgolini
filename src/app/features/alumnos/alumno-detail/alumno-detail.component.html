@@ -1,4 +1,5 @@
-<button mat-raised-button color="primary" class="ms-2 mt-1 mb-3" (click)="volver()">Volver</button>
+<button mat-raised-button color="primary" class="ml-3 mt-1 mb-3"
+    (click)="volver()"><mat-icon>keyboard_return</mat-icon>Volver</button>
 
 <ng-container *ngIf="loading">
     <app-spinner></app-spinner>
@@ -6,7 +7,7 @@
 
 <div [hidden]="loading">
 
-    <h3 class="ml-3">Alumno</h3>
+    <h3 class="ml-3 mt-3 font-bold text-lg">Alumno</h3>
     <mat-list *ngIf="alumno">
         <mat-list-item>
             <span matListItemTitle>ID: </span>
