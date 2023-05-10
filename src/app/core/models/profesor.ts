@@ -9,8 +9,8 @@ export class Profesor extends Usuario {
     private _dni: string;
     private _cursos: Curso[] | undefined;
 
-    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, email: string, password: string, cursos?: Curso[]) {
-        super(id, email, password);
+    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, email: string, password: string, rol: string, cursos?: Curso[]) {
+        super(id, email, password, rol);
         this._nombre = nombre;
         this._apellido = apellido;
         this._fechaNacimiento = fechaNacimiento;

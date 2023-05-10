@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ProfesorService {
 
-  private readonly url: string = environment.url + "/profesores";
+  private readonly url: string = environment.url + "/usuarios";
   private profesores!: BehaviorSubject<Profesor[]>;
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {
@@ -20,13 +20,13 @@ export class ProfesorService {
   }
 
   obtenerProfesores(): Observable<Profesor[]> {
-    return this.http.get<any[]>(this.url)
+    return this.http.get<any[]>(this.url + '?rol=profesor')
       .pipe(
         mergeMap((profesores: any[]) => {
           const observables = profesores.map((profesor: any) =>
             this.obtenerCursosPorProfesor(profesor.id)
               .pipe(
-                map(cursos => new Profesor(profesor.id, profesor.nombre, profesor.apellido, profesor.fechaNacimiento, profesor.dni, profesor.email, profesor.password, cursos))
+                map(cursos => new Profesor(profesor.id, profesor.nombre, profesor.apellido, profesor.fechaNacimiento, profesor.dni, profesor.email, profesor.password, "profesor", cursos))
               )
           );
 
@@ -51,7 +51,8 @@ export class ProfesorService {
       fechaNacimiento: this.datePipe.transform(new Date(profesor.fechaNacimiento), 'yyyy-MM-dd'),
       dni: profesor.dni,
       email: profesor.email,
-      password: profesor.password
+      password: profesor.password,
+      rol: profesor.rol
     };
 
     return this.http.post<Profesor>(this.url, profesorData);
@@ -66,7 +67,8 @@ export class ProfesorService {
       fechaNacimiento: this.datePipe.transform(new Date(profesor.fechaNacimiento), 'yyyy-MM-dd'),
       dni: profesor.dni,
       email: profesor.email,
-      password: profesor.password
+      password: profesor.password,
+      rol: profesor.rol
     };
 
     return this.http.put<Profesor>(this.url + '/' + profesorData.id, profesorData);
@@ -101,20 +103,5 @@ export class ProfesorService {
       })
     );
   }
-
-  // private getUltimoId(): Observable<number> {
-  //   return this.http.get<any[]>(this.url)
-  //     .pipe(
-  //       map(profesores => {
-  //         let ultimoId = 0;
-  //         profesores.forEach(profesor => {
-  //           if (profesor.id > ultimoId) {
-  //             ultimoId = profesor.id;
-  //           }
-  //         });
-  //         return ultimoId;
-  //       })
-  //     );
-  // }
 
 }

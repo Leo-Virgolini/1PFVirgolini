@@ -10,8 +10,8 @@ export class Alumno extends Usuario {
     private _localidad: string;
     private _calle: string;
 
-    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, provincia: string, localidad: string, calle: string, email: string, password: string) {
-        super(id, email, password);
+    constructor(id: number, nombre: string, apellido: string, fechaNacimiento: Date, dni: string, provincia: string, localidad: string, calle: string, email: string, password: string, rol: string) {
+        super(id, email, password, rol);
         this._nombre = nombre;
         this._apellido = apellido;
         this._fechaNacimiento = fechaNacimiento;

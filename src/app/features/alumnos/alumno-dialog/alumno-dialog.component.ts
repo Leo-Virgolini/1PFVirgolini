@@ -94,6 +94,7 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       alumno.calle = this.calle?.value;
       alumno.email = this.email?.value;
       alumno.password = this.password?.value;
+      alumno.rol = "alumno";
       this.subscriptions.push(this.alumnoService.modificarAlumno(alumno).subscribe({
         next: (al) => console.log("modificado: ", al),
         complete: () => this.dialogRef.close(alumno),
@@ -113,7 +114,8 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       this.localidad?.value,
       this.calle?.value,
       this.email?.value,
-      this.password?.value
+      this.password?.value,
+      "alumno"
     );
     this.subscriptions.push(this.alumnoService.altaAlumno(alumno).subscribe({
       next: (al) => console.log("alta: ", al),

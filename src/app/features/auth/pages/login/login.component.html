@@ -1,0 +1,77 @@
+<div class="grid">
+  <div class="col-12">
+
+    <!-- <div class="field">
+      <mat-form-field class="w-full">
+        <mat-label>E-mail</mat-label>
+        <input [formControl]="emailControl" type="text" matInput />
+        <app-error-helper [control]="emailControl"></app-error-helper>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="w-full">
+        <mat-label>Contraseña</mat-label>
+        <input [formControl]="passwordControl" type="password" matInput />
+        <app-error-helper [control]="passwordControl"></app-error-helper>
+      </mat-form-field>
+    </div>
+    <div>
+      <button type="submit" color="primary" mat-flat-button>
+        Ingresar
+      </button>
+    </div> -->
+
+    <h2>Iniciar sesión</h2>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <div class="col-sm-6 col-md-12">
+        <mat-form-field>
+          <mat-label for="email">E-mail:</mat-label>
+          <input matInput formControlName="email" type="email" id="email" name="email" autocomplete="email" placeholder="email@ejemplo.com" minlength="7" maxlength="64" [ngClass]="{
+                      'is-invalid': emailControl.invalid && emailControl.touched,
+                      'is-valid': emailControl.valid && emailControl.touched
+                  }">
+          <app-error-helper [control]="emailControl"></app-error-helper>
+        </mat-form-field>
+      </div>
+
+      <div class="col-sm-6 col-md-6">
+        <mat-form-field>
+          <mat-label for="password">Contraseña:</mat-label>
+          <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" type="password" id="password" name="password" autocomplete="new-password" placeholder="Contraseña"
+            minlength="4" maxlength="20" [ngClass]="{
+                      'is-invalid': passwordControl.invalid && passwordControl.touched,
+                      'is-valid': passwordControl.valid && passwordControl.touched
+                  }">
+          <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+          </button>
+          <app-error-helper [control]="passwordControl"></app-error-helper>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <button type="submit" color="primary" mat-flat-button>
+          Ingresar
+        </button>
+      </div>
+
+
+    </form>
+
+    <ng-container *ngIf="submitted && !loginForm.valid">
+      <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+        <i class="fa-solid fa-circle-exclamation me-1"></i><small>Completa todos los campos correctamente.</small>
+      </mat-error>
+    </ng-container>
+
+    <ng-container *ngIf="submitted && !success">
+      <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+        <i class="fa-solid fa-circle-exclamation me-1"></i><small>Usuario y/o contraseña incorrecta.</small>
+      </mat-error>
+    </ng-container>
+
+
+
+  </div>
+</div>

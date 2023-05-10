@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ErrorHelperComponent } from './error-helper/error-helper.component';
 import { SharedModule } from '../shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,7 +8,7 @@ import { FeaturesRoutingModule } from './features-routing.module';
 
 @NgModule({
   declarations: [
-    ErrorHelperComponent
+    // ErrorHelperComponent
   ],
   imports: [
     CommonModule,
@@ -21,10 +20,10 @@ import { FeaturesRoutingModule } from './features-routing.module';
 
     MatIconModule,
     MatFormFieldModule,
-    SharedModule,
+    SharedModule
   ],
   exports: [
-    ErrorHelperComponent,
+    // ErrorHelperComponent,
     RouterModule
   ]
 })

@@ -93,7 +93,7 @@ export class CursoService {
           if (inscripciones.length === 0) {
             return of([]);
           } else {
-            return forkJoin(inscripciones.map(inscripcion => this.http.get<Alumno>(environment.url + `/alumnos/${inscripcion.idAlumno}`)));
+            return forkJoin(inscripciones.map(inscripcion => this.http.get<Alumno>(environment.url + `/usuarios/${inscripcion.idAlumno}`)));
           }
         })
       );
@@ -104,7 +104,7 @@ export class CursoService {
 
   obtenerProfesor(profesorId: number | undefined): Observable<Profesor | null> {
     if (profesorId)
-      return this.http.get<Profesor>(environment.url + "/profesores/" + profesorId);
+      return this.http.get<Profesor>(environment.url + "/usuarios/" + profesorId);
     else
       return of(null);
   }
@@ -131,20 +131,5 @@ export class CursoService {
         })
       );
   }
-
-  // private getUltimoId(): Observable<number> {
-  //   return this.http.get<any[]>(this.url)
-  //     .pipe(
-  //       map(cursos => {
-  //         let ultimoId = 0;
-  //         cursos.forEach(curso => {
-  //           if (curso.id > ultimoId) {
-  //             ultimoId = curso.id;
-  //           }
-  //         });
-  //         return ultimoId;
-  //       })
-  //     );
-  // }
 
 }

@@ -1,19 +1,29 @@
 <header class="toolbar">
     <div class="grid">
-        <div class="col-12 mb-1">
+        <div class="col-12 ">
             <mat-toolbar>
+
                 <!-- <button (click)="drawer.toggle()" mat-icon-button>
                     <mat-icon>menu</mat-icon>
                 </button> -->
+
                 <span>
                     <a routerLink="" class="text-4xl text-primary no-underline p-1 ml-2">
                         <mat-icon class="text-5xl vertical-align-middle pb-3 pr-3">history_edu</mat-icon>
                         CURSOS™
                     </a>
                 </span>
-                <button routerLink="/login" mat-icon-button>
+
+                <!-- <span class="spacer"></span> -->
+
+                <button *ngIf="!loggedIn" routerLink="/login" mat-icon-button>
                     <mat-icon class="vertical-align-middle mr-1">login</mat-icon>Login
                 </button>
+
+                <button *ngIf="loggedIn" (click)="logout()" mat-icon-button>
+                    <mat-icon class="vertical-align-middle mr-1">logout</mat-icon>Logout
+                </button>
+
             </mat-toolbar>
         </div>
     </div>

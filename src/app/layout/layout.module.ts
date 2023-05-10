@@ -9,9 +9,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FeaturesModule } from '../features/features.module';
 import { MatButtonModule } from '@angular/material/button';
+import { LayoutComponent } from './layout.component';
 
 @NgModule({
   declarations: [
+    LayoutComponent,
     HeaderComponent,
     FooterComponent,
     MenuComponent,

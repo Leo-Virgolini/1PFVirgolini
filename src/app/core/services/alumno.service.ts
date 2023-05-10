@@ -11,7 +11,7 @@ import { DatePipe } from '@angular/common';
 })
 export class AlumnoService {
 
-  private readonly url: string = environment.url + "/alumnos";
+  private readonly url: string = environment.url + "/usuarios";
   private alumnos!: BehaviorSubject<Alumno[]>;
 
   constructor(private http: HttpClient, private datePipe: DatePipe) {
@@ -19,7 +19,7 @@ export class AlumnoService {
   }
 
   obtenerAlumnos(): Observable<Alumno[]> {
-    return this.http.get<Alumno[]>(this.url);
+    return this.http.get<Alumno[]>(this.url + "?rol=alumno");
   }
 
   obtenerAlumno(alumnoId: number): Observable<Alumno> {
@@ -37,7 +37,8 @@ export class AlumnoService {
       localidad: alumno.localidad,
       calle: alumno.calle,
       email: alumno.email,
-      password: alumno.password
+      password: alumno.password,
+      rol: alumno.rol
     };
 
     return this.http.post<Alumno>(this.url, alumnoData)
@@ -55,7 +56,8 @@ export class AlumnoService {
       localidad: alumno.localidad,
       calle: alumno.calle,
       email: alumno.email,
-      password: alumno.password
+      password: alumno.password,
+      rol: alumno.rol
     };
 
     return this.http.put<Alumno>(this.url + '/' + alumnoData.id, alumnoData);
@@ -80,20 +82,5 @@ export class AlumnoService {
         })
       );
   }
-
-  // private getUltimoId(): Observable<number> {
-  //   return this.http.get<any[]>(this.url)
-  //     .pipe(
-  //       map(alumnos => {
-  //         let ultimoId = 0;
-  //         alumnos.forEach(alumno => {
-  //           if (alumno.id > ultimoId) {
-  //             ultimoId = alumno.id;
-  //           }
-  //         });
-  //         return ultimoId;
-  //       })
-  //     );
-  // }
 
 }

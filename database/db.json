@@ -1,5 +1,12 @@
 {
-  "alumnos": [
+  "usuarios": [
+    {
+      "id": 0,
+      "email": "admin@gmail.com",
+      "password": "asd123",
+      "rol": "admin",
+      "token": "asdasd"
+    },
     {
       "id": 1,
       "nombre": "Juan",
@@ -9,8 +16,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "1@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 2,
@@ -21,8 +29,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "2@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 3,
@@ -33,8 +42,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Olivos",
       "calle": "Calle 4321",
-      "email": "cj@gmail.com",
-      "password": "asd123"
+      "email": "3@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 4,
@@ -45,8 +55,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Olivos",
       "calle": "Calle 4321",
-      "email": "cj@gmail.com",
-      "password": "asd123"
+      "email": "4@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 5,
@@ -57,8 +68,9 @@
       "provincia": "Buenos Aires",
       "localidad": "La Lucila",
       "calle": "Calle 4321",
-      "email": "mr@gmail.com",
-      "password": "asd123"
+      "email": "5@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 6,
@@ -69,8 +81,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Munro",
       "calle": "Calle 4321",
-      "email": "ch@gmail.com",
-      "password": "asd123"
+      "email": "6@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 7,
@@ -81,8 +94,9 @@
       "provincia": "Buenos Aires",
       "localidad": "La Matanza",
       "calle": "Calle 4321",
-      "email": "sn@gmail.com",
-      "password": "asd123"
+      "email": "7@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 8,
@@ -93,8 +107,9 @@
       "provincia": "Buenos Aires",
       "localidad": "San Miguel",
       "calle": "Calle 4321",
-      "email": "fi@gmail.com",
-      "password": "asd123"
+      "email": "8@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 9,
@@ -105,8 +120,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Berazategui",
       "calle": "Calle 4321",
-      "email": "rs@gmail.com",
-      "password": "asd123"
+      "email": "9@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 10,
@@ -117,8 +133,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "10@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 11,
@@ -129,8 +146,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "11@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 12,
@@ -141,8 +159,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "12@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 13,
@@ -153,8 +172,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "13@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 14,
@@ -165,8 +185,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "14@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 15,
@@ -177,8 +198,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "15@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 16,
@@ -189,8 +211,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "16@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 17,
@@ -201,8 +224,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "17@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 18,
@@ -213,8 +237,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "18@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 19,
@@ -225,8 +250,9 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "19@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 20,
@@ -237,130 +263,153 @@
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
-      "email": "pg@gmail.com",
-      "password": "asd123"
+      "email": "20@gmail.com",
+      "password": "asd123",
+      "rol": "alumno"
     },
     {
       "id": 21,
-      "nombre": "asdsadxxx",
-      "apellido": "asdasd",
-      "fechaNacimiento": "2023-05-11",
-      "dni": "12341234",
-      "provincia": "Córdoba",
-      "localidad": "asdas",
-      "calle": "asd 123",
-      "email": "leo.virgolini@gmail.com",
-      "password": "asd123"
-    },
-    {
-      "nombre": "asdasddsa",
-      "apellido": "asdad",
-      "fechaNacimiento": "2023-05-04",
-      "dni": "123123",
-      "provincia": "Córdoba",
-      "localidad": "asdasd",
-      "calle": "asd 123",
-      "email": "leo.virgolini@gmail.com",
-      "password": "asd123",
-      "id": 22
-    }
-  ],
-  "profesores": [
-    {
-      "id": 1,
-      "nombre": "Juanaas",
-      "apellido": "Perezzzxd",
-      "fechaNacimiento": "1991-07-22",
+      "nombre": "Juan",
+      "apellido": "Perez",
+      "fechaNacimiento": "1991/07/22",
       "dni": "123456",
-      "email": "jp@gmail.com",
-      "password": "asd123"
+      "email": "21@gmail.com",
+      "password": "asd123",
+      "rol": "profesor"
     },
     {
-      "id": 2,
+      "id": 22,
       "nombre": "Tomás",
       "apellido": "Roncero",
       "fechaNacimiento": "1985/08/11",
       "dni": "362789156",
-      "email": "tr@gmail.com",
-      "password": "asd123"
+      "email": "22@gmail.com",
+      "password": "asd123",
+      "rol": "profesor"
     },
     {
-      "id": 3,
+      "id": 23,
       "nombre": "Carlos",
       "apellido": "Jimenez",
       "fechaNacimiento": "1984/09/24",
       "dni": "564321",
-      "email": "cj@gmail.com",
-      "password": "asd123"
+      "email": "23@gmail.com",
+      "password": "asd123",
+      "rol": "profesor"
     },
     {
-      "id": 4,
+      "id": 24,
       "nombre": "Mateo",
       "apellido": "Juarez",
       "fechaNacimiento": "1990/10/10",
       "dni": "654123",
-      "email": "mj@gmail.com",
-      "password": "asd123"
+      "email": "24@gmail.com",
+      "password": "asd123",
+      "rol": "profesor"
     },
     {
-      "id": 5,
+      "id": 25,
       "nombre": "Micaela",
       "apellido": "Ramirez",
       "fechaNacimiento": "1991/11/05",
       "dni": "115569",
-      "email": "mr@gmail.com",
-      "password": "asd123"
-    },
-    {
-      "nombre": "Juanaaa",
-      "apellido": "zxczxc",
-      "fechaNacimiento": "2023-05-11",
-      "dni": "34234324",
-      "email": "vchiaraluce@gmail.com",
+      "email": "25@gmail.com",
       "password": "asd123",
-      "id": 6
-    },
-    {
-      "nombre": "Leoddd",
-      "apellido": "zxcxzc",
-      "fechaNacimiento": "2023-05-12",
-      "dni": "34234324",
-      "email": "leo.virgolini@gmail.com",
-      "password": "asd123",
-      "id": 7
+      "rol": "profesor"
     }
   ],
   "cursos": [
     {
+      "id": 1,
+      "materia": "Historia",
+      "idProfesor": 21
+    },
+    {
       "id": 2,
       "materia": "Lengua",
-      "idProfesor": 4
+      "idProfesor": 22
+    },
+    {
+      "id": 3,
+      "materia": "Biología",
+      "idProfesor": 23
+    },
+    {
+      "id": 4,
+      "materia": "Matemática",
+      "idProfesor": 24
     },
     {
       "id": 5,
       "materia": "Fìsica",
-      "idProfesor": 5
+      "idProfesor": 25
     },
     {
       "id": 6,
       "materia": "Geografía",
-      "idProfesor": 1
+      "idProfesor": 21
     },
     {
       "id": 7,
       "materia": "Inglés",
-      "idProfesor": 2
-    },
-    {
-      "materia": "mmmmmmmmmmm",
-      "idProfesor": 3,
-      "id": 8
-    },
-    {
-      "materia": "xxxxxxxxx",
-      "idProfesor": 4,
-      "id": 9
+      "idProfesor": 22
     }
   ],
-  "inscripciones": []
+  "inscripciones": [
+    {
+      "id": 1,
+      "idCurso": 1,
+      "idAlumno": 1
+    },
+    {
+      "id": 2,
+      "idCurso": 2,
+      "idAlumno": 2
+    },
+    {
+      "id": 3,
+      "idCurso": 3,
+      "idAlumno": 3
+    },
+    {
+      "id": 4,
+      "idCurso": 4,
+      "idAlumno": 4
+    },
+    {
+      "id": 5,
+      "idCurso": 5,
+      "idAlumno": 5
+    },
+    {
+      "id": 7,
+      "idCurso": 7,
+      "idAlumno": 7
+    },
+    {
+      "id": 8,
+      "idCurso": 1,
+      "idAlumno": 8
+    },
+    {
+      "id": 9,
+      "idCurso": 2,
+      "idAlumno": 9
+    },
+    {
+      "idCurso": 4,
+      "idAlumno": 6,
+      "id": 10
+    },
+    {
+      "idCurso": 4,
+      "idAlumno": 7,
+      "id": 11
+    },
+    {
+      "idCurso": 4,
+      "idAlumno": 8,
+      "id": 12
+    }
+  ]
 }

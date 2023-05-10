@@ -8,9 +8,12 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ErrorHelperComponent } from '../features/error-helper/error-helper.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [
+    ErrorHelperComponent,
     NotFoundComponent,
     SpinnerComponent,
     NombreApellidoPipe,
@@ -21,9 +24,11 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     CommonModule,
     MatIconModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatProgressSpinnerModule
   ],
   exports: [
+    ErrorHelperComponent,
     NotFoundComponent,
     SpinnerComponent,
     NombreApellidoPipe,

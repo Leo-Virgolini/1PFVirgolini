@@ -100,19 +100,4 @@ export class InscripcionService {
   //     );
   // }
 
-  // private getUltimoId(): Observable<number> {
-  //   return this.http.get<any[]>(this.url)
-  //     .pipe(
-  //       map(inscripciones => {
-  //         let ultimoId = 0;
-  //         inscripciones.forEach(inscripcion => {
-  //           if (inscripcion.id > ultimoId) {
-  //             ultimoId = inscripcion.id;
-  //           }
-  //         });
-  //         return ultimoId;
-  //       })
-  //     );
-  // }
-
 }

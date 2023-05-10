@@ -100,6 +100,7 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
       this.formulario.get('dni')?.value,
       this.formulario.get('email')?.value,
       this.formulario.get('password')?.value,
+      "profesor"
     );
     this.subscriptions.push(this.profesorService.altaProfesor(profesor).subscribe((value) => {
       this.dialogRef.close(value);
