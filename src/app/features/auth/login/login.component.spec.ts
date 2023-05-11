@@ -11,6 +11,7 @@ import { MatInputModule } from "@angular/material/input";
 import { ReactiveFormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { AuthService } from "src/app/core/services/auth.service";
+import { AuthServiceMock } from "src/app/core/services/mocks/auth.service.mock";
 
 describe('Pruebas del componente LoginComponent', () => {
 
@@ -32,6 +33,12 @@ describe('Pruebas del componente LoginComponent', () => {
                 MatInputModule,
                 MatButtonModule,
                 MatIconModule
+            ],
+            providers: [
+                {
+                    provide: AuthService,
+                    useClass: AuthServiceMock
+                }
             ]
         }).compileComponents();
 
@@ -71,8 +78,6 @@ describe('Pruebas del componente LoginComponent', () => {
 
     it('Debe llamarse al método login del AuthService al logear con valores correctos',
         () => {
-            loginComponent.emailControl.setValue('admin@admin.com');
-            loginComponent.passwordControl.setValue('asd123');
             loginComponent.loginForm.setValue({ email: 'admin@admin.com', password: 'asd123' });
             // const spyOnLogin = spyOn(TestBed.inject(AuthService), 'login'); // tira error de undefined
             loginComponent.onSubmit();
