@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Usuario } from 'src/app/core/models/usuario';
 import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
@@ -8,10 +9,13 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  loggedIn: boolean = false;
+  usuario: Usuario | null = null;
 
   constructor(private authService: AuthService) {
-    authService.obtenerUsuarioAutenticado().subscribe((usuario) => usuario ? this.loggedIn = true : this.loggedIn = false);
+    authService.obtenerUsuarioAutenticado().subscribe((usuario) => {
+      if (usuario)
+        this.usuario = usuario;
+    });
   }
 
   ngOnInit(): void {

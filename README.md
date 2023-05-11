@@ -6,4 +6,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 Run JSON Server:
-json-server --watch database/db.json --delay 200
+json-server --watch database/db.json --delay 100
+
+ADMIN:
+email: admin@admin.com
+password: asd123

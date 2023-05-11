@@ -1,21 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthComponent } from './auth.component';
-import { LoginComponent } from './pages/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { RouterModule, Routes } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RegisterComponent } from './pages/register/register.component';
+import { RegisterComponent } from './register/register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 const routes: Routes = [
   {
     path: '',
-    component: LoginComponent
+    redirectTo: '/login',
+    pathMatch: 'full'
   },
   {
     path: 'login',
@@ -33,21 +32,19 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [
-    AuthComponent,
+    // AuthComponent,
     LoginComponent,
+    RegisterComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    // PipesModule,
     RouterModule.forChild(routes),
-    MatCardModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
 
-    // FeaturesModule
     SharedModule
   ]
 })

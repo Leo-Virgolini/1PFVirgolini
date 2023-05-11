@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, map, catchError, throwError, of } from 'rxjs';
+import { Observable, BehaviorSubject, map, catchError, of } from 'rxjs';
 import { Usuario } from 'src/app/core/models/usuario';
 import { environment } from 'src/environments/environments.prod';
 
@@ -26,7 +26,7 @@ export class AuthService {
 
   login(formValue: LoginFormValue): Observable<boolean> {
     return this.httpClient.get<Usuario[]>(`${environment.url}/usuarios`, {
-      params: { ...formValue },
+      params: { ...formValue }
     })
       .pipe(
         map((usuarios) => {
@@ -50,7 +50,7 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     this.authUser$.next(null);
-    this.router.navigate(['login']);
+    this.router.navigate(['login'], { queryParams: { logout: true } });
   }
 
   verificarToken(): Observable<boolean> {
@@ -73,8 +73,9 @@ export class AuthService {
           return !!usuarioAutenticado;
         }),
         catchError((err) => {
-          alert('Error al verificar el token');
-          return throwError(() => err);
+          console.log('Error al verificar el token');
+          // return throwError(() => err);
+          return of(false);
         })
       );
   }

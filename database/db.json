@@ -2,16 +2,16 @@
   "usuarios": [
     {
       "id": 0,
-      "email": "admin@gmail.com",
+      "email": "admin@admin.com",
       "password": "asd123",
       "rol": "admin",
-      "token": "asdasd"
+      "token": "admin"
     },
     {
       "id": 1,
-      "nombre": "Juan",
+      "nombre": "Juana",
       "apellido": "Jimenez",
-      "fechaNacimiento": "1989/01/25",
+      "fechaNacimiento": "1989-01-24",
       "dni": "255789",
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
@@ -22,9 +22,9 @@
     },
     {
       "id": 2,
-      "nombre": "Facundoaa",
+      "nombre": "Facundo",
       "apellido": "Roncaglia",
-      "fechaNacimiento": "1980/09/24",
+      "fechaNacimiento": "1980-09-24",
       "dni": "255789",
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
@@ -353,6 +353,11 @@
       "id": 7,
       "materia": "Inglés",
       "idProfesor": 22
+    },
+    {
+      "materia": "Geografía",
+      "idProfesor": 23,
+      "id": 8
     }
   ],
   "inscripciones": [
@@ -410,6 +415,56 @@
       "idCurso": 4,
       "idAlumno": 8,
       "id": 12
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 2,
+      "id": 13
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 3,
+      "id": 14
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 10,
+      "id": 15
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 16,
+      "id": 16
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 17,
+      "id": 17
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 19,
+      "id": 18
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 9,
+      "id": 19
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 20,
+      "id": 20
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 9,
+      "id": 21
+    },
+    {
+      "idCurso": 8,
+      "idAlumno": 20,
+      "id": 22
     }
   ]
 }

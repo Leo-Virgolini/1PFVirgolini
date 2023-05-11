@@ -24,7 +24,7 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-            <td mat-cell *matCellDef="let curso"><a [routerLink]="['/cursos/', curso?.id]">{{curso.id}}</a></td>
+            <td mat-cell *matCellDef="let curso"><a [routerLink]="['/home/cursos/', curso?.id]">{{curso.id}}</a></td>
         </ng-container>
         <ng-container matColumnDef="materia">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Materia </th>
@@ -35,7 +35,7 @@
         <ng-container matColumnDef="profesor">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Profesor </th>
             <td mat-cell *matCellDef="let curso">
-                <a *ngIf="curso.profesor else blank" [routerLink]="['/profesores/', curso.profesor?.id]">{{curso.profesor?.id + " - " + curso.profesor?.apellido + ", " +
+                <a *ngIf="curso.profesor else blank" [routerLink]="['/home/profesores/', curso.profesor?.id]">{{curso.profesor?.id + " - " + curso.profesor?.apellido + ", " +
                     curso.profesor?.nombre}}</a>
                 <ng-template #blank>
                     <div>SIN ASIGNAR</div>
@@ -47,7 +47,7 @@
             <td mat-cell *matCellDef="let curso">
                 <ul *ngFor="let alumno of (curso.alumnos | sort)">
                     <li>
-                        <a [routerLink]="['/alumnos/', alumno?.id]">{{alumno?.id + " - " + alumno?.apellido + ", " + alumno?.nombre}}</a>
+                        <a [routerLink]="['/home/alumnos/', alumno?.id]">{{alumno?.id + " - " + alumno?.apellido + ", " + alumno?.nombre}}</a>
                     </li>
                 </ul>
             </td>

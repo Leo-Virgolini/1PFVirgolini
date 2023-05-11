@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService, LoginFormValue } from '../../../../core/services/auth.service';
+import { AuthService, LoginFormValue } from '../../../core/services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -14,20 +14,21 @@ export class LoginComponent {
   public passwordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
   public loginForm: FormGroup;
 
-  public success: boolean;
+  public success: boolean | null;
   public submitted: boolean;
+  public logout: string | null;
   public hide: boolean = true;
 
-
   constructor(private authService: AuthService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
-    this.success = false;
+    this.success = null;
     this.submitted = false;
 
     this.loginForm = this.formBuilder.group({
       email: this.emailControl,
       password: this.passwordControl
     });
-    console.log(this.activatedRoute.snapshot);
+
+    this.logout = this.activatedRoute.snapshot.queryParamMap.get('logout');
   }
 
   onSubmit(): void {
@@ -37,6 +38,11 @@ export class LoginComponent {
     } else {
       this.authService.login(this.loginForm.value as LoginFormValue).subscribe((success) => this.success = success);
     }
+  }
+
+  onKeydown(event: Event) {
+    this.submitted = false;
+    this.success = null;
   }
 
 }

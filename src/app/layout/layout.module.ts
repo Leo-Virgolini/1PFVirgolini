@@ -28,10 +28,11 @@ import { LayoutComponent } from './layout.component';
     FeaturesModule
   ],
   exports: [
-    HeaderComponent,
-    FooterComponent,
-    MenuComponent,
-    MainComponent
+    // LayoutComponent,
+    // HeaderComponent,
+    // FooterComponent,
+    // MenuComponent,
+    // MainComponent
   ]
 })
 export class LayoutModule { }

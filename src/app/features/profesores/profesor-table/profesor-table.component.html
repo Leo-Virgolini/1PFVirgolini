@@ -24,7 +24,7 @@
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
-            <td mat-cell *matCellDef="let profesor"><a [routerLink]="['/profesores/', profesor?.id]">{{profesor.id}}</a>
+            <td mat-cell *matCellDef="let profesor"><a [routerLink]="['/home/profesores/', profesor?.id]">{{profesor.id}}</a>
             </td>
         </ng-container>
         <ng-container matColumnDef="apellidoNombre">
@@ -55,7 +55,7 @@
                 </button> -->
                 <ul *ngFor="let curso of profesor.cursos">
                     <li>
-                        <a [routerLink]="['/cursos/', curso?.id]">{{curso?.id + " - " + curso?.materia}}</a>
+                        <a [routerLink]="['/home/cursos/', curso?.id]">{{curso?.id + " - " + curso?.materia}}</a>
                     </li>
                 </ul>
             </td>

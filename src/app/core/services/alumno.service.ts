@@ -31,7 +31,7 @@ export class AlumnoService {
     const alumnoData = {
       nombre: alumno.nombre,
       apellido: alumno.apellido,
-      fechaNacimiento: this.datePipe.transform(new Date(alumno.fechaNacimiento), 'yyyy-MM-dd'),
+      fechaNacimiento: this.datePipe.transform(alumno.fechaNacimiento, 'yyyy-MM-dd'),
       dni: alumno.dni,
       provincia: alumno.provincia,
       localidad: alumno.localidad,

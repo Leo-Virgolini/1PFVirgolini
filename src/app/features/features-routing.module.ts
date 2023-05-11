@@ -4,7 +4,7 @@ import { LayoutComponent } from '../layout/layout.component';
 import { NotFoundComponent } from '../shared/not-found/not-found.component';
 
 const routes: Routes = [
-  {
+  { // /home
     path: '',
     component: LayoutComponent,
     children: [
