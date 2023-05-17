@@ -19,7 +19,7 @@ export class AuthServiceMock {
     }
 
     login(formValue: LoginFormValue): Observable<boolean> {
-        this.authUser$.next(new Usuario(1, 'admin@admin.com', 'asd123', 'admin'));
+        this.authUser$.next(new Usuario(99, 'admin@admin.com', 'asd123', 'admin'));
         return of(true);
     }
 

@@ -42,7 +42,7 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
       this.alumnos = alumnos;
       this.formulario = this.formBuilder.group({
         materia: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
-        profesor: ['', [Validators.required]],
+        profesor: [''],
         alumnos: this.alumnos ? this.formBuilder.array(this.alumnos.map(() => this.formBuilder.control(false))) : this.formBuilder.array([])
       });
       console.log(this.data);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, concatMap, forkJoin, map, switchMap } from 'rxjs';
 import { Alumno } from '../models/alumno';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
@@ -64,21 +64,21 @@ export class AlumnoService {
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.eliminarInscripciones(alumno.id) // Elimina Inscripciones asociadas al Alumno
+    return this.eliminarInscripciones(alumno.id) // Eliminar Inscripciones asociadas
       .pipe(
-        switchMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id)
-          .pipe(
-            map(() => alumno)
-          ))
+        concatMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id)),
+        map(() => alumno)
       );
   }
 
   eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {
     return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idAlumno=' + alumnoId)
       .pipe(
-        map((inscripciones) => {
-          inscripciones.forEach((inscripcion) => this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).subscribe());
-          return inscripciones;
+        switchMap((inscripciones) => {
+          const deleteRequests = inscripciones.map((inscripcion) =>
+            this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id)
+          );
+          return forkJoin(deleteRequests).pipe(map(() => inscripciones));
         })
       );
   }

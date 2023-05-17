@@ -9,6 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 
 const routes: Routes = [
   {
@@ -44,6 +48,11 @@ const routes: Routes = [
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatDividerModule,
+    MatOptionModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSelectModule,
 
     SharedModule
   ]

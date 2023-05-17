@@ -1,0 +1,68 @@
+<h2 class="text-primary" appFontSize="20">LISTADO DE USUARIOS</h2>
+
+<ng-container *ngIf="loading">
+    <app-spinner></app-spinner>
+</ng-container>
+
+<div [hidden]="loading">
+
+    <div>
+        <button mat-raised-button color="accent" class="ml-3 mb-3" (click)="altaUsuario()">
+            <mat-icon>add</mat-icon>Agregar usuario
+        </button>
+    </div>
+
+    <ng-container *ngIf="dataSource?.data?.length == 0">
+        <p class="ml-1 text-red-600">Se ha producido un error al obtener los datos.</p>
+    </ng-container>
+
+    <mat-form-field class="ml-3 w-auto">
+        <mat-label>Filtro</mat-label>
+        <input matInput (keyup)="filtrar($event)" placeholder="Apellido" #input>
+    </mat-form-field>
+
+    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ID </th>
+            <td mat-cell *matCellDef="let usuario"><a [routerLink]="['/home/usuarios/', usuario?.id]"> {{usuario.id}} </a></td>
+        </ng-container>
+        <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.email}} </td>
+        </ng-container>
+        <ng-container matColumnDef="password">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.password}} </td>
+        </ng-container>
+        <ng-container matColumnDef="rol">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.rol | uppercase}} </td>
+        </ng-container>
+        <ng-container matColumnDef="token">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Token </th>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.token}} </td>
+        </ng-container>
+        <ng-container matColumnDef="modificar">
+            <th mat-header-cell *matHeaderCellDef> Modificar </th>
+            <td mat-cell *matCellDef="let usuario">
+                <button mat-raised-button color="primary" (click)="modificarUsuario(usuario)">
+                    <mat-icon>edit</mat-icon>Modificar
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="eliminar">
+            <th mat-header-cell *matHeaderCellDef> Eliminar </th>
+            <td mat-cell *matCellDef="let usuario">
+                <button mat-raised-button color="warn" (click)="eliminarUsuario(usuario)">
+                    <mat-icon>delete</mat-icon>Eliminar
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+</div>

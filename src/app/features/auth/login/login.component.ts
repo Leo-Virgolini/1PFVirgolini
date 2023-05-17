@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService, LoginFormValue } from '../../../core/services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
   public logout: string | null;
   public hide: boolean = true;
 
-  constructor(private authService: AuthService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute) {
+  constructor(private authService: AuthService, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private router: Router) {
     this.success = null;
     this.submitted = false;
 
@@ -40,9 +40,11 @@ export class LoginComponent {
     }
   }
 
-  onKeydown(event: Event) {
-    this.submitted = false;
-    this.success = null;
+  onKeydown(event: KeyboardEvent) {
+    if (event.key !== 'Enter') {
+      this.submitted = false;
+      this.success = null;
+    }
   }
 
 }

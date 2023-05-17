@@ -12,6 +12,32 @@ import { AlumnoService } from 'src/app/core/services/alumno.service';
 })
 export class AlumnoDialogComponent implements OnInit, OnDestroy {
 
+  readonly provinciasList: string[] = [
+    'Buenos Aires',
+    'Catamarca',
+    'Chaco',
+    'Chubut',
+    'Córdoba',
+    'Corrientes',
+    'Entre Ríos',
+    'Formosa',
+    'Jujuy',
+    'La Pampa',
+    'La Rioja',
+    'Mendoza',
+    'Misiones',
+    'Neuquén',
+    'Río Negro',
+    'Salta',
+    'San Juan',
+    'San Luis',
+    'Santa Cruz',
+    'Santa Fe',
+    'Santiago del Estero',
+    'Tierra del Fuego',
+    'Tucumán'
+  ];
+
   public submitted: boolean;
   private subscriptions!: Subscription[];
 

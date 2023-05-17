@@ -8,6 +8,7 @@ const routes: Routes = [
     path: '',
     component: LayoutComponent,
     children: [
+      { path: 'usuarios', loadChildren: () => import('./usuarios/usuarios.module').then((module) => module.UsuariosModule) },
       { path: 'alumnos', loadChildren: () => import('./alumnos/alumnos.module').then((module) => module.AlumnosModule) },
       { path: 'profesores', loadChildren: () => import('./profesores/profesores.module').then((module) => module.ProfesoresModule) },
       { path: 'cursos', loadChildren: () => import('./cursos/cursos.module').then((module) => module.CursosModule) },

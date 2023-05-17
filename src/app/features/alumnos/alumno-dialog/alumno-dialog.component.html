@@ -68,10 +68,7 @@
                 <mat-form-field appearance="fill">
                     <mat-label for="provincia">Provincia:</mat-label>
                     <mat-select formControlName="provincia" id="provincia" name="provincia" aria-label="Provincia">
-                        <mat-option value="Buenos Aires">Buenos Aires</mat-option>
-                        <mat-option value="Córdoba">Córdoba</mat-option>
-                        <mat-option value="Mendoza">Mendoza</mat-option>
-                        <mat-option value="Salta">Salta</mat-option>
+                        <mat-option *ngFor="let provincia of provinciasList" [value]="provincia">{{provincia}}</mat-option>
                     </mat-select>
                     <app-error-helper [control]="provincia"></app-error-helper>
                 </mat-form-field>

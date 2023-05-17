@@ -29,6 +29,9 @@
                         <mat-label for="profesor">Profesor:</mat-label>
                         <mat-select formControlName="profesor" id="profesor" name="profesor" required [compareWith]="compareFn"
                             [ngClass]="formulario.get('profesor')?.invalid && formulario.get('profesor')?.touched ? 'text-danger' : ''">
+                            <mat-option [value]="null">
+                                -Sin asignar-
+                            </mat-option>
                             <mat-option *ngFor="let profesor of profesores" [value]="profesor">
                                 {{profesor.id + " - " + profesor.apellido + ", " + profesor.nombre}}
                             </mat-option>

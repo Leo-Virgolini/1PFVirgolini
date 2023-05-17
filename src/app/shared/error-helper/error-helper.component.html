@@ -1,0 +1,27 @@
+<ng-container *ngIf="control?.touched && control?.invalid">
+    <div *ngFor="let error of control?.errors | keyvalue">
+        <div [ngSwitch]="error.key">
+            <mat-error *ngSwitchCase="'required'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Este campo es <strong>requerido</strong>.</small>
+            </mat-error>
+            <mat-error *ngSwitchCase="'minlength'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Este campo debe tener mínimo <strong>{{error.value.requiredLength}}</strong> caracteres.</small>
+            </mat-error>
+            <mat-error *ngSwitchCase="'maxlength'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Este campo debe tener máximo <strong>{{error.value.requiredLength}}</strong> caracteres.</small>
+            </mat-error>
+            <mat-error *ngSwitchCase="'pattern'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Has introducido caracteres incorrectos.</small>
+            </mat-error>
+            <mat-error *ngSwitchCase="'email'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Has un introducido un email incorrecto.</small>
+            </mat-error>
+            <mat-error *ngSwitchCase="'matDatepickerParse'" class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Has un introducido una fecha incorrecta.</small>
+            </mat-error>
+            <mat-error *ngSwitchDefault class="alert alert-danger d-flex align-items-center mt-1 mb-0 p-1" role="alert">
+                <mat-icon class="vertical-align-middle">error</mat-icon><small>Validación desconocida.</small>
+            </mat-error>
+        </div>
+    </div>
+</ng-container>

@@ -25,12 +25,15 @@ export class AuthService {
   }
 
   login(formValue: LoginFormValue): Observable<boolean> {
+    console.log("login running");
+    console.log("form", formValue);
     return this.httpClient.get<Usuario[]>(`${environment.url}/usuarios`, {
       params: { ...formValue }
     })
       .pipe(
         map((usuarios) => {
           const usuarioAutenticado = usuarios[0];
+          console.log("usuarioAutenticado", usuarioAutenticado);
           if (usuarioAutenticado) {
             if (usuarioAutenticado.token)
               localStorage.setItem('token', usuarioAutenticado.token);
@@ -41,7 +44,8 @@ export class AuthService {
             return false;
           }
         }),
-        catchError(() => {
+        catchError((err) => {
+          console.log(err);
           return of(false);
         })
       );
@@ -55,29 +59,33 @@ export class AuthService {
 
   verificarToken(): Observable<boolean> {
     const token = localStorage.getItem('token');
-    return this.httpClient.get<Usuario[]>(`${environment.url}/usuarios?token=${token}`,
-      {
-        headers: new HttpHeaders({
-          'Authorization': token || ''
-        })
-      }
-    )
-      .pipe(
-        map((usuarios) => {
-          const usuarioAutenticado = usuarios[0];
-          if (usuarioAutenticado) {
-            if (usuarioAutenticado.token)
-              localStorage.setItem('token', usuarioAutenticado.token);
-            this.authUser$.next(usuarioAutenticado);
-          }
-          return !!usuarioAutenticado;
-        }),
-        catchError((err) => {
-          console.log('Error al verificar el token');
-          // return throwError(() => err);
-          return of(false);
-        })
-      );
+    if (token) {
+      return this.httpClient.get<Usuario[]>(`${environment.url}/usuarios?token=${token}`,
+        {
+          headers: new HttpHeaders({
+            'Authorization': token || ''
+          })
+        }
+      )
+        .pipe(
+          map((usuarios) => {
+            const usuarioAutenticado = usuarios[0];
+            if (usuarioAutenticado) {
+              if (usuarioAutenticado.token)
+                localStorage.setItem('token', usuarioAutenticado.token);
+              this.authUser$.next(usuarioAutenticado);
+            }
+            return !!usuarioAutenticado;
+          }),
+          catchError((err) => {
+            console.log('Error al verificar el token');
+            // return throwError(() => err);
+            return of(false);
+          })
+        );
+    } else {
+      return of(false);
+    }
   }
 
 }
