@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
-import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environments.prod';
 
 @Injectable({
@@ -46,7 +46,7 @@ export class UsuarioService {
       token: usuario.token
     };
 
-    return this.http.put<Usuario>(this.url + '/' + usuarioData.id, usuarioData);
+    return this.http.put<Usuario>(this.url + '/' + usuario.id, usuarioData);
   }
 
   eliminarUsuario(usuario: Usuario): Observable<Usuario> {

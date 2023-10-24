@@ -18,7 +18,7 @@
 
     <mat-form-field class="ml-3 w-auto">
         <mat-label>Filtro</mat-label>
-        <input matInput (keyup)="filtrar($event)" placeholder="Ramirez" #input>
+        <input matInput (keyup)="filtrar($event)" placeholder="Apellido/Nombre" #input>
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">

@@ -2,7 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.3.
 
-// Proyecto Angular CLI con Angular.
+// Proyecto del curso "Angular" de Coderhouse.
 
 INSTALAR:
 npm install

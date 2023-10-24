@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, forkJoin, map, mergeMap, switchMap, tap, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, forkJoin, map, mergeMap } from 'rxjs';
 import { Inscripcion } from '../models/inscripcion';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
@@ -80,7 +80,7 @@ export class InscripcionService {
       idAlumno: inscripcion.alumno.id
     };
 
-    return this.http.put<Inscripcion>(this.url + '/' + inscripcionData.id, inscripcionData);
+    return this.http.put<Inscripcion>(this.url + '/' + inscripcion.id, inscripcionData);
   }
 
   eliminarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {

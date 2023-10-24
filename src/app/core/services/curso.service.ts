@@ -82,7 +82,7 @@ export class CursoService {
       idProfesor: curso.profesor ? curso.profesor.id : undefined
     };
 
-    return this.http.put<Curso>(this.url + '/' + cursoData.id, cursoData);
+    return this.http.put<Curso>(this.url + '/' + curso.id, cursoData);
   }
 
   obtenerAlumnos(cursoId: number): Observable<Alumno[] | null> {

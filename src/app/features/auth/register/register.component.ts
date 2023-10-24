@@ -90,7 +90,6 @@ export class RegisterComponent {
   }
 
   private altaAlumno(): void {
-
     const alumno: Alumno = new Alumno(0,
       this.nombre?.value,
       this.apellido?.value,

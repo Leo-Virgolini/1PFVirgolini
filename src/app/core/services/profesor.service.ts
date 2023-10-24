@@ -3,7 +3,6 @@ import { BehaviorSubject, Observable, forkJoin, map, mergeMap, of, switchMap } f
 import { Profesor } from '../models/profesor';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
-import { CursoService } from './curso.service';
 import { Curso } from '../models/curso';
 import { DatePipe } from '@angular/common';
 
@@ -71,7 +70,7 @@ export class ProfesorService {
       rol: profesor.rol
     };
 
-    return this.http.put<Profesor>(this.url + '/' + profesorData.id, profesorData);
+    return this.http.put<Profesor>(this.url + '/' + profesor.id, profesorData);
   }
 
   eliminarProfesor(profesor: Profesor): Observable<Profesor> {

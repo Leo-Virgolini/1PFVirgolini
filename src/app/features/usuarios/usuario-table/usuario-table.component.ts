@@ -8,6 +8,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Usuario } from 'src/app/core/models/usuario';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { UsuarioDialogComponent } from '../usuario-dialog/usuario-dialog.component';
+import { AlumnoService } from 'src/app/core/services/alumno.service';
+import { ProfesorService } from 'src/app/core/services/profesor.service';
+import { Alumno } from 'src/app/core/models/alumno';
+import { Profesor } from 'src/app/core/models/profesor';
 
 @Component({
   selector: 'app-usuario-table',
@@ -26,7 +30,7 @@ export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
   public loading: boolean;
   private subscriptions!: Subscription[];
 
-  constructor(private usuarioService: UsuarioService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
+  constructor(private usuarioService: UsuarioService, private alumnoService: AlumnoService, private profesorService: ProfesorService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Usuario>();
@@ -83,10 +87,17 @@ export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
   }
 
   eliminarUsuario(usuario: Usuario): void {
-    this.subscriptions.push(this.usuarioService.eliminarUsuario(usuario).subscribe((u) => {
-      this.obtenerUsuarios();
-      this.showSnackBar("Usuario ID: " + u.id + " eliminado.");
-    }));
+    if (usuario.rol === 'alumno') {
+      this.subscriptions.push(this.alumnoService.eliminarAlumno(usuario as Alumno).subscribe((u) => {
+        this.obtenerUsuarios();
+        this.showSnackBar("Usuario Alumno ID: " + u.id + " eliminado.");
+      }));
+    } else if (usuario.rol === 'profesor') {
+      this.subscriptions.push(this.profesorService.eliminarProfesor(usuario as Profesor).subscribe((u) => {
+        this.obtenerUsuarios();
+        this.showSnackBar("Usuario Profesor ID: " + u.id + " eliminado.");
+      }));
+    }
   }
 
   modificarUsuario(usuario: Usuario): void {

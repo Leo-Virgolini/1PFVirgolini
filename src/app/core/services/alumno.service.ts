@@ -60,7 +60,7 @@ export class AlumnoService {
       rol: alumno.rol
     };
 
-    return this.http.put<Alumno>(this.url + '/' + alumnoData.id, alumnoData);
+    return this.http.put<Alumno>(this.url + '/' + alumno.id, alumnoData);
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
@@ -75,7 +75,7 @@ export class AlumnoService {
     return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idAlumno=' + alumnoId)
       .pipe(
         switchMap((inscripciones) => {
-          const deleteRequests = inscripciones.map((inscripcion) =>
+          const deleteRequests: Observable<Inscripcion>[] = inscripciones.map((inscripcion) =>
             this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id)
           );
           return forkJoin(deleteRequests).pipe(map(() => inscripciones));

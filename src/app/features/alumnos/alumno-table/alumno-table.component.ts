@@ -43,7 +43,7 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  filtrar(event: Event) {
+  filtrar(event: Event) : void {
     const filteredValue: string = (event.target as HTMLInputElement)?.value;
     this.dataSource.filter = filteredValue;
 

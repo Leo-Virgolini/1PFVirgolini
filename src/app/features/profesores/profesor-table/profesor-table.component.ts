@@ -30,7 +30,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Profesor>();
-    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido?.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerProfesores();
   }
 
@@ -97,10 +97,6 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
         this.showSnackBar("Profesor ID: " + value.id + " modificado.");
       }
     }));
-  }
-
-  verCursos(profesorId: number): void {
-
   }
 
   showSnackBar(message: string) {

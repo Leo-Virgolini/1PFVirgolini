@@ -11,7 +11,7 @@
       "id": 1,
       "nombre": "Juana",
       "apellido": "Jimenez",
-      "fechaNacimiento": "1989-01-24",
+      "fechaNacimiento": "1989-01-23",
       "dni": "255789",
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
@@ -35,12 +35,12 @@
     },
     {
       "id": 3,
-      "nombre": "Leo",
-      "apellido": "Coaquira",
-      "fechaNacimiento": "1984/09/24",
-      "dni": "564321",
+      "nombre": "Darío",
+      "apellido": "Gomez",
+      "fechaNacimiento": "1980-09-24",
+      "dni": "255789",
       "provincia": "Buenos Aires",
-      "localidad": "Olivos",
+      "localidad": "Villa Ballester",
       "calle": "Calle 4321",
       "email": "3@gmail.com",
       "password": "asd123",
@@ -372,11 +372,6 @@
       "idAlumno": 2
     },
     {
-      "id": 3,
-      "idCurso": 3,
-      "idAlumno": 3
-    },
-    {
       "id": 4,
       "idCurso": 4,
       "idAlumno": 4
@@ -423,11 +418,6 @@
     },
     {
       "idCurso": 8,
-      "idAlumno": 3,
-      "id": 14
-    },
-    {
-      "idCurso": 8,
       "idAlumno": 10,
       "id": 15
     },
@@ -465,6 +455,41 @@
       "idCurso": 8,
       "idAlumno": 20,
       "id": 22
+    },
+    {
+      "idCurso": 1,
+      "idAlumno": 14,
+      "id": 23
+    },
+    {
+      "idCurso": 1,
+      "idAlumno": 15,
+      "id": 24
+    },
+    {
+      "idCurso": 1,
+      "idAlumno": 19,
+      "id": 25
+    },
+    {
+      "idCurso": 5,
+      "idAlumno": 6,
+      "id": 26
+    },
+    {
+      "idCurso": 5,
+      "idAlumno": 7,
+      "id": 27
+    },
+    {
+      "idCurso": 2,
+      "idAlumno": 16,
+      "id": 28
+    },
+    {
+      "idCurso": 1,
+      "idAlumno": 18,
+      "id": 29
     }
   ]
 }

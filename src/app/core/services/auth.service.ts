@@ -43,10 +43,6 @@ export class AuthService {
           } else {
             return false;
           }
-        }),
-        catchError((err) => {
-          console.log(err);
-          return of(false);
         })
       );
   }
