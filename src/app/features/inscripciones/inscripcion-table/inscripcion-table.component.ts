@@ -9,13 +9,14 @@ import { Inscripcion } from 'src/app/core/models/inscripcion';
 import { AlumnoService } from 'src/app/core/services/alumno.service';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { InscripcionService } from 'src/app/core/services/inscripcion.service';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-inscripcion-table',
   templateUrl: './inscripcion-table.component.html',
   styleUrls: ['./inscripcion-table.component.scss']
 })
-export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
+export class InscripcionTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
@@ -31,6 +32,9 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Inscripcion>();
+  }
+
+  ngOnInit(): void {
     this.dataSource.filterPredicate = (data: Inscripcion, filter: string) => data.curso?.id === Number(filter?.trim()) || (data.curso ? data.curso.materia.toLowerCase().startsWith(filter.trim().toLowerCase()) : false);
     this.obtenerInscripciones();
   }
@@ -80,6 +84,20 @@ export class InscripcionTableComponent implements AfterViewInit, OnDestroy {
       this.obtenerInscripciones();
       this.showSnackBar("Inscripción ID: " + i.id + " eliminada.");
     }));
+  }
+
+  openDialog(inscripcion: Inscripcion): void {
+    const dialog = this.dialogService.open(DialogComponent, {
+      data: {
+        inscripcion: inscripcion
+      }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eliminarInscripcion(inscripcion);
+      }
+    });
   }
 
   private showSnackBar(message: string) {

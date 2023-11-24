@@ -203,19 +203,6 @@
       "rol": "alumno"
     },
     {
-      "id": 16,
-      "nombre": "Josefina",
-      "apellido": "Accuña",
-      "fechaNacimiento": "1991/01/25",
-      "dni": "533334",
-      "provincia": "Buenos Aires",
-      "localidad": "Villa Ballester",
-      "calle": "Calle 4321",
-      "email": "16@gmail.com",
-      "password": "asd123",
-      "rol": "alumno"
-    },
-    {
       "id": 17,
       "nombre": "Macarena",
       "apellido": "Pereyra",
@@ -225,32 +212,6 @@
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
       "email": "17@gmail.com",
-      "password": "asd123",
-      "rol": "alumno"
-    },
-    {
-      "id": 18,
-      "nombre": "Abigail",
-      "apellido": "Molina",
-      "fechaNacimiento": "1991/01/25",
-      "dni": "874342",
-      "provincia": "Buenos Aires",
-      "localidad": "Villa Ballester",
-      "calle": "Calle 4321",
-      "email": "18@gmail.com",
-      "password": "asd123",
-      "rol": "alumno"
-    },
-    {
-      "id": 19,
-      "nombre": "Jessica",
-      "apellido": "Tagliafico",
-      "fechaNacimiento": "1994/01/25",
-      "dni": "426216",
-      "provincia": "Buenos Aires",
-      "localidad": "Villa Ballester",
-      "calle": "Calle 4321",
-      "email": "19@gmail.com",
       "password": "asd123",
       "rol": "alumno"
     },
@@ -266,16 +227,6 @@
       "email": "20@gmail.com",
       "password": "asd123",
       "rol": "alumno"
-    },
-    {
-      "id": 21,
-      "nombre": "Juan",
-      "apellido": "Perez",
-      "fechaNacimiento": "1991/07/22",
-      "dni": "123456",
-      "email": "21@gmail.com",
-      "password": "asd123",
-      "rol": "profesor"
     },
     {
       "id": 22,
@@ -322,7 +273,7 @@
     {
       "id": 1,
       "materia": "Historia",
-      "idProfesor": 21
+      "idProfesor": null
     },
     {
       "id": 2,
@@ -345,27 +296,12 @@
       "idProfesor": 25
     },
     {
-      "id": 6,
-      "materia": "Geografía",
-      "idProfesor": 21
-    },
-    {
-      "id": 7,
-      "materia": "Inglés",
-      "idProfesor": 22
-    },
-    {
       "materia": "Geografía",
       "idProfesor": 23,
       "id": 8
     }
   ],
   "inscripciones": [
-    {
-      "id": 1,
-      "idCurso": 1,
-      "idAlumno": 1
-    },
     {
       "id": 2,
       "idCurso": 2,
@@ -380,11 +316,6 @@
       "id": 5,
       "idCurso": 5,
       "idAlumno": 5
-    },
-    {
-      "id": 7,
-      "idCurso": 7,
-      "idAlumno": 7
     },
     {
       "id": 8,
@@ -423,18 +354,8 @@
     },
     {
       "idCurso": 8,
-      "idAlumno": 16,
-      "id": 16
-    },
-    {
-      "idCurso": 8,
       "idAlumno": 17,
       "id": 17
-    },
-    {
-      "idCurso": 8,
-      "idAlumno": 19,
-      "id": 18
     },
     {
       "idCurso": 8,
@@ -468,27 +389,17 @@
     },
     {
       "idCurso": 1,
-      "idAlumno": 19,
-      "id": 25
-    },
-    {
-      "idCurso": 5,
-      "idAlumno": 6,
-      "id": 26
-    },
-    {
-      "idCurso": 5,
-      "idAlumno": 7,
+      "idAlumno": 1,
       "id": 27
     },
     {
-      "idCurso": 2,
-      "idAlumno": 16,
+      "idCurso": 1,
+      "idAlumno": 2,
       "id": 28
     },
     {
       "idCurso": 1,
-      "idAlumno": 18,
+      "idAlumno": 3,
       "id": 29
     }
   ]

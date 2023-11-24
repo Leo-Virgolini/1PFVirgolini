@@ -1,22 +1,23 @@
-import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable, Subscription, catchError, forkJoin, of, switchMap, tap } from 'rxjs';
+import { Observable, Subscription, forkJoin } from 'rxjs';
 import { Curso } from 'src/app/core/models/curso';
 import { CursoService } from 'src/app/core/services/curso.service';
 import { CursoDialogComponent } from '../curso-dialog/curso-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { Inscripcion } from 'src/app/core/models/inscripcion';
 import { InscripcionService } from 'src/app/core/services/inscripcion.service';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-curso-table',
   templateUrl: './curso-table.component.html',
   styleUrls: ['./curso-table.component.scss']
 })
-export class CursoTableComponent implements AfterViewInit, OnDestroy {
+export class CursoTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
@@ -32,6 +33,9 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Curso>();
+  }
+
+  ngOnInit(): void {
     this.dataSource.filterPredicate = (data: Curso, filter: string) => data.materia.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerCursos();
   }
@@ -105,6 +109,20 @@ export class CursoTableComponent implements AfterViewInit, OnDestroy {
         this.showSnackBar("Curso ID: " + cursoModificado.id + " modificado.");
       }
     }));
+  }
+
+  openDialog(curso: Curso): void {
+    const dialog = this.dialogService.open(DialogComponent, {
+      data: {
+        curso: curso
+      }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eliminarCurso(curso);
+      }
+    });
   }
 
   private showSnackBar(message: string) {

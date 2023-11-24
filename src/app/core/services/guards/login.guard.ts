@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { Observable, map } from 'rxjs';
 import { AuthService } from '../auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginGuard  {
+export class LoginGuard {
 
   constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.authService.verificarToken()
       .pipe(
         map((usuarioAutenticado) => {

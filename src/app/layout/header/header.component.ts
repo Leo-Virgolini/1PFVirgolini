@@ -9,16 +9,17 @@ import { AuthService } from 'src/app/core/services/auth.service';
 })
 export class HeaderComponent implements OnInit {
 
-  usuario: Usuario | null = null;
+  usuario: Usuario | null;
 
   constructor(private authService: AuthService) {
-    authService.obtenerUsuarioAutenticado().subscribe((usuario) => {
-      if (usuario)
-        this.usuario = usuario;
-    });
+    this.usuario = null;
   }
 
   ngOnInit(): void {
+    this.authService.obtenerUsuarioAutenticado().subscribe((usuario) => {
+      if (usuario)
+        this.usuario = usuario;
+    });
   }
 
   logout(): void {

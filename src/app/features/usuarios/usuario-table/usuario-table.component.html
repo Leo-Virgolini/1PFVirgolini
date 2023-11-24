@@ -18,7 +18,7 @@
 
     <mat-form-field class="ml-3 w-auto">
         <mat-label>Filtro</mat-label>
-        <input matInput (keyup)="filtrar($event)" placeholder="Apellido" #input>
+        <input matInput (keyup)="filtrar($event)" placeholder="Apellido">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -32,7 +32,7 @@
         </ng-container>
         <ng-container matColumnDef="password">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
-            <td mat-cell *matCellDef="let usuario"> {{usuario.password}} </td>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.password | password}} </td>
         </ng-container>
         <ng-container matColumnDef="rol">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
@@ -53,7 +53,7 @@
         <ng-container matColumnDef="eliminar">
             <th mat-header-cell *matHeaderCellDef> Eliminar </th>
             <td mat-cell *matCellDef="let usuario">
-                <button *ngIf="usuario.rol != 'admin'" mat-raised-button color="warn" (click)="eliminarUsuario(usuario)">
+                <button *ngIf="usuario.rol != 'admin'" mat-raised-button color="warn" (click)="openDialog(usuario)">
                     <mat-icon>delete</mat-icon>Eliminar
                 </button>
             </td>

@@ -13,22 +13,23 @@
             <div class="col-xs-6 col-sm-6">
                 <mat-form-field>
                     <mat-label for="nombre">Nombre:</mat-label>
-                    <input matInput formControlName="nombre" type="text" id="nombre" autocomplete="given-name" required placeholder="Nombre" minlength="2" maxlength="20" [ngClass]="{
-                                'is-invalid': nombre.invalid && nombre.touched,
-                                'is-valid': nombre.valid && nombre.touched
+                    <input matInput formControlName="nombreControl" type="text" id="nombre" autocomplete="given-name" required placeholder="Nombre" minlength="2" maxlength="20" [ngClass]="{
+                                'is-invalid': nombreControl.invalid && nombreControl.touched,
+                                'is-valid': nombreControl.valid && nombreControl.touched
                             }">
-                    <app-error-helper [control]="nombre"></app-error-helper>
+                    <app-error-helper [control]="nombreControl"></app-error-helper>
                 </mat-form-field>
             </div>
 
             <div class="col-xs-6 col-sm-6 ml-3">
                 <mat-form-field>
                     <mat-label for="apellido">Apellido:</mat-label>
-                    <input matInput formControlName="apellido" type="text" id="apellido" autocomplete="family-name" required placeholder="Apellido" minlength="2" maxlength="20" [ngClass]="{
-                                'is-invalid': apellido.invalid && apellido.touched,
-                                'is-valid': apellido.valid && apellido.touched
+                    <input matInput formControlName="apellidoControl" type="text" id="apellido" autocomplete="family-name" required placeholder="Apellido" minlength="2" maxlength="20"
+                        [ngClass]="{
+                                'is-invalid': apellidoControl.invalid && apellidoControl.touched,
+                                'is-valid': apellidoControl.valid && apellidoControl.touched
                             }">
-                    <app-error-helper [control]="apellido"></app-error-helper>
+                    <app-error-helper [control]="apellidoControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -37,14 +38,15 @@
             <div class="col-sm-6 col-md-12">
                 <mat-form-field appearance="fill">
                     <mat-label for="fechaNacimiento">Fecha de nacimiento:</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimiento" id="fechaNacimiento" required autocomplete="bday" minlength="9" maxlength="10" [ngClass]="{
-                                'is-invalid': fechaNacimiento.invalid && fechaNacimiento.touched,
-                                'is-valid': fechaNacimiento.valid && fechaNacimiento.touched
+                    <input matInput [matDatepicker]="picker" formControlName="fechaNacimientoControl" id="fechaNacimiento" required autocomplete="bday" minlength="9" maxlength="10"
+                        [ngClass]="{
+                                'is-invalid': fechaNacimientoControl.invalid && fechaNacimientoControl.touched,
+                                'is-valid': fechaNacimientoControl.valid && fechaNacimientoControl.touched
                             }">
                     <mat-hint>D/M/AAAA</mat-hint>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <app-error-helper [control]="fechaNacimiento"></app-error-helper>
+                    <app-error-helper [control]="fechaNacimientoControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -53,46 +55,47 @@
             <div class="col-sm-6 col-md-12">
                 <mat-form-field>
                     <mat-label for="dni">DNI:</mat-label>
-                    <input matInput formControlName="dni" type="text" id="dni" required inputmode="numeric" placeholder="DNI" minlength="6" maxlength="10" [ngClass]="{
-                            'is-invalid': dni.invalid && dni.touched,
-                            'is-valid': dni.valid && dni.touched
+                    <input matInput formControlName="dniControl" type="text" id="dni" required inputmode="numeric" placeholder="DNI" minlength="6" maxlength="10" [ngClass]="{
+                            'is-invalid': dniControl.invalid && dniControl.touched,
+                            'is-valid': dniControl.valid && dniControl.touched
                         }">
-                    <app-error-helper [control]="dni"></app-error-helper>
+                    <app-error-helper [control]="dniControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
 
-        <div formGroupName="direccion" class="grid mb-3">
+        <div formGroupName="direccionGroup" class="grid mb-3">
             <div class="col-sm-4 col-md-4">
                 <mat-form-field appearance="fill">
                     <mat-label for="provincia">Provincia:</mat-label>
-                    <mat-select formControlName="provincia" id="provincia" required aria-label="Provincia">
+                    <mat-select formControlName="provinciaControl" id="provincia" required aria-label="Provincia">
                         <mat-option *ngFor="let provincia of provinciasList" [value]="provincia">{{provincia}}</mat-option>
                     </mat-select>
-                    <app-error-helper [control]="provincia"></app-error-helper>
+                    <app-error-helper [control]="provinciaControl"></app-error-helper>
                 </mat-form-field>
             </div>
 
             <div class="col-sm-4 col-md-4 ml-3">
                 <mat-form-field>
                     <mat-label for="localidad">Localidad:</mat-label>
-                    <input matInput formControlName="localidad" type="text" id="localidad" required autocomplete="address-level2" placeholder="Florida" minlength="4" maxlength="20"
+                    <input matInput formControlName="localidadControl" type="text" id="localidad" required autocomplete="address-level2" placeholder="Florida" minlength="4" maxlength="20"
                         [ngClass]="{
-                            'is-invalid': localidad.invalid && localidad.touched,
-                            'is-valid': localidad.valid && localidad.touched
+                            'is-invalid': localidadControl.invalid && localidadControl.touched,
+                            'is-valid': localidadControl.valid && localidadControl.touched
                         }">
-                    <app-error-helper [control]="localidad"></app-error-helper>
+                    <app-error-helper [control]="localidadControl"></app-error-helper>
                 </mat-form-field>
             </div>
 
             <div class="col-sm-4 col-md-4 ml-3">
                 <mat-form-field>
                     <mat-label for="calle">Calle:</mat-label>
-                    <input matInput formControlName="calle" type="text" id="calle" required autocomplete="street-address" placeholder="Calle 1234" minlength="4" maxlength="32" [ngClass]="{
-                            'is-invalid': calle.invalid && calle.touched,
-                            'is-valid': calle.valid && calle.touched
+                    <input matInput formControlName="calleControl" type="text" id="calle" required autocomplete="street-address" placeholder="Calle 1234" minlength="4" maxlength="32"
+                        [ngClass]="{
+                            'is-invalid': calleControl.invalid && calleControl.touched,
+                            'is-valid': calleControl.valid && calleControl.touched
                         }">
-                    <app-error-helper [control]="calle"></app-error-helper>
+                    <app-error-helper [control]="calleControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -107,11 +110,12 @@
             <div class="col-sm-6 col-md-12">
                 <mat-form-field>
                     <mat-label for="email">E-mail:</mat-label>
-                    <input matInput formControlName="email" type="email" id="email" required autocomplete="email" placeholder="email@ejemplo.com" minlength="7" maxlength="64" [ngClass]="{
-                            'is-invalid': email.invalid && email.touched,
-                            'is-valid': email.valid && email.touched
+                    <input matInput formControlName="emailControl" type="email" id="email" required autocomplete="email" placeholder="email@ejemplo.com" minlength="7" maxlength="64"
+                        [ngClass]="{
+                            'is-invalid': emailControl.invalid && emailControl.touched,
+                            'is-valid': emailControl.valid && emailControl.touched
                         }">
-                    <app-error-helper [control]="email"></app-error-helper>
+                    <app-error-helper [control]="emailControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -120,12 +124,12 @@
             <div class="col-sm-6 col-md-6">
                 <mat-form-field>
                     <mat-label for="password">Contraseña:</mat-label>
-                    <input #input matInput formControlName="password" type="password" id="password" required autocomplete="current-password" placeholder="Contraseña" minlength="4"
+                    <input #input matInput formControlName="passwordControl" type="password" id="password" required autocomplete="current-password" placeholder="Contraseña" minlength="4"
                         maxlength="20" [ngClass]="{
-                            'is-invalid': password.invalid && password.touched,
-                            'is-valid': password.valid && password.touched
+                            'is-invalid': passwordControl.invalid && passwordControl.touched,
+                            'is-valid': passwordControl.valid && passwordControl.touched
                         }">
-                    <app-error-helper [control]="password"></app-error-helper>
+                    <app-error-helper [control]="passwordControl"></app-error-helper>
                     <mat-hint>La contraseña debe tener entre 4-20 caracteres y debe contener letras y
                         números.</mat-hint>
                     <mat-hint align="end">{{input.value.length}}/20</mat-hint>
@@ -135,12 +139,12 @@
             <div class="col-sm-6 col-md-6 ml-3">
                 <mat-form-field>
                     <mat-label for="repeatPassword">Repetir contraseña:</mat-label>
-                    <input matInput formControlName="repeatPassword" type="password" id="repeatPassword" required autocomplete="new-password" placeholder="Contraseña" minlength="4"
+                    <input matInput formControlName="repeatPasswordControl" type="password" id="repeatPassword" required autocomplete="new-password" placeholder="Contraseña" minlength="4"
                         maxlength="20" [ngClass]="{
-                            'is-invalid': repeatPassword.invalid && repeatPassword.touched,
-                            'is-valid': repeatPassword.valid && repeatPassword.touched
+                            'is-invalid': repeatPasswordControl.invalid && repeatPasswordControl.touched,
+                            'is-valid': repeatPasswordControl.valid && repeatPasswordControl.touched
                         }">
-                    <app-error-helper [control]="repeatPassword"></app-error-helper>
+                    <app-error-helper [control]="repeatPasswordControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>

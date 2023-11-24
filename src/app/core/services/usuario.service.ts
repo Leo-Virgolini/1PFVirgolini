@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environments.prod';
 
 @Injectable({
@@ -32,8 +32,7 @@ export class UsuarioService {
       rol: usuario.rol,
       token: usuario.token
     };
-
-    return this.http.post<Usuario>(this.url, usuarioData)
+    return this.http.post<Usuario>(this.url+'asdasd', usuarioData); //
   }
 
   modificarUsuario(usuario: Usuario): Observable<Usuario> {

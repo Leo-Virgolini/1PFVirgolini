@@ -16,13 +16,13 @@ export class CursoDetailsComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private cursoService: CursoService, private _location: Location) {
     this.loading = true;
-    this.route.params.subscribe((params) => cursoService.obtenerCurso(parseInt(params['id']))?.subscribe((curso) => {
-      this.curso = curso;
-      this.loading = false;
-    }));
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => this.cursoService.obtenerCurso(parseInt(params['id']))?.subscribe((curso) => {
+      this.curso = curso;
+      this.loading = false;
+    }));
   }
 
   volver() {

@@ -16,7 +16,7 @@
                     <mat-select formControlName="rol" id="rol" aria-label="Rol">
                         <mat-option *ngFor="let rol of roles" [value]="rol">{{rol | uppercase}}</mat-option>
                     </mat-select>
-                    <app-error-helper [control]="rol"></app-error-helper>
+                    <app-error-helper [control]="rolControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -26,10 +26,10 @@
                 <mat-form-field>
                     <mat-label for="email">E-mail:</mat-label>
                     <input matInput formControlName="email" type="email" id="email" required autocomplete="email" placeholder="email@ejemplo.com" minlength="7" maxlength="64" [ngClass]="{
-                            'is-invalid': email.invalid && email.touched,
-                            'is-valid': email.valid && email.touched
+                            'is-invalid': emailControl.invalid && emailControl.touched,
+                            'is-valid': emailControl.valid && emailControl.touched
                         }">
-                    <app-error-helper [control]="email"></app-error-helper>
+                    <app-error-helper [control]="emailControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>
@@ -40,10 +40,10 @@
                     <mat-label for="password">Contraseña:</mat-label>
                     <input #input matInput formControlName="password" type="password" required id="password" autocomplete="current-password" placeholder="Contraseña" minlength="4"
                         maxlength="20" [ngClass]="{
-                            'is-invalid': password.invalid && password.touched,
-                            'is-valid': password.valid && password.touched
+                            'is-invalid': passwordControl.invalid && passwordControl.touched,
+                            'is-valid': passwordControl.valid && passwordControl.touched
                         }">
-                    <app-error-helper [control]="password"></app-error-helper>
+                    <app-error-helper [control]="passwordControl"></app-error-helper>
                     <mat-hint>La contraseña debe tener entre 4-20 caracteres y debe contener letras y
                         números.</mat-hint>
                     <mat-hint align="end">{{input.value.length}}/20</mat-hint>
@@ -55,10 +55,10 @@
                     <mat-label for="repeatPassword">Repetir contraseña:</mat-label>
                     <input matInput formControlName="repeatPassword" type="password" id="repeatPassword" required autocomplete="new-password" placeholder="Contraseña" minlength="4"
                         maxlength="20" [ngClass]="{
-                            'is-invalid': repeatPassword.invalid && repeatPassword.touched,
-                            'is-valid': repeatPassword.valid && repeatPassword.touched
+                            'is-invalid': repeatPasswordControl.invalid && repeatPasswordControl.touched,
+                            'is-valid': repeatPasswordControl.valid && repeatPasswordControl.touched
                         }">
-                    <app-error-helper [control]="repeatPassword"></app-error-helper>
+                    <app-error-helper [control]="repeatPasswordControl"></app-error-helper>
                 </mat-form-field>
             </div>
         </div>

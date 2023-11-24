@@ -22,11 +22,10 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
   private subscriptions!: Subscription[];
 
   public formulario: FormGroup;
-  public email: FormControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
-  public password: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public repeatPassword: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public rol: FormControl = new FormControl('', [Validators.required]);
-  // public token: FormControl = new FormControl('', [Validators.required]);
+  public emailControl: FormControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
+  public passwordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+  public repeatPasswordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+  public rolControl: FormControl = new FormControl('', [Validators.required]);
 
   public usuarioId!: number;
 
@@ -35,10 +34,10 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
     this.subscriptions = [];
 
     this.formulario = this.formBuilder.group({
-      email: this.email,
-      password: this.password,
-      repeatPassword: this.repeatPassword,
-      rol: this.rol,
+      email: this.emailControl,
+      password: this.passwordControl,
+      repeatPassword: this.repeatPasswordControl,
+      rol: this.rolControl,
       // token: this.token
     },
       { validators: [this.passwordsMatchValidator()] });
@@ -47,9 +46,9 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.data) {
       this.usuarioId = this.data.id;
-      this.email?.patchValue(this.data.email);
-      this.password?.patchValue(this.data.password);
-      this.rol?.patchValue(this.data.rol);
+      this.emailControl?.patchValue(this.data.email);
+      this.passwordControl?.patchValue(this.data.password);
+      this.rolControl?.patchValue(this.data.rol);
       // this.token?.patchValue(this.data.token);
     }
   }
@@ -74,9 +73,9 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
   private modificarUsuario(): void {
     const usuario: Usuario | null = this.data;
     if (usuario) {
-      usuario.email = this.email?.value;
-      usuario.password = this.password?.value;
-      usuario.rol = this.rol?.value;
+      usuario.email = this.emailControl?.value;
+      usuario.password = this.passwordControl?.value;
+      usuario.rol = this.rolControl?.value;
       // usuario.token = this.token?.value;
 
       this.subscriptions.push(this.usuarioService.modificarUsuario(usuario).subscribe({
@@ -89,27 +88,36 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
 
   private altaUsusario(): void {
 
+    const token: string = this.generateRandomToken(32);
+
     const usuario: Usuario = new Usuario(0,
-      this.email?.value,
-      this.password?.value,
-      this.rol?.value,
-      // this.token?.value
+      this.emailControl?.value,
+      this.passwordControl?.value,
+      this.rolControl?.value,
+      token
     );
     this.subscriptions.push(this.usuarioService.altaUsuario(usuario).subscribe({
-      next: (u) => console.log("alta: ", u),
+      next: (u) => { usuario.id = u.id; console.log("alta: ", u) },
       complete: () => this.dialogRef.close(usuario),
-      error: (error) => console.log(error)
+      error: (error) => this.dialogRef.close(error)
     }));
   }
 
   private passwordsMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (this.password?.value !== this.repeatPassword?.value)
+      if (this.passwordControl?.value !== this.repeatPasswordControl?.value)
         return {
           passwordMismatch: true
         }
       return null;
     }
+  }
+
+  private generateRandomToken(length: number): string {
+    const array = new Uint32Array(Math.ceil(length / 2));
+    crypto.getRandomValues(array);
+
+    return Array.from(array, dec => dec.toString(16)).join('').slice(0, length);
   }
 
 }

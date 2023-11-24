@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, concatMap, forkJoin, map, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, concat, concatMap, forkJoin, map, switchMap } from 'rxjs';
 import { Alumno } from '../models/alumno';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
@@ -64,11 +64,12 @@ export class AlumnoService {
   }
 
   eliminarAlumno(alumno: Alumno): Observable<Alumno> {
-    return this.eliminarInscripciones(alumno.id) // Eliminar Inscripciones asociadas
-      .pipe(
-        concatMap(() => this.http.delete<Alumno>(this.url + '/' + alumno.id)),
-        map(() => alumno)
-      );
+    return concat(
+      this.eliminarInscripciones(alumno.id),
+      this.http.delete<Alumno>(this.url + '/' + alumno.id)
+    ).pipe(
+      map(() => alumno)
+    );
   }
 
   eliminarInscripciones(alumnoId: number): Observable<Inscripcion[]> {

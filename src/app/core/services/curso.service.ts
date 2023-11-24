@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, forkJoin, map, mergeMap, Observable, of, switchMap } from 'rxjs';
+import { BehaviorSubject, catchError, forkJoin, map, mergeMap, Observable, of, switchMap, throwError } from 'rxjs';
 import { Curso } from '../models/curso';
 import { Inscripcion } from '../models/inscripcion';
 import { Alumno } from '../models/alumno';
@@ -122,14 +122,39 @@ export class CursoService {
     return this.http.put<Curso>(this.url + '/' + curso.id, curso);
   }
 
+  // eliminarInscripciones(cursoId: number): Observable<Inscripcion[]> {
+  //   return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idCurso=' + cursoId)
+  //     .pipe(
+  //       map((inscripciones) => {
+  //         inscripciones.forEach((inscripcion) => this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).subscribe());
+  //         return inscripciones;
+  //       })
+  //     );
+  // }
+
   eliminarInscripciones(cursoId: number): Observable<Inscripcion[]> {
-    return this.http.get<Inscripcion[]>(environment.url + '/inscripciones' + '?idCurso=' + cursoId)
-      .pipe(
-        map((inscripciones) => {
-          inscripciones.forEach((inscripcion) => this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).subscribe());
-          return inscripciones;
-        })
-      );
+    return this.http.get<Inscripcion[]>(environment.url + '/inscripciones?idCurso=' + cursoId).pipe(
+      switchMap((inscripciones) => {
+        if (inscripciones.length === 0) {
+          // No inscriptions to delete, return an empty array
+          return of([]);
+        }
+
+        const deletionObservables = inscripciones.map((inscripcion) =>
+          this.http.delete<Inscripcion>(environment.url + '/inscripciones/' + inscripcion.id).pipe(
+            catchError((error) => {
+              // Log the error or handle it as needed
+              console.error(`Error deleting inscripcion with ID ${inscripcion.id}`, error);
+              // Continue with the deletion of other inscriptions
+              return throwError(() => error);
+            })
+          )
+        );
+
+        // Use forkJoin to wait for all deletions to complete
+        return forkJoin(deletionObservables).pipe(map(() => inscripciones));
+      })
+    );
   }
 
 }

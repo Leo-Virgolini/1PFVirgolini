@@ -9,7 +9,10 @@ import { Profesor } from 'src/app/core/models/profesor';
 export class NombreApellidoPipe implements PipeTransform {
 
   transform(value: Profesor | Alumno, ...args: unknown[]): string {
-    return value.apellido + ', ' + value.nombre;
+    if (value.apellido && value.nombre)
+      return value.apellido + ', ' + value.nombre;
+    else
+      return "";
   }
 
 }

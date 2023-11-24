@@ -16,13 +16,13 @@ export class ProfesorDetailsComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private profesorService: ProfesorService, private _location: Location) {
     this.loading = true;
-    this.route.params.subscribe((params) => profesorService.obtenerProfesor(parseInt(params['id']))?.subscribe((profesor) => {
-      this.profesor = profesor;
-      this.loading = false;
-    }));
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => this.profesorService.obtenerProfesor(parseInt(params['id']))?.subscribe((profesor) => {
+      this.profesor = profesor;
+      this.loading = false;
+    }));
   }
 
   volver() {

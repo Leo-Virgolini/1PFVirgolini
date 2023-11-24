@@ -21,22 +21,26 @@ export class InscripcionService {
   }
 
   obtenerInscripciones(): Observable<Inscripcion[]> {
-    return this.http.get<any[]>(this.url)
-      .pipe(
-        mergeMap((inscripciones: any[]) => {
-          const observables = inscripciones.map((inscripcion: any) =>
-            forkJoin([
-              this.cursoService.obtenerCurso(inscripcion.idCurso), // obtengo Curso
-              this.alumnoService.obtenerAlumno(inscripcion.idAlumno) // obtengo Alumno
-            ])
-              .pipe(
-                map(([curso, alumno]) => new Inscripcion(inscripcion.id, curso, alumno))
-              )
-          );
+    return this.http.get<any[]>(this.url).pipe(
+      mergeMap((inscripciones: any[]) => {
+        // Fetch courses and students
+        const cursos$: Observable<Curso[]> = this.cursoService.obtenerCursos();
+        const alumnos$: Observable<Alumno[]> = this.alumnoService.obtenerAlumnos();
 
-          return forkJoin(observables);
-        })
-      );
+        return forkJoin([cursos$, alumnos$]).pipe(
+          map(([cursos, alumnos]) => {
+            const cursoMap: Map<number, Curso> = new Map(cursos.map(curso => [curso.id, curso]));
+            const alumnoMap: Map<number, Alumno> = new Map(alumnos.map(alumno => [alumno.id, alumno]));
+            // Map the inscripciones with the retrieved courses and students
+            return inscripciones.map(inscripcion => new Inscripcion(
+              inscripcion.id,
+              cursoMap.get(inscripcion.idCurso)!,
+              alumnoMap.get(inscripcion.idAlumno)!
+            ));
+          })
+        );
+      })
+    );
   }
 
   obtenerInscripcionesPorCurso(cursoId: number): Observable<Inscripcion[] | undefined> {
@@ -73,7 +77,6 @@ export class InscripcionService {
   }
 
   modificarInscripcion(inscripcion: Inscripcion): Observable<Inscripcion> {
-
     const inscripcionData = {
       id: inscripcion.id,
       idCurso: inscripcion.curso.id,

@@ -8,13 +8,14 @@ import { Profesor } from 'src/app/core/models/profesor';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { ProfesorDialogComponent } from '../profesor-dialog/profesor-dialog.component';
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-profesor-table',
   templateUrl: './profesor-table.component.html',
   styleUrls: ['./profesor-table.component.scss']
 })
-export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
+export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
@@ -30,13 +31,19 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Profesor>();
-    this.dataSource.filterPredicate = (data: Profesor, filter: string) => data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+  }
+
+  ngOnInit(): void {
+    if (this.dataSource)
+      this.dataSource.filterPredicate = (data: Profesor, filter: string) => data?.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data?.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerProfesores();
   }
 
   ngAfterViewInit(): void {
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
+    if (this.dataSource) {
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+    }
   }
 
   ngOnDestroy(): void {
@@ -44,11 +51,13 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
   }
 
   filtrar(event: Event) {
-    const filteredValue: string = (event.target as HTMLInputElement)?.value;
-    this.dataSource.filter = filteredValue;
+    if (this.dataSource) {
+      const filteredValue: string = (event.target as HTMLInputElement)?.value;
+      this.dataSource.filter = filteredValue;
 
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
     }
   }
 
@@ -56,7 +65,7 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions.push(this.profesorService.obtenerProfesores().subscribe({
       next: (profesores) => {
-        this.dataSource.data = profesores;
+        this.dataSource!.data = profesores;
         console.log("next");
         // this.dataSource.sort = this.sort;
       },
@@ -97,6 +106,20 @@ export class ProfesorTableComponent implements AfterViewInit, OnDestroy {
         this.showSnackBar("Profesor ID: " + value.id + " modificado.");
       }
     }));
+  }
+
+  openDialog(profesor: Profesor): void {
+    const dialog = this.dialogService.open(DialogComponent, {
+      data: {
+        profesor: profesor
+      }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eliminarProfesor(profesor);
+      }
+    });
   }
 
   showSnackBar(message: string) {

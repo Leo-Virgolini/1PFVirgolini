@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, concat, defaultIfEmpty, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
 import { Profesor } from '../models/profesor';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
@@ -74,21 +74,16 @@ export class ProfesorService {
   }
 
   eliminarProfesor(profesor: Profesor): Observable<Profesor> {
-    return this.bajaProfesorCursos(profesor.id) // Da de baja al Profesor de los Cursos asociados
-      .pipe(
-        switchMap(() => this.http.delete<Profesor>(this.url + '/' + profesor.id)
-          .pipe(
-            map(() => profesor)
-          ))
-      );
-  }
-
-  obtenerCursosPorProfesor(profesorId: number): Observable<Curso[]> {
-    return this.http.get<Curso[]>(environment.url + '/cursos?idProfesor=' + profesorId);
+    return concat(
+      this.bajaProfesorCursos(profesor.id),
+      this.http.delete<Profesor>(this.url + '/' + profesor.id)
+    ).pipe(
+      map(() => profesor)
+    );
   }
 
   bajaProfesorCursos(profesorId: number): Observable<Curso[]> {
-    return this.http.get<Curso[]>(environment.url + '/cursos' + '?idProfesor=' + profesorId).pipe(
+    return this.obtenerCursosPorProfesor(profesorId).pipe(
       switchMap((cursos) => {
         const observables = cursos.map((curso) => {
           const cursoData = {
@@ -101,6 +96,10 @@ export class ProfesorService {
         return forkJoin(observables).pipe(map(() => cursos));
       })
     );
+  }
+
+  obtenerCursosPorProfesor(profesorId: number): Observable<Curso[]> {
+    return this.http.get<Curso[]>(environment.url + '/cursos?idProfesor=' + profesorId);
   }
 
 }

@@ -12,13 +12,14 @@ import { AlumnoService } from 'src/app/core/services/alumno.service';
 import { ProfesorService } from 'src/app/core/services/profesor.service';
 import { Alumno } from 'src/app/core/models/alumno';
 import { Profesor } from 'src/app/core/models/profesor';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-usuario-table',
   templateUrl: './usuario-table.component.html',
   styleUrls: ['./usuario-table.component.scss']
 })
-export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
+export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatSort)
   private sort!: MatSort;
@@ -34,6 +35,9 @@ export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Usuario>();
+  }
+
+  ngOnInit(): void {
     this.dataSource.filterPredicate = (data: Usuario, filter: string) => data.email.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerUsuarios();
   }
@@ -78,12 +82,17 @@ export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
 
   altaUsuario(): void {
     const dialog = this.dialogService.open(UsuarioDialogComponent);
-    this.subscriptions.push(dialog.afterClosed().subscribe((usuario: Usuario) => {
-      if (usuario?.email && usuario?.password && usuario?.rol && usuario?.token) {
-        this.obtenerUsuarios();
-        this.showSnackBar("Usuario ID: " + usuario.id + " creado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe(
+      {
+        next: (usuario: Usuario) => {
+          if (usuario?.email && usuario?.password && usuario?.rol && usuario?.token) {
+            this.obtenerUsuarios();
+            this.showSnackBar("Usuario ID: " + usuario.id + " creado.");
+          }
+        },
+        error: (error) => this.showSnackBar("Error: " + error)
       }
-    }));
+    ));
   }
 
   eliminarUsuario(usuario: Usuario): void {
@@ -107,6 +116,20 @@ export class UsuarioTableComponent implements AfterViewInit, OnDestroy {
         this.showSnackBar("Usuario ID: " + u.id + " modificado.");
       }
     }));
+  }
+
+  openDialog(usuario: Usuario): void {
+    const dialog = this.dialogService.open(DialogComponent, {
+      data: {
+        usuario: usuario
+      }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eliminarUsuario(usuario);
+      }
+    });
   }
 
   private showSnackBar(message: string) {

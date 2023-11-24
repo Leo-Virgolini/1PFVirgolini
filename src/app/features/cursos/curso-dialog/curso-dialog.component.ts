@@ -1,7 +1,7 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Subscription, forkJoin, of } from 'rxjs';
+import { Subscription, forkJoin } from 'rxjs';
 import { Alumno } from 'src/app/core/models/alumno';
 import { Curso } from 'src/app/core/models/curso';
 import { Inscripcion } from 'src/app/core/models/inscripcion';
@@ -41,32 +41,22 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
       this.profesores = profesores;
       this.alumnos = alumnos;
       this.formulario = this.formBuilder.group({
-        materia: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
-        profesor: [''],
-        alumnos: this.alumnos ? this.formBuilder.array(this.alumnos.map(() => this.formBuilder.control(false))) : this.formBuilder.array([])
+        materiaControl: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
+        profesorControl: [''],
+        alumnosControl: this.alumnos ? this.formBuilder.array(this.alumnos.map(() => this.formBuilder.control(false))) : this.formBuilder.array([])
       });
       console.log(this.data);
       if (this.data) {
         const curso: Curso = this.data;
         this.cursoId = curso.id;
-        const obtenerAlumnosCurso$ = this.cursoService.obtenerAlumnos(curso.id);
-        const obtenerProfesorCurso$ = curso.profesor?.id ? this.cursoService.obtenerProfesor(curso.profesor.id) : of(null);
-        this.subscriptions.push(forkJoin({ alumnos: obtenerAlumnosCurso$, profesor: obtenerProfesorCurso$ }).subscribe(({ alumnos, profesor }) => {
-          curso.alumnos = alumnos;
-          let selectedAlumnos: boolean[] = [];
-          if (alumnos) {
-            selectedAlumnos = this.alumnos.map(alumno => alumnos.findIndex(selectedAlumno => selectedAlumno?.id == alumno?.id) > -1);
-          }
-          this.formulario.get('alumnos')?.patchValue(selectedAlumnos);
-          if (profesor) {
-            this.formulario.get('profesor')?.patchValue(profesor);
-          }
-          this.formulario.get('materia')?.patchValue(curso.materia);
-          this.loading = false;
-        }));
-      } else {
-        this.loading = false;
+        if (curso.alumnos) {
+          const selectedAlumnos: boolean[] = this.alumnos.map(alumno => curso.alumnos!.findIndex(selectedAlumno => selectedAlumno?.id == alumno?.id) > -1);
+          this.formulario.get('alumnosControl')?.patchValue(selectedAlumnos);
+        }
+        this.formulario.get('profesorControl')?.patchValue(curso.profesor);
+        this.formulario.get('materiaControl')?.patchValue(curso.materia);
       }
+      this.loading = false;
     }));
   }
 
@@ -91,9 +81,9 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
   private modificarCurso(): void {
     const curso: Curso | null = this.data;
     if (curso) {
-      curso.materia = this.formulario.get('materia')?.value;
-      curso.profesor ? (curso.profesor = this.formulario.get('profesor')?.value) : (curso.profesor = null);
-      const alumnosSeleccionados: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
+      curso.materia = this.formulario.get('materiaControl')?.value;
+      curso.profesor = this.formulario.get('profesorControl')?.value;
+      const alumnosSeleccionados: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnosControl')?.value[index] == true);
       // Add Inscripciones for newly selected Alumnos
       alumnosSeleccionados.forEach(alumno => {
         if (!curso.alumnos?.some(a => a.id === alumno.id)) {
@@ -118,10 +108,10 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
   }
 
   private altaCurso(): void {
-    const alumnos: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnos')?.value[index] == true);
+    const alumnos: Alumno[] = this.alumnos.filter((_alumno, index) => this.formulario?.get('alumnosControl')?.value[index] == true);
     const curso: Curso = new Curso(0,
-      this.formulario.get('materia')?.value,
-      this.formulario.get('profesor')?.value || null,
+      this.formulario.get('materiaControl')?.value,
+      this.formulario.get('profesorControl')?.value || null,
       alumnos || null
     );
 

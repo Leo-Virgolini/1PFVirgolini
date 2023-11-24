@@ -26,10 +26,6 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [
     CommonModule,
     FeaturesRoutingModule
-    // AlumnosModule,
-    // CursosModule,
-    // ProfesoresModule,
-    // InscripcionesModule
   ],
   exports: [
     RouterModule,

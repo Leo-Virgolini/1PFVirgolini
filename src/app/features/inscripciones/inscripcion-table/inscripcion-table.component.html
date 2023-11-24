@@ -18,7 +18,7 @@
 
     <mat-form-field class="ml-3 w-auto">
         <mat-label>Filtro</mat-label>
-        <input matInput (keyup)="filtrar($event)" placeholder="Materia" #input>
+        <input matInput (keyup)="filtrar($event)" placeholder="Materia">
     </mat-form-field>
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
@@ -29,21 +29,19 @@
         <ng-container matColumnDef="curso">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Curso </th>
             <td mat-cell *matCellDef="let inscripcion">
-                <a [routerLink]="['/home/cursos/', inscripcion.curso.id]">{{inscripcion.curso.id + " - " +
-                    inscripcion.curso?.materia}}</a>
+                <a [routerLink]="['/home/cursos/', inscripcion.curso.id]">{{inscripcion.curso.id + " - " + inscripcion.curso?.materia}}</a>
             </td>
         </ng-container>
         <ng-container matColumnDef="alumno">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Alumno </th>
             <td mat-cell *matCellDef="let inscripcion">
-                <a [routerLink]="['/home/alumnos/', inscripcion.alumno.id]">{{inscripcion.alumno.id + " - " +
-                    inscripcion.alumno.apellido + ", " + inscripcion.alumno.nombre}}</a>
+                <a [routerLink]="['/home/alumnos/', inscripcion.alumno.id]">{{inscripcion.alumno.id + " - " + inscripcion.alumno.apellido + ", " + inscripcion.alumno.nombre}}</a>
             </td>
         </ng-container>
         <ng-container matColumnDef="eliminar">
             <th mat-header-cell *matHeaderCellDef> Eliminar </th>
             <td mat-cell *matCellDef="let inscripcion">
-                <button mat-raised-button color="warn" (click)="eliminarInscripcion(inscripcion)">
+                <button mat-raised-button color="warn" (click)="openDialog(inscripcion)">
                     <mat-icon>delete</mat-icon>Eliminar
                 </button>
             </td>

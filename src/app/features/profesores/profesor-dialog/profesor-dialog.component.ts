@@ -25,25 +25,25 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.formulario = this.formBuilder.group({
-      nombre: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
-      apellido: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
-      fechaNacimiento: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(10)]],
-      dni: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6), Validators.maxLength(10)]],
-      email: ['', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]],
-      password: ['', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]],
-      repeatPassword: ['', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]]
+      nombreControl: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
+      apellidoControl: ['', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]],
+      fechaNacimientoControl: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(10)]],
+      dniControl: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6), Validators.maxLength(10)]],
+      emailControl: ['', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]],
+      passwordControl: ['', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]],
+      repeatPasswordControl: ['', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]]
     },
       { validators: [this.passwordsMatchValidator()] }
     );
     console.log(this.data);
     if (this.data) {
       this.profesorId = this.data.id;
-      this.formulario.get('nombre')?.patchValue(this.data.nombre);
-      this.formulario.get('apellido')?.patchValue(this.data.apellido);
-      this.formulario.get('fechaNacimiento')?.patchValue(new Date(this.data.fechaNacimiento));
-      this.formulario.get('dni')?.patchValue(this.data.dni);
-      this.formulario.get('email')?.patchValue(this.data.email);
-      this.formulario.get('password')?.patchValue(this.data.password);
+      this.formulario.get('nombreControl')?.patchValue(this.data.nombre);
+      this.formulario.get('apellidoControl')?.patchValue(this.data.apellido);
+      this.formulario.get('fechaNacimientoControl')?.patchValue(new Date(this.data.fechaNacimiento));
+      this.formulario.get('dniControl')?.patchValue(this.data.dni);
+      this.formulario.get('emailControl')?.patchValue(this.data.email);
+      this.formulario.get('passwordControl')?.patchValue(this.data.password);
     }
   }
 
@@ -67,7 +67,7 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
 
   private passwordsMatchValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
-      if (this.formulario?.controls['password']?.value !== this.formulario?.controls['repeatPassword']?.value)
+      if (this.formulario?.controls['passwordControl']?.value !== this.formulario?.controls['repeatPasswordControl']?.value)
         return {
           passwordMismatch: true
         }
@@ -78,12 +78,12 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
   private modificarProfesor(): void {
     const profesor: Profesor | null = this.data;
     if (profesor) {
-      profesor.nombre = this.formulario.get('nombre')?.value;
-      profesor.apellido = this.formulario.get('apellido')?.value;
-      profesor.fechaNacimiento = this.formulario.get('fechaNacimiento')?.value;
-      profesor.dni = this.formulario.get('dni')?.value;
-      profesor.email = this.formulario.get('email')?.value;
-      profesor.password = this.formulario.get('password')?.value;
+      profesor.nombre = this.formulario.get('nombreControl')?.value;
+      profesor.apellido = this.formulario.get('apellidoControl')?.value;
+      profesor.fechaNacimiento = this.formulario.get('fechaNacimientoControl')?.value;
+      profesor.dni = this.formulario.get('dniControl')?.value;
+      profesor.email = this.formulario.get('emailControl')?.value;
+      profesor.password = this.formulario.get('passwordControl')?.value;
       this.subscriptions.push(this.profesorService.modificarProfesor(profesor).subscribe({
         next: (p) => console.log("modificado: ", p),
         complete: () => this.dialogRef.close(profesor),
@@ -94,16 +94,18 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
 
   private altaProfesor(): void {
     let profesor: Profesor = new Profesor(0,
-      this.formulario.get('nombre')?.value,
-      this.formulario.get('apellido')?.value,
-      this.formulario.get('fechaNacimiento')?.value,
-      this.formulario.get('dni')?.value,
-      this.formulario.get('email')?.value,
-      this.formulario.get('password')?.value,
+      this.formulario.get('nombreControl')?.value,
+      this.formulario.get('apellidoControl')?.value,
+      this.formulario.get('fechaNacimientoControl')?.value,
+      this.formulario.get('dniControl')?.value,
+      this.formulario.get('emailControl')?.value,
+      this.formulario.get('passwordControl')?.value,
       "profesor"
     );
-    this.subscriptions.push(this.profesorService.altaProfesor(profesor).subscribe((value) => {
-      this.dialogRef.close(value);
+    this.subscriptions.push(this.profesorService.altaProfesor(profesor).subscribe({
+      next: (p) => { profesor.id = p.id; console.log("alta: ", p) },
+      complete: () => this.dialogRef.close(profesor),
+      error: (error) => console.log(error)
     }));
   }
 

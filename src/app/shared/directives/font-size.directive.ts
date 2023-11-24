@@ -20,5 +20,3 @@ export class FontSizeDirective implements OnInit {
   }
 
 }
-
-

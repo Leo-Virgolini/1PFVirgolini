@@ -16,13 +16,13 @@ export class AlumnoDetailsComponent implements OnInit {
 
   constructor(private readonly route: ActivatedRoute, private alumnoService: AlumnoService, private _location: Location) {
     this.loading = true;
-    this.route.params.subscribe((params) => alumnoService.obtenerAlumno(parseInt(params['id']))?.subscribe((alumno) => {
-      this.alumno = alumno;
-      this.loading = false;
-    }));
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe((params) => this.alumnoService.obtenerAlumno(parseInt(params['id']))?.subscribe((alumno) => {
+      this.alumno = alumno;
+      this.loading = false;
+    }));
   }
 
   volver() {

@@ -8,15 +8,16 @@ import { AlumnoDialogComponent } from '../alumno-dialog/alumno-dialog.component'
 import { AlumnoService } from 'src/app/core/services/alumno.service';
 import { Subscription } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogComponent } from 'src/app/shared/dialog/dialog.component';
 
 @Component({
   selector: 'app-alumno-table',
   templateUrl: './alumno-table.component.html',
   styleUrls: ['./alumno-table.component.scss']
 })
-export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
+export class AlumnoTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(MatSort)
+  @ViewChild(MatSort, { static: false })
   private sort!: MatSort;
   @ViewChild(MatPaginator)
   private paginator!: MatPaginator;
@@ -30,6 +31,9 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Alumno>();
+  }
+
+  ngOnInit(): void {
     this.dataSource.filterPredicate = (data: Alumno, filter: string) => data.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
     this.obtenerAlumnos();
   }
@@ -43,7 +47,7 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
-  filtrar(event: Event) : void {
+  filtrar(event: Event): void {
     const filteredValue: string = (event.target as HTMLInputElement)?.value;
     this.dataSource.filter = filteredValue;
 
@@ -91,16 +95,31 @@ export class AlumnoTableComponent implements AfterViewInit, OnDestroy {
 
   modificarAlumno(alumno: Alumno): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent, { data: alumno });
-    this.subscriptions.push(dialog.afterClosed().subscribe((al) => {
-      if (al?.nombre && al?.apellido && al?.fechaNacimiento && al?.dni && al?.provincia && al?.localidad && al?.calle && al?.email && al?.password) {
-        this.showSnackBar("Alumno ID: " + al.id + " modificado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe((alumnoModificado) => {
+      if (alumnoModificado?.nombre && alumnoModificado?.apellido && alumnoModificado?.fechaNacimiento && alumnoModificado?.dni && alumnoModificado?.provincia &&
+        alumnoModificado?.localidad && alumnoModificado?.calle && alumnoModificado?.email && alumnoModificado?.password) {
+        this.showSnackBar("Alumno ID: " + alumnoModificado.id + " modificado.");
       }
     }));
   }
 
+  openDialog(alumno: Alumno): void {
+    const dialog = this.dialogService.open(DialogComponent, {
+      data: {
+        alumno: alumno
+      }
+    });
+
+    dialog.afterClosed().subscribe((result) => {
+      if (result) {
+        this.eliminarAlumno(alumno);
+      }
+    });
+  }
+
   private showSnackBar(message: string) {
     this._snackBar.open(message, "cerrar", {
-      duration: 3000,
+      duration: 3000
     });
   }
 
