@@ -27,7 +27,7 @@ export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
   private paginator!: MatPaginator;
 
   public dataSource: MatTableDataSource<Usuario>;
-  public displayedColumns: string[] = ['id', 'email', 'password', 'rol', 'token', 'modificar', 'eliminar'];
+  public readonly displayedColumns: string[] = ['id', 'email', 'password', 'rol', 'token', 'modificar', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
 

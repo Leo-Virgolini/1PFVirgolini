@@ -24,7 +24,7 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   public dataSource: MatTableDataSource<Profesor>;
   public loading: boolean;
-  public displayedColumns: string[] = ['id', 'apellidoNombre', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
+  public readonly displayedColumns: string[] = ['id', 'apellidoNombre', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
   private subscriptions!: Subscription[];
 
   constructor(private profesorService: ProfesorService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {

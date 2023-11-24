@@ -25,7 +25,7 @@ export class CursoTableComponent implements OnInit, AfterViewInit, OnDestroy {
   private paginator!: MatPaginator;
 
   public dataSource: MatTableDataSource<Curso>;
-  public displayedColumns: string[] = ['id', 'materia', 'profesor', 'alumnos', 'modificar', 'eliminar'];
+  public readonly displayedColumns: string[] = ['id', 'materia', 'profesor', 'alumnos', 'modificar', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
 
