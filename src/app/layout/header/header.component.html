@@ -1,27 +1,28 @@
 <header class="toolbar">
-    <mat-toolbar>
-
-        <span>
+    <mat-toolbar class="flex justify-content-between align-items-center flex-wrap">
+        <div>
             <a routerLink="" class="text-4xl text-primary no-underline p-1 ml-2">
                 <mat-icon class="text-5xl vertical-align-middle pb-3 pr-3">history_edu</mat-icon>
                 CURSOS™
             </a>
-        </span>
+        </div>
 
-        <span class="spacer"></span>
+        <div>
+            <ng-container *ngIf="!usuario">
+                <button routerLink="/login" mat-fab extended color="basic">
+                    <mat-icon class="vertical-align-middle mr-1">login</mat-icon>
+                    <span>Login</span>
+                </button>
+            </ng-container>
 
-        <ng-container *ngIf="!usuario">
-            <button routerLink="/login" mat-icon-button>
-                <mat-icon class="vertical-align-middle mr-1">login</mat-icon>Login
-            </button>
-        </ng-container>
-
-        <ng-container *ngIf="usuario">
-            <span>{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
-            <button (click)="logout()" mat-icon-button>
-                <mat-icon class="vertical-align-middle mr-1">logout</mat-icon>Logout
-            </button>
-        </ng-container>
+            <ng-container *ngIf="usuario">
+                <span class="mr-3">{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
+                <button (click)="logout()" mat-fab extended color="basic">
+                    <mat-icon class="vertical-align-middle mr-1">logout</mat-icon>
+                    <span>Logout</span>
+                </button>
+            </ng-container>
+        </div>
 
     </mat-toolbar>
 </header>

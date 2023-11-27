@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription, forkJoin, map, switchMap } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Inscripcion } from 'src/app/core/models/inscripcion';
 import { AlumnoService } from 'src/app/core/services/alumno.service';
 import { CursoService } from 'src/app/core/services/curso.service';

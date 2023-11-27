@@ -16,16 +16,16 @@ export class DialogComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.alumno) {
       this.titulo = "ALUMNO";
-      this.datos = "ID: " + this.data.alumno.id + " APELLIDO: " + this.data.alumno.apellido + " NOMBRE:" + this.data.alumno.nombre;
+      this.datos = this.data.alumno.id + " - " + this.data.alumno.apellido + ", " + this.data.alumno.nombre;
     } else if (this.data?.profesor) {
       this.titulo = "PROFESOR";
-      this.datos = "ID: " + this.data.id + " APELLIDO: " + this.data.apellido + " NOMBRE:" + this.data.nombre;
+      this.datos = this.data.profesor.id + " - " + this.data.profesor.apellido + ", " + this.data.profesor.nombre;
     } else if (this.data?.curso) {
       this.titulo = "CURSO";
-      this.datos = "ID: " + this.data.id + " MATERIA: " + this.data.materia;
+      this.datos = this.data.curso.id + " - " + this.data.curso.materia;
     } else if (this.data?.inscripcion) {
       this.titulo = "INSCRIPCION";
-      this.datos = "ID: " + this.data.id + " ALUMNO: " + this.data.alumno + " CURSO:" + this.data.curso;
+      this.datos = this.data.inscripcion.id + " - " + this.data.inscripcion.alumno.apellido + ", " + this.data.inscripcion.alumno.nombre + " - " + this.data.inscripcion.curso.materia;
     }
   }
 

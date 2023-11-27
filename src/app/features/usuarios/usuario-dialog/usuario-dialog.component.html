@@ -77,7 +77,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button mat-dialog-close><mat-icon>cancel</mat-icon>Cancelar</button>
     <button mat-button color="primary" (click)="onSubmit()" cdkFocusInitial>
         <mat-icon>how_to_reg</mat-icon>{{usuarioId ? 'Guardar cambios' : 'Registrar'}}
     </button>

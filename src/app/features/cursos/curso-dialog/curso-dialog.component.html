@@ -63,7 +63,7 @@
 
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button mat-dialog-close><mat-icon>cancel</mat-icon>Cancelar</button>
         <button mat-button color="primary" (click)="onSubmit()" cdkFocusInitial>
             <mat-icon class="me-1">school</mat-icon>{{cursoId ? 'Guardar cambios' : 'Registrar'}}
         </button>

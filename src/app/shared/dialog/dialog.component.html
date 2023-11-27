@@ -1,8 +1,8 @@
 <h1 mat-dialog-title>ELIMINAR {{titulo}}</h1>
 <div mat-dialog-content>
-    ¿Eliminar {{datos}}?
+    ¿Eliminar {{titulo + ": " + datos}}?
 </div>
 <div mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancelar</button>
+    <button mat-button mat-dialog-close><mat-icon>cancel</mat-icon>Cancelar</button>
     <button mat-button [mat-dialog-close]="true" cdkFocusInitial color="warn"><mat-icon>delete</mat-icon>Sí</button>
 </div>
