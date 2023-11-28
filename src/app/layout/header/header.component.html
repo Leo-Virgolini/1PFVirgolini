@@ -1,7 +1,7 @@
 <header class="toolbar">
     <mat-toolbar class="flex justify-content-between align-items-center flex-wrap">
         <div>
-            <a routerLink="" class="text-4xl text-primary no-underline p-1 ml-2">
+            <a routerLink="" class="text-4xl text-primary-900 no-underline p-1 ml-2">
                 <mat-icon class="text-5xl vertical-align-middle pb-3 pr-3">history_edu</mat-icon>
                 CURSOS™
             </a>
@@ -11,15 +11,15 @@
             <ng-container *ngIf="!usuario">
                 <button routerLink="/login" mat-fab extended color="basic">
                     <mat-icon class="vertical-align-middle mr-1">login</mat-icon>
-                    <span>Login</span>
+                    Login
                 </button>
             </ng-container>
 
             <ng-container *ngIf="usuario">
-                <span class="mr-3">{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
+                <span class="mr-3 text-primary">{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
                 <button (click)="logout()" mat-fab extended color="basic">
                     <mat-icon class="vertical-align-middle mr-1">logout</mat-icon>
-                    <span>Logout</span>
+                    Logout
                 </button>
             </ng-container>
         </div>
