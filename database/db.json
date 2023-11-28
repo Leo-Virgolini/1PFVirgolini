@@ -272,8 +272,7 @@
   "cursos": [
     {
       "id": 1,
-      "materia": "Historia",
-      "idProfesor": null
+      "materia": "Historia"
     },
     {
       "id": 2,
@@ -389,11 +388,6 @@
     },
     {
       "idCurso": 1,
-      "idAlumno": 1,
-      "id": 27
-    },
-    {
-      "idCurso": 1,
       "idAlumno": 2,
       "id": 28
     },
@@ -401,6 +395,11 @@
       "idCurso": 1,
       "idAlumno": 3,
       "id": 29
+    },
+    {
+      "idCurso": 1,
+      "idAlumno": 5,
+      "id": 30
     }
   ]
 }

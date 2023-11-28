@@ -38,7 +38,7 @@ export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataSource.filterPredicate = (data: Usuario, filter: string) => data.email.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
+    this.dataSource.filterPredicate = (data: Usuario, filter: string) => data.email.trim().toLowerCase().includes(filter?.trim().toLowerCase());
     this.obtenerUsuarios();
   }
 

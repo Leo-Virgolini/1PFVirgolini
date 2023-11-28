@@ -16,7 +16,7 @@
             </ng-container>
 
             <ng-container *ngIf="usuario">
-                <span class="mr-3 text-primary">{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
+                <span class="mr-3 p-2 text-primary border-solid border-round border-primary-800">{{(usuario.rol | uppercase) + ': ' + usuario.email}}</span>
                 <button (click)="logout()" mat-fab extended color="basic">
                     <mat-icon class="vertical-align-middle mr-1">logout</mat-icon>
                     Logout
