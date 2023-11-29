@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, concat, defaultIfEmpty, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable, concat, forkJoin, map, mergeMap, of, switchMap } from 'rxjs';
 import { Profesor } from '../models/profesor';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environments.prod';
@@ -19,13 +19,16 @@ export class ProfesorService {
   }
 
   obtenerProfesores(): Observable<Profesor[]> {
-    return this.http.get<any[]>(this.url + '?rol=profesor')
+    return this.http.get<Profesor[]>(this.url + '?rol=profesor')
       .pipe(
-        mergeMap((profesores: any[]) => {
-          const observables = profesores.map((profesor: any) =>
+        mergeMap((profesores: Profesor[]) => {
+          const observables: Observable<Profesor>[] = profesores.map((profesor: Profesor) =>
             this.obtenerCursosPorProfesor(profesor.id)
               .pipe(
-                map(cursos => new Profesor(profesor.id, profesor.nombre, profesor.apellido, profesor.fechaNacimiento, profesor.dni, profesor.email, profesor.password, "profesor", cursos))
+                map(cursos => {
+                  profesor.cursos = cursos;
+                  return profesor;
+                })
               )
           );
 

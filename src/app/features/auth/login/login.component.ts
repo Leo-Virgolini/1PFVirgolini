@@ -26,8 +26,8 @@ export class LoginComponent {
     this.error = false;
 
     this.loginForm = this.formBuilder.group({
-      email: this.emailControl,
-      password: this.passwordControl
+      emailControl: this.emailControl,
+      passwordControl: this.passwordControl
     });
 
     this.logout = this.activatedRoute.snapshot.queryParamMap.get('logout');

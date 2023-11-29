@@ -12,7 +12,7 @@ import { AlumnoService } from 'src/app/core/services/alumno.service';
 })
 export class AlumnoDialogComponent implements OnInit, OnDestroy {
 
-  readonly provinciasList: string[] = [
+  public readonly provinciasList: string[] = [
     'Buenos Aires',
     'Catamarca',
     'Chaco',
@@ -38,26 +38,36 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
     'Tucumán'
   ];
 
+  private subscriptions: Subscription[];
+  public alumnoId!: number;
   public submitted: boolean;
-  private subscriptions!: Subscription[];
 
   public formulario: FormGroup;
-  public nombreControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
-  public apellidoControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
-  public fechaNacimientoControl: FormControl = new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
-  public dniControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6), Validators.maxLength(10)]);
-  public provinciaControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
-  public localidadControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public calleControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(32)]);
-  public emailControl: FormControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
-  public passwordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public repeatPasswordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-
-  public alumnoId!: number;
+  public nombreControl: FormControl;
+  public apellidoControl: FormControl;
+  public fechaNacimientoControl: FormControl;
+  public dniControl: FormControl;
+  public provinciaControl: FormControl;
+  public localidadControl: FormControl;
+  public calleControl: FormControl;
+  public emailControl: FormControl;
+  public passwordControl: FormControl;
+  public repeatPasswordControl: FormControl;
 
   constructor(private alumnoService: AlumnoService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<AlumnoDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Alumno | null) {
     this.submitted = false;
     this.subscriptions = [];
+
+    this.nombreControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
+    this.apellidoControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
+    this.fechaNacimientoControl = new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]);
+    this.dniControl = new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.minLength(6), Validators.maxLength(10)]);
+    this.provinciaControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú ]+$'), Validators.minLength(2), Validators.maxLength(20)]);
+    this.localidadControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+    this.calleControl = new FormControl('', [Validators.required, Validators.pattern('^[a-zA-ZÁ-Úá-ú0-9 ]+$'), Validators.minLength(4), Validators.maxLength(32)]);
+    this.emailControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
+    this.passwordControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+    this.repeatPasswordControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
 
     this.formulario = this.formBuilder.group({
       nombreControl: this.nombreControl,

@@ -36,9 +36,10 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit(): void {
-    if (this.dataSource)
+    if (this.dataSource) {
       this.dataSource.filterPredicate = (data: Profesor, filter: string) => data?.apellido.trim().toLowerCase().startsWith(filter?.trim().toLowerCase()) || data?.nombre.trim().toLowerCase().startsWith(filter?.trim().toLowerCase());
-    this.obtenerProfesores();
+      this.obtenerProfesores();
+    }
   }
 
   ngAfterViewInit(): void {
@@ -67,7 +68,7 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.loading = true;
     this.subscriptions.push(this.profesorService.obtenerProfesores().subscribe({
       next: (profesores) => {
-        this.dataSource!.data = profesores;
+        this.dataSource.data = profesores;
         console.log("next");
         // this.dataSource.sort = this.sort;
       },

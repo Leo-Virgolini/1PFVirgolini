@@ -18,8 +18,8 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
 })
 export class CursoDialogComponent implements OnInit, OnDestroy {
 
-  public formulario!: FormGroup;
   private subscriptions!: Subscription[];
+  public formulario!: FormGroup;
   public loading: boolean;
   public submitted: boolean;
 

@@ -18,27 +18,30 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
     'alumno'
   ];
 
+  private subscriptions: Subscription[];
+  public usuarioId!: number;
   public submitted: boolean;
-  private subscriptions!: Subscription[];
 
   public formulario: FormGroup;
-  public emailControl: FormControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
-  public passwordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public repeatPasswordControl: FormControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
-  public rolControl: FormControl = new FormControl('', [Validators.required]);
-
-  public usuarioId!: number;
+  public emailControl: FormControl;
+  public passwordControl: FormControl;
+  public repeatPasswordControl: FormControl;
+  public rolControl: FormControl;
 
   constructor(private usuarioService: UsuarioService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<UsuarioDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Usuario | null) {
     this.submitted = false;
     this.subscriptions = [];
 
+    this.emailControl = new FormControl('', [Validators.required, Validators.email, Validators.minLength(7), Validators.maxLength(64)]);
+    this.passwordControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+    this.repeatPasswordControl = new FormControl('', [Validators.required, Validators.pattern('^(?=.*?[0-9])(?=.*?[a-zA-Z])[a-zA-Z0-9]+$'), Validators.minLength(4), Validators.maxLength(20)]);
+    this.rolControl = new FormControl('', [Validators.required]);
+
     this.formulario = this.formBuilder.group({
-      email: this.emailControl,
-      password: this.passwordControl,
-      repeatPassword: this.repeatPasswordControl,
-      rol: this.rolControl,
-      // token: this.token
+      emailControl: this.emailControl,
+      passwordControl: this.passwordControl,
+      repeatPasswordControl: this.repeatPasswordControl,
+      rolControl: this.rolControl,
     },
       { validators: [this.passwordsMatchValidator()] });
   }
@@ -49,7 +52,6 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
       this.emailControl?.patchValue(this.data.email);
       this.passwordControl?.patchValue(this.data.password);
       this.rolControl?.patchValue(this.data.rol);
-      // this.token?.patchValue(this.data.token);
     }
   }
 
@@ -76,7 +78,6 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
       usuario.email = this.emailControl?.value;
       usuario.password = this.passwordControl?.value;
       usuario.rol = this.rolControl?.value;
-      // usuario.token = this.token?.value;
 
       this.subscriptions.push(this.usuarioService.modificarUsuario(usuario).subscribe({
         next: (u) => console.log("modificado: ", u),

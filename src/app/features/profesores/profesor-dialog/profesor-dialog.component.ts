@@ -12,10 +12,9 @@ import { ProfesorService } from 'src/app/core/services/profesor.service';
 })
 export class ProfesorDialogComponent implements OnInit, OnDestroy {
 
+  private subscriptions!: Subscription[];
   public formulario!: FormGroup;
   public submitted: boolean;
-  private subscriptions!: Subscription[];
-
   public profesorId!: number;
 
   constructor(private profesorService: ProfesorService, private formBuilder: FormBuilder, private dialogRef: MatDialogRef<ProfesorDialogComponent>, @Inject(MAT_DIALOG_DATA) private data: Profesor | null) {
