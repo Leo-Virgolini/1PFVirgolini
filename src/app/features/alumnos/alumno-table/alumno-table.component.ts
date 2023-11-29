@@ -23,14 +23,16 @@ export class AlumnoTableComponent implements OnInit, AfterViewInit, OnDestroy {
   private paginator!: MatPaginator;
 
   public dataSource: MatTableDataSource<Alumno>;
-  public displayedColumns: string[] = ['id', 'nombre', 'apellido', 'fechaNacimiento', 'dni', 'provincia', 'localidad', 'calle', 'email', 'password', 'modificar', 'eliminar'];
+  public readonly displayedColumns: string[] = ['id', 'nombre', 'apellido', 'fechaNacimiento', 'dni', 'provincia', 'localidad', 'calle', 'email', 'password', 'modificar', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
+  public show: boolean;
 
   constructor(private alumnoService: AlumnoService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Alumno>();
+    this.show = false;
   }
 
   ngOnInit(): void {

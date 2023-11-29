@@ -31,8 +31,13 @@
             <td mat-cell *matCellDef="let usuario"> {{usuario.email}} </td>
         </ng-container>
         <ng-container matColumnDef="password">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Password </th>
-            <td mat-cell *matCellDef="let usuario"> {{usuario.password | password}} </td>
+            <th mat-header-cell *matHeaderCellDef>
+                <span mat-sort-header class="inline-block p-1">Password</span>
+                <button mat-raised-button color="basic" class="p-0" (click)="show = !show">
+                    <mat-icon class="mx-0 my-0">{{show ? "visibility": "visibility_off"}}</mat-icon>
+                </button>
+            </th>
+            <td mat-cell *matCellDef="let usuario"> {{usuario.password | password:show}} </td>
         </ng-container>
         <ng-container matColumnDef="rol">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>

@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { PasswordPipe } from './pipes/password.pipe';
 import { DialogComponent } from './dialog/dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { ShowHidePasswordDirective } from './directives/show-hide-password.directive';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     SortPipe,
     PasswordPipe,
     FontSizeDirective,
+    ShowHidePasswordDirective,
     DialogComponent
   ],
   imports: [
@@ -41,7 +43,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     NombreApellidoPipe,
     SortPipe,
     PasswordPipe,
-    FontSizeDirective
+    FontSizeDirective,
+    ShowHidePasswordDirective
   ]
 })
 export class SharedModule { }

@@ -26,11 +26,13 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
   public loading: boolean;
   public readonly displayedColumns: string[] = ['id', 'apellidoNombre', 'fechaNacimiento', 'dni', 'email', 'password', 'cursos', 'modificar', 'eliminar'];
   private subscriptions!: Subscription[];
+  public show: boolean;
 
   constructor(private profesorService: ProfesorService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Profesor>();
+    this.show = false;
   }
 
   ngOnInit(): void {

@@ -50,25 +50,25 @@
     </ng-container>
 
     <ng-container *ngIf="error && submitted && success === false">
-      <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+      <mat-error class="alert alert-danger font-bold d-inline mt-4 ml-3 mb-0 p-1" role="alert">
         <i class="fa-solid fa-circle-exclamation me-1"></i><small>Se ha producido un error de conexión.</small>
       </mat-error>
     </ng-container>
 
     <ng-container *ngIf="submitted && loginForm.invalid">
-      <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+      <mat-error class="alert alert-danger font-bold d-inline mt-4 ml-3 mb-0 p-1" role="alert">
         <i class="fa-solid fa-circle-exclamation me-1"></i><small>Completa todos los campos correctamente.</small>
       </mat-error>
     </ng-container>
 
     <ng-container *ngIf="!error && submitted && success === false">
-      <mat-error class="alert alert-danger d-inline mt-1 mb-0 p-1" role="alert">
+      <mat-error class="alert alert-danger font-bold d-inline mt-4 ml-3 mb-0 p-1" role="alert">
         <i class="fa-solid fa-circle-exclamation me-1"></i><small>Usuario y/o contraseña incorrecta.</small>
       </mat-error>
     </ng-container>
 
     <ng-container *ngIf="logout">
-      <div class="mt-4 ml-3 text-green-700 font-bold text-lg mb-0 p-1">
+      <div class="mt-4 ml-3 mb-0 p-1 text-green-700 font-bold text-lg">
         <small>Has cerrado sesión correctamente.</small>
       </div>
     </ng-container>

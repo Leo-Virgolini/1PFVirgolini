@@ -1,15 +1,14 @@
 <main>
     <section>
-        <button mat-raised-button color="primary" class="ml-3 mt-3"
-            (click)="volver()"><mat-icon>keyboard_return</mat-icon>Volver</button>
-        <div class="d-flex align-items-center justify-content-center vh-100">
+        <button mat-raised-button color="primary" class="ml-3 mt-3" (click)="volver()"><mat-icon>keyboard_return</mat-icon>Volver</button>
+        <div class="flex align-items-center justify-content-center vh-100">
             <div class="text-center">
-                <h1 class="display-1 fw-bold">404</h1>
-                <p class="fs-3"> <span class="text-danger">Ups!</span> Página no encontrada.</p>
+                <h1 class="display-1 font-bold">404</h1>
+                <p class="fs-3"> <span class="text-red-600">Ups!</span> Página no encontrada.</p>
                 <p class="lead">
                     La página que buscas no existe.
                 </p>
-                <a href="../index.html" class="btn btn-primary">Ir al inicio.</a>
+                <a mat-raised-button href="../index.html" color="accent"><mat-icon>home</mat-icon>Ir al inicio.</a>
             </div>
         </div>
     </section>

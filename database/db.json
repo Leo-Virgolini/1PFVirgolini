@@ -11,13 +11,13 @@
       "id": 1,
       "nombre": "Juana",
       "apellido": "Jimenez",
-      "fechaNacimiento": "1989-01-23",
+      "fechaNacimiento": "1989-01-22",
       "dni": "255789",
       "provincia": "Buenos Aires",
       "localidad": "Villa Ballester",
       "calle": "Calle 4321",
       "email": "1@gmail.com",
-      "password": "asd123",
+      "password": "abc123",
       "rol": "alumno"
     },
     {

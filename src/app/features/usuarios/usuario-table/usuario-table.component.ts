@@ -30,11 +30,13 @@ export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
   public readonly displayedColumns: string[] = ['id', 'email', 'password', 'rol', 'token', 'modificar', 'eliminar'];
   public loading: boolean;
   private subscriptions!: Subscription[];
+  public show: boolean;
 
   constructor(private usuarioService: UsuarioService, private alumnoService: AlumnoService, private profesorService: ProfesorService, private dialogService: MatDialog, private _snackBar: MatSnackBar) {
     this.loading = true;
     this.subscriptions = [];
     this.dataSource = new MatTableDataSource<Usuario>();
+    this.show = false;
   }
 
   ngOnInit(): void {
