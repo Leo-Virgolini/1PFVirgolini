@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
-import { BehaviorSubject, Observable, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { environment } from 'src/environments/environments.prod';
 
 @Injectable({
@@ -25,18 +25,17 @@ export class UsuarioService {
   }
 
   altaUsuario(usuario: Usuario): Observable<Usuario> {
-
     const usuarioData = {
       email: usuario.email,
       password: usuario.password,
       rol: usuario.rol,
       token: usuario.token
     };
-    return this.http.post<Usuario>(this.url+'asdasd', usuarioData); //
+
+    return this.http.post<Usuario>(this.url, usuarioData);
   }
 
   modificarUsuario(usuario: Usuario): Observable<Usuario> {
-
     const usuarioData = {
       id: usuario.id,
       email: usuario.email,

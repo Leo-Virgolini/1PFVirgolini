@@ -80,10 +80,14 @@ export class InscripcionTableComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   eliminarInscripcion(inscripcion: Inscripcion): void {
-    this.subscriptions.push(this.inscripcionService.eliminarInscripcion(inscripcion).subscribe((i) => {
-      this.obtenerInscripciones();
-      this.showSnackBar("Inscripción ID: " + i.id + " eliminada.");
-    }));
+    this.subscriptions.push(this.inscripcionService.eliminarInscripcion(inscripcion).subscribe(
+      {
+        next: (i) => {
+          this.obtenerInscripciones();
+          this.showSnackBar("Inscripción ID: " + i.id + " eliminada.");
+        },
+        error: (err) => this.showSnackBar("Error: " + (err.message))
+      }));
   }
 
   openDialog(inscripcion: Inscripcion): void {

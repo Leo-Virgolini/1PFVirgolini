@@ -68,7 +68,8 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
     this.loading = true;
     this.subscriptions.push(this.profesorService.obtenerProfesores().subscribe({
       next: (profesores) => {
-        this.dataSource.data = profesores;
+        if (profesores)
+          this.dataSource.data = profesores;
         console.log("next");
         // this.dataSource.sort = this.sort;
       },
@@ -86,27 +87,35 @@ export class ProfesorTableComponent implements OnInit, AfterViewInit, OnDestroy 
 
   altaProfesor(): void {
     const dialog = this.dialogService.open(ProfesorDialogComponent);
-    this.subscriptions.push(dialog.afterClosed().subscribe((value) => {
-      if (value?.nombre && value?.apellido && value?.fechaNacimiento && value?.dni) {
+    this.subscriptions.push(dialog.afterClosed().subscribe((result) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + (result.message));
+      } else if (result?.nombre && result?.apellido && result?.fechaNacimiento && result?.dni) {
         this.obtenerProfesores();
-        this.showSnackBar("Profesor ID: " + value.id + " creado.");
+        this.showSnackBar("Profesor ID: " + result.id + " creado.");
       }
     }));
   }
 
   eliminarProfesor(profesor: Profesor): void {
-    this.subscriptions.push(this.profesorService.eliminarProfesor(profesor).subscribe((p) => {
-      this.obtenerProfesores();
-      this.showSnackBar("Profesor ID: " + p.id + " eliminado.");
-    }));
+    this.subscriptions.push(this.profesorService.eliminarProfesor(profesor).subscribe(
+      {
+        next: (p) => {
+          this.obtenerProfesores();
+          this.showSnackBar("Profesor ID: " + p.id + " eliminado.");
+        },
+        error: (err) => this.showSnackBar("Error: " + (err.message))
+      }
+    ));
   }
 
   modificarProfesor(profesor: Profesor): void {
     const dialog = this.dialogService.open(ProfesorDialogComponent, { data: profesor });
-    this.subscriptions.push(dialog.afterClosed().subscribe((value) => {
-      if (value?.nombre && value?.apellido && value?.fechaNacimiento && value?.dni) {
-        // this.obtenerProfesores();
-        this.showSnackBar("Profesor ID: " + value.id + " modificado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe((result) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + (result.message));
+      } else if (result?.nombre && result?.apellido && result?.fechaNacimiento && result?.dni) {
+        this.showSnackBar("Profesor ID: " + result.id + " modificado.");
       }
     }));
   }

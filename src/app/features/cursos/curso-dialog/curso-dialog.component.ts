@@ -101,8 +101,9 @@ export class CursoDialogComponent implements OnInit, OnDestroy {
         }
       });
       curso.alumnos = alumnosSeleccionados;
-      this.cursoService.modificarCurso(curso).subscribe((c) => {
-        this.dialogRef.close(c);
+      this.cursoService.modificarCurso(curso).subscribe({
+        complete: () => this.dialogRef.close(curso),
+        error: (err) => this.dialogRef.close(err)
       })
     }
   }

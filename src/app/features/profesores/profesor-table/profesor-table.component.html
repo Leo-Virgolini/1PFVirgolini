@@ -12,12 +12,11 @@
         </button>
     </div>
 
-    <ng-container *ngIf="dataSource?.data?.length == 0">
-        <p class="ml-1 text-red-600">No se encontraron profesores.</p>
-    </ng-container>
-
     <ng-container *ngIf="!dataSource.data">
         <p class="ml-1 text-red-600">Error al obtener los datos.</p>
+    </ng-container>
+    <ng-container *ngIf="dataSource?.data?.length == 0">
+        <p class="ml-1 text-red-600">No se encontraron profesores.</p>
     </ng-container>
 
     <mat-form-field class="ml-3 w-auto">

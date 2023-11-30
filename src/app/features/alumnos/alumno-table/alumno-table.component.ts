@@ -80,27 +80,35 @@ export class AlumnoTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   altaAlumno(): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent);
-    this.subscriptions.push(dialog.afterClosed().subscribe((alumno: Alumno) => {
-      if (alumno?.nombre && alumno?.apellido && alumno?.fechaNacimiento && alumno?.dni && alumno?.provincia && alumno?.localidad && alumno?.calle && alumno?.email && alumno?.password) {
+    this.subscriptions.push(dialog.afterClosed().subscribe((result: any) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + (result.message));
+      } else if (result?.nombre && result?.apellido && result?.fechaNacimiento && result?.dni && result?.provincia && result?.localidad && result?.calle && result?.email && result?.password) {
         this.obtenerAlumnos();
-        this.showSnackBar("Alumno ID: " + alumno.id + " creado.");
+        this.showSnackBar("Alumno ID: " + result.id + " creado.");
       }
     }));
   }
 
   eliminarAlumno(alumno: Alumno): void {
-    this.subscriptions.push(this.alumnoService.eliminarAlumno(alumno).subscribe((al) => {
-      this.obtenerAlumnos();
-      this.showSnackBar("Alumno ID: " + al.id + " eliminado.");
-    }));
+    this.subscriptions.push(this.alumnoService.eliminarAlumno(alumno).subscribe(
+      {
+        next: (al) => {
+          this.obtenerAlumnos();
+          this.showSnackBar("Alumno ID: " + al.id + " eliminado.");
+        },
+        error: (err) => this.showSnackBar("Error: " + (err.message))
+      }));
   }
 
   modificarAlumno(alumno: Alumno): void {
     const dialog = this.dialogService.open(AlumnoDialogComponent, { data: alumno });
-    this.subscriptions.push(dialog.afterClosed().subscribe((alumnoModificado) => {
-      if (alumnoModificado?.nombre && alumnoModificado?.apellido && alumnoModificado?.fechaNacimiento && alumnoModificado?.dni && alumnoModificado?.provincia &&
-        alumnoModificado?.localidad && alumnoModificado?.calle && alumnoModificado?.email && alumnoModificado?.password) {
-        this.showSnackBar("Alumno ID: " + alumnoModificado.id + " modificado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe((result) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + (result.message));
+      } else if (result?.nombre && result?.apellido && result?.fechaNacimiento && result?.dni && result?.provincia &&
+        result?.localidad && result?.calle && result?.email && result?.password) {
+        this.showSnackBar("Alumno ID: " + result.id + " modificado.");
       }
     }));
   }

@@ -12,7 +12,7 @@ import { UsuarioService } from 'src/app/core/services/usuario.service';
 })
 export class UsuarioDialogComponent implements OnInit, OnDestroy {
 
-  readonly roles: string[] = [
+  public readonly roles: string[] = [
     'admin',
     'profesor',
     'alumno'
@@ -82,7 +82,7 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.usuarioService.modificarUsuario(usuario).subscribe({
         next: (u) => console.log("modificado: ", u),
         complete: () => this.dialogRef.close(usuario),
-        error: (error) => console.log(error)
+        error: (err) => this.dialogRef.close(err)
       }));
     }
   }
@@ -98,9 +98,9 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
       token
     );
     this.subscriptions.push(this.usuarioService.altaUsuario(usuario).subscribe({
-      next: (u) => { usuario.id = u.id; console.log("alta: ", u) },
+      next: (u) => usuario.id = u.id,
       complete: () => this.dialogRef.close(usuario),
-      error: (error) => this.dialogRef.close(error)
+      error: (err) => this.dialogRef.close(err)
     }));
   }
 

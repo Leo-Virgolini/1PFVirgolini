@@ -81,32 +81,42 @@ export class CursoTableComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialog = this.dialogService.open(CursoDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe((curso: Curso) => {
       if (curso) {
-        this.cursoService.altaCurso(curso).subscribe((cursoCreado) => {
-          const altaInscripcionesObservables: Observable<any>[] = curso.alumnos?.map(alumno => {
-            return this.inscripcionService.altaInscripcion(new Inscripcion(0, cursoCreado, alumno));
-          }) || [];
-          forkJoin(altaInscripcionesObservables).subscribe(() => {
-            this.obtenerCursos();
-            this.showSnackBar("Curso ID: " + cursoCreado.id + " creado.");
-          });
-        });
+        this.cursoService.altaCurso(curso).subscribe(
+          {
+            next: (cursoCreado) => {
+              const altaInscripcionesObservables: Observable<any>[] = curso.alumnos?.map(alumno => {
+                return this.inscripcionService.altaInscripcion(new Inscripcion(0, cursoCreado, alumno));
+              }) || [];
+              forkJoin(altaInscripcionesObservables).subscribe(() => {
+                this.obtenerCursos();
+                this.showSnackBar("Curso ID: " + cursoCreado.id + " creado.");
+              });
+            },
+            error: (err) => this.showSnackBar("Error: " + (err.message))
+          }
+        );
       }
     }));
   }
 
   eliminarCurso(curso: Curso): void {
-    this.subscriptions.push(this.cursoService.eliminarCurso(curso).subscribe((c) => {
-      this.obtenerCursos();
-      this.showSnackBar("Curso ID: " + c.id + " eliminado.");
-    }));
+    this.subscriptions.push(this.cursoService.eliminarCurso(curso).subscribe(
+      {
+        next: (c) => {
+          this.obtenerCursos();
+          this.showSnackBar("Curso ID: " + c.id + " eliminado.");
+        },
+        error: (err) => this.showSnackBar("Error: " + (err.message))
+      }));
   }
 
   modificarCurso(curso: Curso): void {
     const dialog = this.dialogService.open(CursoDialogComponent, { data: curso });
-    this.subscriptions.push(dialog.afterClosed().subscribe((cursoModificado) => {
-      if (cursoModificado) {
-        // this.obtenerCursos();
-        this.showSnackBar("Curso ID: " + cursoModificado.id + " modificado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe((result) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + (result.message));
+      } else if (result.materia) {
+        this.showSnackBar("Curso ID: " + result.id + " modificado.");
       }
     }));
   }

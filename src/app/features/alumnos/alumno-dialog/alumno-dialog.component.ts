@@ -134,7 +134,7 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.alumnoService.modificarAlumno(alumno).subscribe({
         next: (al) => console.log("modificado: ", al),
         complete: () => this.dialogRef.close(alumno),
-        error: (error) => console.log(error)
+        error: (err) => this.dialogRef.close(err)
       }));
     }
   }
@@ -153,9 +153,9 @@ export class AlumnoDialogComponent implements OnInit, OnDestroy {
       "alumno"
     );
     this.subscriptions.push(this.alumnoService.altaAlumno(alumno).subscribe({
-      next: (al) => { alumno.id = al.id; console.log("alta: ", al) },
+      next: (al) => alumno.id = al.id,
       complete: () => this.dialogRef.close(alumno),
-      error: (error) => console.log(error)
+      error: (err) => this.dialogRef.close(err)
     }));
   }
 

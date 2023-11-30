@@ -86,7 +86,7 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
       this.subscriptions.push(this.profesorService.modificarProfesor(profesor).subscribe({
         next: (p) => console.log("modificado: ", p),
         complete: () => this.dialogRef.close(profesor),
-        error: (error) => console.log(error)
+        error: (err) => this.dialogRef.close(err)
       }));
     }
   }
@@ -104,7 +104,7 @@ export class ProfesorDialogComponent implements OnInit, OnDestroy {
     this.subscriptions.push(this.profesorService.altaProfesor(profesor).subscribe({
       next: (p) => { profesor.id = p.id; console.log("alta: ", p) },
       complete: () => this.dialogRef.close(profesor),
-      error: (error) => console.log(error)
+      error: (err) => this.dialogRef.close(err)
     }));
   }
 

@@ -86,36 +86,47 @@ export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
     const dialog = this.dialogService.open(UsuarioDialogComponent);
     this.subscriptions.push(dialog.afterClosed().subscribe(
       {
-        next: (usuario: Usuario) => {
-          if (usuario?.email && usuario?.password && usuario?.rol && usuario?.token) {
+        next: (result: any) => {
+          if (result?.error) {
+            this.showSnackBar("Error: " + result.message);
+          } else if (result?.email && result?.password && result?.rol && result?.token) {
             this.obtenerUsuarios();
-            this.showSnackBar("Usuario ID: " + usuario.id + " creado.");
+            this.showSnackBar("Usuario ID: " + result.id + " creado.");
           }
-        },
-        error: (error) => this.showSnackBar("Error: " + error)
+        }
       }
     ));
   }
 
   eliminarUsuario(usuario: Usuario): void {
     if (usuario.rol === 'alumno') {
-      this.subscriptions.push(this.alumnoService.eliminarAlumno(usuario as Alumno).subscribe((u) => {
-        this.obtenerUsuarios();
-        this.showSnackBar("Usuario Alumno ID: " + u.id + " eliminado.");
-      }));
+      this.subscriptions.push(this.alumnoService.eliminarAlumno(usuario as Alumno).subscribe(
+        {
+          next: (u) => {
+            this.obtenerUsuarios();
+            this.showSnackBar("Alumno ID: " + u.id + " eliminado.");
+          },
+          error: (err) => this.showSnackBar("Error: " + err.message)
+        }));
     } else if (usuario.rol === 'profesor') {
-      this.subscriptions.push(this.profesorService.eliminarProfesor(usuario as Profesor).subscribe((u) => {
-        this.obtenerUsuarios();
-        this.showSnackBar("Usuario Profesor ID: " + u.id + " eliminado.");
-      }));
+      this.subscriptions.push(this.profesorService.eliminarProfesor(usuario as Profesor).subscribe(
+        {
+          next: (u) => {
+            this.obtenerUsuarios();
+            this.showSnackBar("Profesor ID: " + u.id + " eliminado.");
+          },
+          error: (err) => this.showSnackBar("Error: " + err.message)
+        }));
     }
   }
 
   modificarUsuario(usuario: Usuario): void {
     const dialog = this.dialogService.open(UsuarioDialogComponent, { data: usuario });
-    this.subscriptions.push(dialog.afterClosed().subscribe((u: Usuario) => {
-      if (u?.email && u?.password && u?.rol) {
-        this.showSnackBar("Usuario ID: " + u.id + " modificado.");
+    this.subscriptions.push(dialog.afterClosed().subscribe((result: any) => {
+      if (result?.error) {
+        this.showSnackBar("Error: " + result.message);
+      } else if (result?.email && result?.password && result?.rol) {
+        this.showSnackBar("Usuario ID: " + result.id + " modificado.");
       }
     }));
   }
@@ -135,7 +146,7 @@ export class UsuarioTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showSnackBar(message: string) {
-    this._snackBar.open(message, "cerrar", {
+    this._snackBar.open(message, "CERRAR", {
       duration: 3000,
     });
   }
