@@ -41,7 +41,10 @@
         </ng-container>
         <ng-container matColumnDef="rol">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Rol </th>
-            <td mat-cell *matCellDef="let usuario"> {{usuario.rol | uppercase}} </td>
+            <td mat-cell *matCellDef="let usuario">
+                <mat-icon class="mr-2 vertical-align-middle">{{usuario.rol === "alumno"? "school": usuario.rol === "profesor"? "hail": "shield_person" }}</mat-icon>{{usuario.rol |
+                uppercase}}
+            </td>
         </ng-container>
         <ng-container matColumnDef="token">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Token </th>
