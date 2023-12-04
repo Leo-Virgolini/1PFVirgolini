@@ -1,13 +1,14 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject, map, catchError, of } from 'rxjs';
+import { Observable, BehaviorSubject, map, catchError, of, switchMap } from 'rxjs';
 import { Usuario } from 'src/app/core/models/usuario';
 import { environment } from 'src/environments/environments.prod';
+import { UsuarioService } from './usuario.service';
 
 export interface LoginFormValue {
-  email: string;
-  password: string;
+  emailControl: string;
+  passwordControl: string;
 }
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AuthService {
 
   private authUser$ = new BehaviorSubject<Usuario | null>(null);
 
-  constructor(private router: Router, private httpClient: HttpClient) {
+  constructor(private router: Router, private httpClient: HttpClient, private usuarioService: UsuarioService) {
   }
 
   obtenerUsuarioAutenticado(): Observable<Usuario | null> {
@@ -27,24 +28,30 @@ export class AuthService {
   login(formValue: LoginFormValue): Observable<boolean> {
     console.log("login running");
     console.log("form", formValue);
+
     return this.httpClient.get<Usuario[]>(`${environment.url}/usuarios`, {
-      params: { ...formValue }
-    })
-      .pipe(
-        map((usuarios) => {
-          const usuarioAutenticado = usuarios[0];
-          console.log("usuarioAutenticado", usuarioAutenticado);
-          if (usuarioAutenticado) {
-            if (usuarioAutenticado.token)
-              localStorage.setItem('token', usuarioAutenticado.token);
-            this.authUser$.next(usuarioAutenticado);
-            this.router.navigate(['home']);
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
+      params: { "email": formValue.emailControl, "password": formValue.passwordControl }
+    }).pipe(
+      switchMap((usuarios) => {
+        const usuarioAutenticado: Usuario | undefined = usuarios.find((usuario) => usuario.email === formValue.emailControl && usuario.password === formValue.passwordControl);
+        console.log("usuarioAutenticado", usuarioAutenticado);
+
+        if (usuarioAutenticado) {
+          return this.usuarioService.generarToken(usuarioAutenticado).pipe(
+            map((usuarioConToken) => {
+              if (usuarioConToken.token) {
+                localStorage.setItem('token', usuarioConToken.token);
+              }
+              this.authUser$.next(usuarioConToken);
+              this.router.navigate(['home']);
+              return true;
+            })
+          );
+        } else {
+          return of(false);
+        }
+      })
+    );
   }
 
   logout(): void {

@@ -5,7 +5,7 @@
       "email": "admin@admin.com",
       "password": "asd123",
       "rol": "admin",
-      "token": "adminToken"
+      "token": "d43c21fd79e42d971d57c778fb5f54e6"
     },
     {
       "id": 1,
@@ -18,7 +18,8 @@
       "calle": "Calle 4321",
       "email": "1@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "835481b978243a8621d95f7609e50858"
     },
     {
       "id": 2,
@@ -31,7 +32,8 @@
       "calle": "Calle 4321",
       "email": "2@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "fea274e39ea7bfd4558f671a6ce41095"
     },
     {
       "id": 3,
@@ -44,7 +46,8 @@
       "calle": "Calle 4321",
       "email": "3@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "d0d61c49b159ea72a0c6a1c3f420e41c"
     },
     {
       "id": 4,
@@ -57,7 +60,8 @@
       "calle": "Calle 4321",
       "email": "4@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "24189d68b5b3571f51d36f092d13d0e0"
     },
     {
       "id": 5,
@@ -70,7 +74,8 @@
       "calle": "Calle 4321",
       "email": "5@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "5b38a23b19c2c451762c2720a0f58ea1"
     },
     {
       "id": 6,
@@ -83,7 +88,8 @@
       "calle": "Calle 4321",
       "email": "6@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "28cc1a2b65ee86efb97734df4d71d56d"
     },
     {
       "id": 7,
@@ -96,7 +102,8 @@
       "calle": "Calle 4321",
       "email": "7@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "dae4dd8e227431dc7c8fa8e7b908a4d5"
     },
     {
       "id": 8,
@@ -109,7 +116,8 @@
       "calle": "Calle 4321",
       "email": "8@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "6d479440676e7330ff3e83ae9a05bd65"
     },
     {
       "id": 9,
@@ -122,7 +130,8 @@
       "calle": "Calle 4321",
       "email": "9@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "3b9b3646ce5f8baddfd9a4953b50b79c"
     },
     {
       "id": 10,
@@ -135,7 +144,8 @@
       "calle": "Calle 4321",
       "email": "10@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "fdded97f95952cd3359fc5579989447c"
     },
     {
       "id": 11,
@@ -148,7 +158,8 @@
       "calle": "Calle 4321",
       "email": "11@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "9c944bc945e8d14944c78c4b5d9ffac4"
     },
     {
       "id": 12,
@@ -161,7 +172,8 @@
       "calle": "Calle 4321",
       "email": "12@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "44a96a355da164da64ee114b8f462859"
     },
     {
       "id": 13,
@@ -174,7 +186,8 @@
       "calle": "Calle 4321",
       "email": "13@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "51836f3e1d23faeb821d754970c214f4"
     },
     {
       "id": 14,
@@ -187,7 +200,8 @@
       "calle": "Calle 4321",
       "email": "14@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "a90236fba7dac513755755356cdfdfc3"
     },
     {
       "id": 15,
@@ -200,7 +214,8 @@
       "calle": "Calle 4321",
       "email": "15@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "d0e8b4d694d6f7e0e45073e3b257f8cb"
     },
     {
       "id": 16,
@@ -213,7 +228,8 @@
       "calle": "Calle 4321",
       "email": "16@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "4881714dc341de85ad2bfc274f45e389"
     },
     {
       "id": 17,
@@ -226,7 +242,8 @@
       "calle": "Calle 4321",
       "email": "17@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "2ff53b46b799b7db8e25d374d8c21fe0"
     },
     {
       "id": 18,
@@ -239,7 +256,8 @@
       "calle": "Calle 4321",
       "email": "18@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "5e4649bf30bc22c617e4d44f1d8026ad"
     },
     {
       "id": 19,
@@ -252,7 +270,8 @@
       "calle": "Calle 4321",
       "email": "19@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "61a816554ce527d3b4e0106cadfb6b00"
     },
     {
       "id": 20,
@@ -265,7 +284,8 @@
       "calle": "Calle 4321",
       "email": "20@gmail.com",
       "password": "asd123",
-      "rol": "alumno"
+      "rol": "alumno",
+      "token": "ad6c68f540016106615a79f665b9257f"
     },
     {
       "id": 21,
@@ -275,7 +295,8 @@
       "dni": "123456",
       "email": "21@gmail.com",
       "password": "asd123",
-      "rol": "profesor"
+      "rol": "profesor",
+      "token": "b0477ef67b10304f2c5b052cdc683e45"
     },
     {
       "id": 22,
@@ -285,7 +306,8 @@
       "dni": "362789156",
       "email": "22@gmail.com",
       "password": "asd123",
-      "rol": "profesor"
+      "rol": "profesor",
+      "token": "71b0ce1282618449f613d8d2c1599b02"
     },
     {
       "id": 23,
@@ -295,7 +317,8 @@
       "dni": "564321",
       "email": "23@gmail.com",
       "password": "asd123",
-      "rol": "profesor"
+      "rol": "profesor",
+      "token": "346cffb4c4ccd397c1b24e31c194803f"
     },
     {
       "id": 24,
@@ -305,7 +328,8 @@
       "dni": "654123",
       "email": "24@gmail.com",
       "password": "asd123",
-      "rol": "profesor"
+      "rol": "profesor",
+      "token": "fccc42d2da1ef1306f2cac6afd9c3762"
     },
     {
       "id": 25,
@@ -315,7 +339,8 @@
       "dni": "115569",
       "email": "25@gmail.com",
       "password": "asd123",
-      "rol": "profesor"
+      "rol": "profesor",
+      "token": "4c8deb324c02ef5a22fe080a4bef616a"
     }
   ],
   "cursos": [

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Usuario } from '../models/usuario';
-import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { environment } from 'src/environments/environments.prod';
 
 @Injectable({
@@ -35,8 +35,15 @@ export class UsuarioService {
     return this.http.post<Usuario>(this.url, usuarioData);
   }
 
+  generarToken(usuario: Usuario): Observable<Usuario> {
+    const token: string = this.generateRandomToken(32);
+    usuario.token = token;
+    return this.modificarUsuario(usuario);
+  }
+
   modificarUsuario(usuario: Usuario): Observable<Usuario> {
     const usuarioData = {
+      ...usuario,
       id: usuario.id,
       email: usuario.email,
       password: usuario.password,
@@ -52,6 +59,13 @@ export class UsuarioService {
       .pipe(
         map(() => usuario)
       );
+  }
+
+  private generateRandomToken(length: number): string {
+    const array = new Uint32Array(Math.ceil(length / 2));
+    crypto.getRandomValues(array);
+
+    return Array.from(array, dec => dec.toString(16)).join('').slice(0, length);
   }
 
 }

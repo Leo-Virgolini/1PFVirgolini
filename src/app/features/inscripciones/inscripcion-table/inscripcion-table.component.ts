@@ -64,9 +64,9 @@ export class InscripcionTableComponent implements OnInit, AfterViewInit, OnDestr
         this.dataSource.data = inscripciones;
         console.log("next");
       },
-      error: () => {
+      error: (error) => {
         this.loading = false;
-        this.showSnackBar("Se ha producido un error al obtener los datos.");
+        this.showSnackBar("Se ha producido un error al obtener los datos: '" + error.message + "'");
         console.log("error");
       },
       complete: () => {
@@ -105,7 +105,7 @@ export class InscripcionTableComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   private showSnackBar(message: string) {
-    this._snackBar.open(message, "cerrar", {
+    this._snackBar.open(message, "Cerrar", {
       duration: 3000,
     });
   }

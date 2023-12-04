@@ -67,7 +67,7 @@ export class CursoTableComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => {
         this.loading = false;
-        this.showSnackBar("Se ha producido un error al obtener los datos.");
+        this.showSnackBar("Se ha producido un error al obtener los datos: '" + error.message + "'");
         console.log("error");
       },
       complete: () => {
@@ -136,7 +136,7 @@ export class CursoTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showSnackBar(message: string) {
-    this._snackBar.open(message, "cerrar", {
+    this._snackBar.open(message, "Cerrar", {
       duration: 3000,
     });
   }

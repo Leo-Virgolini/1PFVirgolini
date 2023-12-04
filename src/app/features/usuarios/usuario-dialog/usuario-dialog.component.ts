@@ -89,13 +89,10 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
 
   private altaUsusario(): void {
 
-    const token: string = this.generateRandomToken(32);
-
     const usuario: Usuario = new Usuario(0,
       this.emailControl?.value,
       this.passwordControl?.value,
-      this.rolControl?.value,
-      token
+      this.rolControl?.value
     );
     this.subscriptions.push(this.usuarioService.altaUsuario(usuario).subscribe({
       next: (u) => usuario.id = u.id,
@@ -112,13 +109,6 @@ export class UsuarioDialogComponent implements OnInit, OnDestroy {
         }
       return null;
     }
-  }
-
-  private generateRandomToken(length: number): string {
-    const array = new Uint32Array(Math.ceil(length / 2));
-    crypto.getRandomValues(array);
-
-    return Array.from(array, dec => dec.toString(16)).join('').slice(0, length);
   }
 
 }

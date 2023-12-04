@@ -1,9 +1,29 @@
 table {
   width: 100%;
+  text-align: center;
+}
+
+th {
+  text-align: center !important;
+  // padding: 0px;
+  // margin: 0px;
+
+}
+
+td {
+  text-align: center;
+}
+
+.mat-header-cell {
+  text-align: center;
+}
+
+mat-header-cell {
+  display: flex;
+  justify-content: flex-end;
 }
 
 h2 {
   text-align: center;
   padding: 15px;
 }
-

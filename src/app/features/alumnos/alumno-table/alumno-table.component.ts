@@ -67,7 +67,7 @@ export class AlumnoTableComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       error: (error) => {
         console.log(error);
-        this.showSnackBar("Se ha producido un error al obtener los datos.");
+        this.showSnackBar("Se ha producido un error al obtener los datos: '" + error.message + "'");
         this.loading = false;
       },
       complete: () => {
@@ -128,7 +128,7 @@ export class AlumnoTableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private showSnackBar(message: string) {
-    this._snackBar.open(message, "cerrar", {
+    this._snackBar.open(message, "Cerrar", {
       duration: 3000
     });
   }
